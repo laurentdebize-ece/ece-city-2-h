@@ -1,6 +1,6 @@
 #include "jeu.h"
 
-
+/////plateau
 Plateau* creer_plateau(int nb_ligne,int nb_colonne){
     Plateau *Newplateau = (Plateau *) malloc(sizeof(Plateau));
 
@@ -76,9 +76,38 @@ void dessiner_plateau(Plateau *plateau) {
 }
 
 
+////emplacement souris
+void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau) {
+    // ne pas oublie de bien commencer à l'origine du tableau
+    int a = 0;
+    for (int i = 0; i < NB_LIGNES; i++) {
+        for (int j = 0; j < NB_COLONNES; j++) {
+            if (((x - plateau->map[0][0].x) >= j * plateau->largeur_case && (x - plateau->map[0][0].x) <= (j + 1) * plateau->largeur_case) &&
+                ((y - plateau->map[0][0].y) >= i * plateau->largeur_case && (y - plateau->map[0][0].y) < (i + 1) * plateau->largeur_case)) {
+                *caseX = j;
+                *caseY = i;
+            } else {
+                a++;
+            }
+        }
+    }
+    if (a == NB_LIGNES * NB_COLONNES) {
+        *souris_sur_le_plateaux=0;
+    } else{
+        *souris_sur_le_plateaux=1;
+    }
 
-void dessiner_tout(Plateau *plateau) {
+}
+
+
+/////dessiner tout
+void dessiner_tout(Plateau *plateau,int* caseDeLaSourieX,
+                   int *caseDeLaSourieY,int*souris_sur_le_plateaux) {
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
     dessiner_plateau(plateau);
+    if(*souris_sur_le_plateaux){
+        al_draw_filled_rectangle(plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].x, plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].y, plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].x + plateau->largeur_case,
+                                 plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].y + plateau->largeur_case, al_map_rgb(0,255,0));
+    }
     al_flip_display();
 }

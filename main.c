@@ -12,6 +12,8 @@ int main() {
 
 
     /// declaration des variables
+    int caseDeLaSourieX = 0, caseDeLaSourieY = 0;
+    int souris_sur_le_plateaux=0;
 
     Plateau * plateau;
 
@@ -61,13 +63,19 @@ int main() {
                 end = TRUE;
                 break;
             }
+            case ALLEGRO_EVENT_MOUSE_AXES : {
+                chercherCaseDeLaSourie(event.mouse.x, event.mouse.y, &caseDeLaSourieX,
+                                       &caseDeLaSourieY,&souris_sur_le_plateaux,plateau);
+                break;
+            }
             case ALLEGRO_EVENT_TIMER : {
 
                 break;
             }
 
         }
-        dessiner_tout(plateau);
+        dessiner_tout(plateau, &caseDeLaSourieX,
+                      &caseDeLaSourieY,&souris_sur_le_plateaux);
 
     }
     for(int i=0; i<plateau->nb_ligne;i++){

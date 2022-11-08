@@ -45,9 +45,13 @@ Plateau *lire_plateau();
 void initialiser_plateau(Plateau *plateau);
 void dessiner_plateau(Plateau *plateau);
 
+////emplacement souris
+void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau);
+
 
 /////dessiner tout
-void dessiner_tout(Plateau *plateau);
+void dessiner_tout(Plateau *plateau,int* caseDeLaSourieX,
+                   int *caseDeLaSourieY,int*souris_sur_le_plateaux);
 
 
 #endif //ECE_CITY_2_H_JEU_H
