@@ -3,6 +3,7 @@ project(ece-city-2-h C)
 
 set(CMAKE_C_STANDARD 99)
 
+
 add_executable(ece-city-2-h main.c jeu.c jeu.h)
 
 IF(WIN32)
