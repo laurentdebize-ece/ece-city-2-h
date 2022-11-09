@@ -14,8 +14,10 @@ int main() {
     /// declaration des variables
     int caseDeLaSourieX = 0, caseDeLaSourieY = 0;
     int souris_sur_le_plateaux=0;
+    int etage=0;
 
     Plateau * plateau;
+    Bouton bouton_etage[3] = {0};
 
 
     assert(al_init());
@@ -54,6 +56,7 @@ int main() {
 
     plateau = lire_plateau();
     initialiser_plateau(plateau);
+    initialisation_choix_etage(bouton_etage);
 
     while (!end) {
         al_wait_for_event(queue, &event);
@@ -68,14 +71,18 @@ int main() {
                                        &caseDeLaSourieY,&souris_sur_le_plateaux,plateau);
                 break;
             }
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN : {
+                choix_etage(bouton_etage, event.mouse.x, event.mouse.y, &etage,3);
+                break;
+            }
             case ALLEGRO_EVENT_TIMER : {
 
                 break;
             }
 
         }
-        dessiner_tout(plateau, &caseDeLaSourieX,
-                      &caseDeLaSourieY,&souris_sur_le_plateaux);
+        dessiner_tout(plateau,&etage, &caseDeLaSourieX,
+                      &caseDeLaSourieY,&souris_sur_le_plateaux,bouton_etage);
 
     }
     for(int i=0; i<plateau->nb_ligne;i++){

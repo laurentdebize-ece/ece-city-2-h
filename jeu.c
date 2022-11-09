@@ -60,7 +60,7 @@ void initialiser_plateau(Plateau *plateau) {
         }
     }
 }
-void dessiner_plateau(Plateau *plateau) {
+void dessiner_plateau(Plateau *plateau, int* etage) {
     for (int i = 0; i < plateau->nb_ligne ; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
             if (plateau->map[i][j].etat == 0) {
@@ -68,13 +68,45 @@ void dessiner_plateau(Plateau *plateau) {
                                   plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255,255,255), 1);
             }
             if (plateau->map[i][j].etat == 1) {
-                al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
-                                         plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(0,0,255));
+                if(*etage==0){
+                    al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
+                                             plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(0,0,255));
+                }else if(*etage==1){
+                    al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
+                                             plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255,0,0));
+                }else if(*etage==2){
+                    al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
+                                             plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255,0,255));
+                }
             }
         }
     }
 }
 
+/////choix etage
+void initialisation_choix_etage(Bouton *bouton) {
+    for (int i = 0; i < 3; i++) {
+        bouton[i].largeur = 100;
+        bouton[i].hauteur = 50;
+
+    }
+    bouton[0].x = 10;
+    bouton[0].y = 40;
+
+    for (int i = 1; i < 3; i++) {
+        bouton[i].x = bouton[i-1].x;
+        bouton[i].y = bouton[i-1].y+bouton[i-1].hauteur+10;
+    }
+}
+void choix_etage(Bouton bouton[], int x, int y, int *etage,int nb_etage) {
+
+    for (int i = 0; i < nb_etage; i++) {
+        if (x >= bouton[i].x && x <= bouton[i].x + bouton[i].largeur && y >= bouton[i].y &&
+            y <= bouton[i].y + bouton[i].hauteur) {
+            *etage=i;
+        }
+    }
+}
 
 ////emplacement souris
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau) {
@@ -101,10 +133,15 @@ void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_
 
 
 /////dessiner tout
-void dessiner_tout(Plateau *plateau,int* caseDeLaSourieX,
-                   int *caseDeLaSourieY,int*souris_sur_le_plateaux) {
+void dessiner_tout(Plateau *plateau, int* etage ,int* caseDeLaSourieX,
+                   int *caseDeLaSourieY,int*souris_sur_le_plateaux,Bouton bouton[]) {
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
-    dessiner_plateau(plateau);
+    dessiner_plateau(plateau,etage);
+    for (int i = 0; i < 3; i++) {
+        al_draw_filled_rectangle(bouton[i].x, bouton[i].y, bouton[i].x + bouton[i].largeur,
+                                 bouton[i].y + bouton[i].hauteur, al_map_rgb(100,100,100));
+
+    }
     if(*souris_sur_le_plateaux){
         al_draw_filled_rectangle(plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].x, plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].y, plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].x + plateau->largeur_case,
                                  plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].y + plateau->largeur_case, al_map_rgb(0,255,0));
