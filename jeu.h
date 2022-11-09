@@ -16,7 +16,7 @@
 
 /////   macro
 #define LARGEUR 1024
-#define HAUTEUR 768
+#define HAUTEUR 500
 
 #define NB_COLONNES 45
 #define NB_LIGNES 35
@@ -50,6 +50,7 @@ Plateau *lire_plateau();
 void initialiser_plateau(Plateau *plateau);
 void dessiner_plateau(Plateau *plateau);
 
+
 /////choix etage
 void initialisation_choix_etage(Bouton *bouton);
 void choix_etage(Bouton bouton[], int x, int y, int *etage,int nb_etage);
@@ -57,12 +58,16 @@ void choix_etage(Bouton bouton[], int x, int y, int *etage,int nb_etage);
 ////emplacement souris
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau);
 
+//////timer
+void afficher_timer(int timer, ALLEGRO_FONT *roboto);
+
 /////dessiner batiment
 void dessiner_batiment(Plateau *plateau, int* etage);
 
 /////dessiner tout
 void dessiner_tout(Plateau *plateau, int* etage,int* caseDeLaSourieX,
-                   int *caseDeLaSourieY,int*souris_sur_le_plateaux,Bouton bouton[]);
+                   int *caseDeLaSourieY,int*souris_sur_le_plateaux,Bouton bouton[],ALLEGRO_FONT *roboto,int compteur);
 
-
+////sauvegarde jeu
+void sauvegarde_jeu(Plateau *plateau);
 #endif //ECE_CITY_2_H_JEU_H

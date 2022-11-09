@@ -9,12 +9,15 @@ int main() {
     ALLEGRO_EVENT_QUEUE *queue = NULL;
     ALLEGRO_EVENT event = {0};
     ALLEGRO_TIMER *timer = NULL;
+    /// ecriture
+    ALLEGRO_FONT *roboto = NULL;
 
 
     /// declaration des variables
     int caseDeLaSourieX = 0, caseDeLaSourieY = 0;
     int souris_sur_le_plateaux=0;
     int etage=0;
+    int compteur_temps=0;
 
     Plateau * plateau;
     Bouton bouton_etage[3] = {0};
@@ -33,8 +36,8 @@ int main() {
     display = al_create_display(LARGEUR, HAUTEUR);
     assert(display != NULL);
     al_set_window_title(display, "ECE-city");
-    al_set_window_position(display, 0, 10);
-    timer = al_create_timer(1.0 / 10.0);
+    al_set_window_position(display, 0, 0);
+    timer = al_create_timer(1.0/10.0);
     if (timer == NULL) {
         al_destroy_display(display);
         exit(EXIT_FAILURE);
@@ -42,6 +45,14 @@ int main() {
     al_start_timer(timer);
     queue = al_create_event_queue();
     if (queue == NULL) {
+        al_destroy_display(display);
+        al_destroy_timer(timer);
+        exit(EXIT_FAILURE);
+    }
+
+    /// ecriture
+    roboto = al_load_ttf_font("../fonts/roboto/RobotoCondensed-Regular.ttf", 30, 0);
+    if (!roboto) {
         al_destroy_display(display);
         al_destroy_timer(timer);
         exit(EXIT_FAILURE);
@@ -67,8 +78,15 @@ int main() {
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_AXES : {
-                chercherCaseDeLaSourie(event.mouse.x, event.mouse.y, &caseDeLaSourieX,
+                /*
+                if((((event.mouse.x<=plateau->map[caseDeLaSourieY][caseDeLaSourieX].x || event.mouse.x>=(plateau->map[caseDeLaSourieY][caseDeLaSourieX].x+plateau->largeur_case))) || ((event.mouse.y<=plateau->map[caseDeLaSourieY][caseDeLaSourieX].y || event.mouse.y>=(plateau->map[caseDeLaSourieY][caseDeLaSourieX].y+plateau->largeur_case)))) || souris_sur_le_plateaux==0){
+                    chercherCaseDeLaSourie(event.mouse.x, event.mouse.y, &caseDeLaSourieX,
+                                            &caseDeLaSourieY,&souris_sur_le_plateaux,plateau);
+                }*/
+
+                 chercherCaseDeLaSourie(event.mouse.x, event.mouse.y, &caseDeLaSourieX,
                                        &caseDeLaSourieY,&souris_sur_le_plateaux,plateau);
+
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN : {
@@ -76,20 +94,22 @@ int main() {
                 break;
             }
             case ALLEGRO_EVENT_TIMER : {
-
+                compteur_temps++;
                 break;
             }
 
         }
         dessiner_tout(plateau,&etage, &caseDeLaSourieX,
-                      &caseDeLaSourieY,&souris_sur_le_plateaux,bouton_etage);
+                      &caseDeLaSourieY,&souris_sur_le_plateaux,bouton_etage,roboto,compteur_temps);
 
     }
+    sauvegarde_jeu(plateau);
     for(int i=0; i<plateau->nb_ligne;i++){
         free(plateau->map[i]);
     }
     free(plateau->map);
 
+    al_destroy_font(roboto);
     al_destroy_display(display);
     al_destroy_event_queue(queue);
     al_destroy_timer(timer);

@@ -35,8 +35,8 @@ Plateau *lire_plateau() {
     plateau->nb_ligne=nb_ligne;
     plateau->largeur_case=largeur_case;
 
-    for (int i = 0; i < NB_LIGNES; i++) {
-        for (int j = 0; j < NB_COLONNES; j++) {
+    for (int i = 0; i < plateau->nb_ligne; i++) {
+        for (int j = 0; j < plateau->nb_colonne; j++) {
             fscanf(ifs, "%d", &etat);
             plateau->map[i][j].etat=etat;
         }
@@ -99,8 +99,8 @@ void choix_etage(Bouton bouton[], int x, int y, int *etage,int nb_etage) {
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau) {
     // ne pas oublie de bien commencer à l'origine du tableau
     int a = 0;
-    for (int i = 0; i < NB_LIGNES; i++) {
-        for (int j = 0; j < NB_COLONNES; j++) {
+    for (int i = 0; i < plateau->nb_ligne; i++) {
+        for (int j = 0; j < plateau->nb_colonne; j++) {
             if (((x - plateau->map[0][0].x) >= j * plateau->largeur_case && (x - plateau->map[0][0].x) <= (j + 1) * plateau->largeur_case) &&
                 ((y - plateau->map[0][0].y) >= i * plateau->largeur_case && (y - plateau->map[0][0].y) < (i + 1) * plateau->largeur_case)) {
                 *caseX = j;
@@ -110,7 +110,7 @@ void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_
             }
         }
     }
-    if (a == NB_LIGNES * NB_COLONNES) {
+    if (a == plateau->nb_ligne * plateau->nb_colonne) {
         *souris_sur_le_plateaux=0;
     } else{
         *souris_sur_le_plateaux=1;
@@ -118,7 +118,11 @@ void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_
 
 }
 
-
+/////timer
+void afficher_timer(int timer, ALLEGRO_FONT *roboto) {
+    timer /= 10;
+    al_draw_textf(roboto, al_map_rgb(255, 255, 255), 50, 10, ALLEGRO_ALIGN_RIGHT, "%ds", timer);
+}
 /////dessiner batiment
 void dessiner_batiment(Plateau *plateau, int* etage){
     for (int i = 0; i < plateau->nb_ligne ; i++) {
@@ -144,7 +148,7 @@ void dessiner_batiment(Plateau *plateau, int* etage){
 }
 /////dessiner tout
 void dessiner_tout(Plateau *plateau, int* etage ,int* caseDeLaSourieX,
-                   int *caseDeLaSourieY,int*souris_sur_le_plateaux,Bouton bouton[]) {
+                   int *caseDeLaSourieY,int*souris_sur_le_plateaux,Bouton bouton[],ALLEGRO_FONT *roboto,int compteur) {
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
     dessiner_plateau(plateau);
     dessiner_batiment(plateau,etage);
@@ -157,5 +161,27 @@ void dessiner_tout(Plateau *plateau, int* etage ,int* caseDeLaSourieX,
         al_draw_filled_rectangle(plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].x, plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].y, plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].x + plateau->largeur_case,
                                  plateau->map[*caseDeLaSourieY][* caseDeLaSourieX].y + plateau->largeur_case, al_map_rgb(0,255,0));
     }
+    afficher_timer(compteur, roboto);
     al_flip_display();
+}
+
+
+////sauvegarde jeu
+void sauvegarde_jeu(Plateau *plateau){
+    FILE *ifs = fopen("../sauvegarde", "w");
+
+    fprintf(ifs, "%d", plateau->nb_ligne);
+    fprintf(ifs, "\n");
+    fprintf(ifs, "%d", plateau->nb_colonne);
+    fprintf(ifs, "\n");
+    fprintf(ifs, "%d", plateau->largeur_case);
+    fprintf(ifs, "\n");
+
+    for (int i = 0; i < plateau->nb_ligne; i++) {
+        for (int j = 0; j < plateau->nb_colonne; j++) {
+            fprintf(ifs, "%d ", plateau->map[i][j].etat);
+        }
+        fprintf(ifs, "\n");
+    }
+
 }
