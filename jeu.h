@@ -60,6 +60,10 @@ void choix_etage(Bouton bouton[], int x, int y, int *etage);
 void initialisation_choix_batiment(Bouton *bouton);
 void choix_batiment(Bouton bouton[], int x, int y, int *batiment);
 
+/////construire batiment
+void construire_batiment(Plateau* plateau,int choix_batiment,int souris_sur_le_plateau,int caseX,int caseY);
+void construire_route(Plateau* plateau,int caseX,int caseY);
+void construire_maison(Plateau* plateau,int caseX,int caseY);
 ////emplacement souris
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau);
 

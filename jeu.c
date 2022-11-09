@@ -130,8 +130,47 @@ void choix_batiment(Bouton bouton[], int x, int y, int *batiment) {
 }
 
 
+/////construire batiment
+void construire_batiment(Plateau* plateau,int choix_batiment,int souris_sur_le_plateau,int caseX,int caseY){
+    if(souris_sur_le_plateau==1){
+        switch (choix_batiment) {
+            case 1:{
+                construire_route(plateau,caseX,caseY);
+                break;
+            }
+            case 2:{
+                construire_maison(plateau,caseX,caseY);
+                break;
+            }
+
+        }
+    }
+}
+void construire_route(Plateau* plateau,int caseX,int caseY){
+    if(plateau->map[caseY][caseX].etat==0){
+        plateau->map[caseY][caseX].etat=1;
+    }
+}
+void construire_maison(Plateau* plateau,int caseX,int caseY){
+    int nb_case_vide=0;
+    for(int i=-1;i<=1;i++){
+        for(int j=-1;j<=1;j++){
+            if(plateau->map[caseY+i][caseX+j].etat==0){
+                nb_case_vide++;
+            }
+        }
+    }
+    if(nb_case_vide==9){
+        for(int i=-1;i<=1;i++){
+            for(int j=-1;j<=1;j++){
+                plateau->map[caseY+i][caseX+j].etat=2;
+            }
+        }
+    }
+}
+
 ////emplacement souris
-void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_sur_le_plateaux, Plateau *plateau) {
+void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_sur_le_plateau, Plateau *plateau) {
     // ne pas oublie de bien commencer à l'origine du tableau
     int a = 0;
     for (int i = 0; i < plateau->nb_ligne; i++) {
@@ -148,9 +187,9 @@ void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_su
         }
     }
     if (a == plateau->nb_ligne * plateau->nb_colonne) {
-        *souris_sur_le_plateaux = 0;
+        *souris_sur_le_plateau = 0;
     } else {
-        *souris_sur_le_plateaux = 1;
+        *souris_sur_le_plateau = 1;
     }
 
 }
@@ -172,7 +211,6 @@ void dessiner_batiment(Plateau *plateau, int etage) {
     }
 }
 
-
 void dessiner_etage_0(Plateau *plateau) {
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
@@ -185,6 +223,12 @@ void dessiner_etage_0(Plateau *plateau) {
                 al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
                                          plateau->map[i][j].x + plateau->largeur_case,
                                          plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(0, 0, 255));
+
+            }
+            if (plateau->map[i][j].etat == 2) {
+                al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
+                                         plateau->map[i][j].x + plateau->largeur_case,
+                                         plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(0, 255, 255));
 
             }
         }

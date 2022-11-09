@@ -15,7 +15,7 @@ int main() {
 
     /// declaration des variables
     int caseDeLaSourieX = 0, caseDeLaSourieY = 0;
-    int souris_sur_le_plateaux=0;
+    int souris_sur_le_plateau=0;
     int etage=0;
     int choix_batiment_a_construire=0;
     int compteur_temps=0;
@@ -88,13 +88,14 @@ int main() {
                 }*/
 
                  chercherCaseDeLaSourie(event.mouse.x, event.mouse.y, &caseDeLaSourieX,
-                                       &caseDeLaSourieY,&souris_sur_le_plateaux,plateau);
+                                       &caseDeLaSourieY,&souris_sur_le_plateau,plateau);
 
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN : {
                 choix_etage(bouton_etage, event.mouse.x, event.mouse.y, &etage);
                 choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y, &choix_batiment_a_construire);
+                construire_batiment(plateau,choix_batiment_a_construire,souris_sur_le_plateau,caseDeLaSourieX,caseDeLaSourieY);
                 break;
             }
             case ALLEGRO_EVENT_TIMER : {
@@ -104,7 +105,7 @@ int main() {
 
         }
         dessiner_tout(plateau,etage,choix_batiment_a_construire, caseDeLaSourieX,
-                      caseDeLaSourieY,souris_sur_le_plateaux,bouton_etage,bouton_choix_batiment,roboto,compteur_temps);
+                      caseDeLaSourieY,souris_sur_le_plateau,bouton_etage,bouton_choix_batiment,roboto,compteur_temps);
 
     }
     sauvegarde_jeu(plateau);
