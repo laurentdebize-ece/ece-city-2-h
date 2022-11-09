@@ -60,25 +60,12 @@ void initialiser_plateau(Plateau *plateau) {
         }
     }
 }
-void dessiner_plateau(Plateau *plateau, int* etage) {
+void dessiner_plateau(Plateau *plateau) {
     for (int i = 0; i < plateau->nb_ligne ; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
-            if (plateau->map[i][j].etat == 0) {
-                al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
+            al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
                                   plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255,255,255), 1);
-            }
-            if (plateau->map[i][j].etat == 1) {
-                if(*etage==0){
-                    al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
-                                             plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(0,0,255));
-                }else if(*etage==1){
-                    al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
-                                             plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255,0,0));
-                }else if(*etage==2){
-                    al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
-                                             plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255,0,255));
-                }
-            }
+
         }
     }
 }
@@ -132,11 +119,35 @@ void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_
 }
 
 
+/////dessiner batiment
+void dessiner_batiment(Plateau *plateau, int* etage){
+    for (int i = 0; i < plateau->nb_ligne ; i++) {
+        for (int j = 0; j < plateau->nb_colonne; j++) {
+            if (plateau->map[i][j].etat == 0) {
+                al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
+                                  plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255,255,255), 1);
+            }
+            if (plateau->map[i][j].etat == 1) {
+                if(*etage==0){
+                    al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
+                                             plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(0,0,255));
+                }else if(*etage==1){
+                    al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
+                                             plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255,0,0));
+                }else if(*etage==2){
+                    al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
+                                             plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255,0,255));
+                }
+            }
+        }
+    }
+}
 /////dessiner tout
 void dessiner_tout(Plateau *plateau, int* etage ,int* caseDeLaSourieX,
                    int *caseDeLaSourieY,int*souris_sur_le_plateaux,Bouton bouton[]) {
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
-    dessiner_plateau(plateau,etage);
+    dessiner_plateau(plateau);
+    dessiner_batiment(plateau,etage);
     for (int i = 0; i < 3; i++) {
         al_draw_filled_rectangle(bouton[i].x, bouton[i].y, bouton[i].x + bouton[i].largeur,
                                  bouton[i].y + bouton[i].hauteur, al_map_rgb(100,100,100));

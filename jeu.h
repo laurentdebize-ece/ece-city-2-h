@@ -41,14 +41,14 @@ typedef struct Button {
     int x, y;
     float largeur, hauteur;
 } Bouton;
-/////fonction
+
+////////////////////////////////fonction///////////////////////
 
 /////plateau
 Plateau *creer_plateau(int nb_ligne, int nb_colonne);
 Plateau *lire_plateau();
 void initialiser_plateau(Plateau *plateau);
-void dessiner_plateau(Plateau *plateau, int* etage);
-
+void dessiner_plateau(Plateau *plateau);
 
 /////choix etage
 void initialisation_choix_etage(Bouton *bouton);
@@ -57,6 +57,8 @@ void choix_etage(Bouton bouton[], int x, int y, int *etage,int nb_etage);
 ////emplacement souris
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau);
 
+/////dessiner batiment
+void dessiner_batiment(Plateau *plateau, int* etage);
 
 /////dessiner tout
 void dessiner_tout(Plateau *plateau, int* etage,int* caseDeLaSourieX,
