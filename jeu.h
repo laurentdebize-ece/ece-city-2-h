@@ -63,6 +63,9 @@ void afficher_timer(int timer, ALLEGRO_FONT *roboto);
 
 /////dessiner batiment
 void dessiner_batiment(Plateau *plateau, int* etage);
+void dessiner_etage_0(Plateau *plateau);
+void dessiner_etage_1(Plateau *plateau);
+void dessiner_etage_2(Plateau *plateau);
 
 /////dessiner tout
 void dessiner_tout(Plateau *plateau, int* etage,int* caseDeLaSourieX,
