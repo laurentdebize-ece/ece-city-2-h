@@ -38,6 +38,7 @@ typedef struct Graphe {
 } Plateau;
 
 typedef struct Button {
+    int nb_bouton;
     int x, y;
     float largeur, hauteur;
 } Bouton;
@@ -53,7 +54,11 @@ void dessiner_plateau(Plateau *plateau);
 
 /////choix etage
 void initialisation_choix_etage(Bouton *bouton);
-void choix_etage(Bouton bouton[], int x, int y, int *etage,int nb_etage);
+void choix_etage(Bouton bouton[], int x, int y, int *etage);
+
+/////choix batiment
+void initialisation_choix_batiment(Bouton *bouton);
+void choix_batiment(Bouton bouton[], int x, int y, int *batiment);
 
 ////emplacement souris
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau);
@@ -62,15 +67,16 @@ void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_
 void afficher_timer(int timer, ALLEGRO_FONT *roboto);
 
 /////dessiner batiment
-void dessiner_batiment(Plateau *plateau, int* etage);
+void dessiner_batiment(Plateau *plateau, int etage);
 void dessiner_etage_0(Plateau *plateau);
 void dessiner_etage_1(Plateau *plateau);
 void dessiner_etage_2(Plateau *plateau);
 
 /////dessiner tout
-void dessiner_tout(Plateau *plateau, int* etage,int* caseDeLaSourieX,
-                   int *caseDeLaSourieY,int*souris_sur_le_plateaux,Bouton bouton[],ALLEGRO_FONT *roboto,int compteur);
+void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaSourieX,
+                   int caseDeLaSourieY,int souris_sur_le_plateaux,Bouton bouton[],Bouton bouton_batiment[],ALLEGRO_FONT *roboto,int compteur);
 
 ////sauvegarde jeu
 void sauvegarde_jeu(Plateau *plateau);
+
 #endif //ECE_CITY_2_H_JEU_H

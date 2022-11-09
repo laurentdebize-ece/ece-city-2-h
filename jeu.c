@@ -82,6 +82,7 @@ void initialisation_choix_etage(Bouton *bouton) {
         bouton[i].hauteur = 50;
 
     }
+    bouton->nb_bouton=3;
     bouton[0].x = 10;
     bouton[0].y = 40;
 
@@ -91,15 +92,43 @@ void initialisation_choix_etage(Bouton *bouton) {
     }
 }
 
-void choix_etage(Bouton bouton[], int x, int y, int *etage, int nb_etage) {
+void choix_etage(Bouton bouton[], int x, int y, int *etage) {
 
-    for (int i = 0; i < nb_etage; i++) {
+    for (int i = 0; i < bouton->nb_bouton; i++) {
         if (x >= bouton[i].x && x <= bouton[i].x + bouton[i].largeur && y >= bouton[i].y &&
             y <= bouton[i].y + bouton[i].hauteur) {
             *etage = i;
         }
     }
 }
+/////choix batiment
+void initialisation_choix_batiment(Bouton *bouton) {
+
+    bouton->nb_bouton=2;
+    bouton[0].largeur = 60;
+    bouton[0].hauteur = 60;
+    bouton[0].x = 10;
+    bouton[0].y = 300;
+    bouton[1].largeur = 60;
+    bouton[1].hauteur = 60;
+    bouton[1].x = 10;
+    bouton[1].y = 370;
+
+}
+void choix_batiment(Bouton bouton[], int x, int y, int *batiment) {
+
+    for (int i = 0; i < bouton->nb_bouton; i++) {
+        if (x >= bouton[i].x && x <= bouton[i].x + bouton[i].largeur && y >= bouton[i].y &&
+            y <= bouton[i].y + bouton[i].hauteur) {
+            if(*batiment==i+1){
+                *batiment=0;
+            }else{
+                *batiment = i+1;
+            }
+        }
+    }
+}
+
 
 ////emplacement souris
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_sur_le_plateaux, Plateau *plateau) {
@@ -133,12 +162,12 @@ void afficher_timer(int timer, ALLEGRO_FONT *roboto) {
 }
 
 /////dessiner batiment
-void dessiner_batiment(Plateau *plateau, int *etage) {
-    if (*etage == 0) {
+void dessiner_batiment(Plateau *plateau, int etage) {
+    if (etage == 0) {
         dessiner_etage_0(plateau);
-    } else if (*etage == 1) {
+    } else if (etage == 1) {
         dessiner_etage_1(plateau);
-    } else if (*etage == 2) {
+    } else if (etage == 2) {
         dessiner_etage_2(plateau);
     }
 }
@@ -200,22 +229,33 @@ void dessiner_etage_2(Plateau *plateau) {
 
 
 /////dessiner tout
-void dessiner_tout(Plateau *plateau, int *etage, int *caseDeLaSourieX,
-                   int *caseDeLaSourieY, int *souris_sur_le_plateaux, Bouton bouton[], ALLEGRO_FONT *roboto,
+void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaSourieX,
+                   int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[],Bouton bouton_batiment[],ALLEGRO_FONT *roboto,
                    int compteur) {
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
     dessiner_plateau(plateau);
     dessiner_batiment(plateau, etage);
-    for (int i = 0; i < 3; i++) {
-        al_draw_filled_rectangle(bouton[i].x, bouton[i].y, bouton[i].x + bouton[i].largeur,
-                                 bouton[i].y + bouton[i].hauteur, al_map_rgb(100, 100, 100));
+    ///dessine les boutons pour les etages
+    for (int i = 0; i < bouton_etage->nb_bouton; i++) {
+        al_draw_filled_rectangle(bouton_etage[i].x, bouton_etage[i].y, bouton_etage[i].x + bouton_etage[i].largeur,
+                                 bouton_etage[i].y + bouton_etage[i].hauteur, al_map_rgb(100, 100, 100));
 
     }
-    if (*souris_sur_le_plateaux) {
-        al_draw_filled_rectangle(plateau->map[*caseDeLaSourieY][*caseDeLaSourieX].x,
-                                 plateau->map[*caseDeLaSourieY][*caseDeLaSourieX].y,
-                                 plateau->map[*caseDeLaSourieY][*caseDeLaSourieX].x + plateau->largeur_case,
-                                 plateau->map[*caseDeLaSourieY][*caseDeLaSourieX].y + plateau->largeur_case,
+    ///dessine les boutons pour choisir les batiments
+    for (int i = 0; i < bouton_batiment->nb_bouton; i++) {
+        al_draw_filled_rectangle(bouton_batiment[i].x, bouton_batiment[i].y, bouton_batiment[i].x + bouton_batiment[i].largeur,
+                                 bouton_batiment[i].y + bouton_batiment[i].hauteur, al_map_rgb(200, 200, 200));
+        if(i==choix_batiment-1){
+            al_draw_rectangle(bouton_batiment[i].x, bouton_batiment[i].y, bouton_batiment[i].x + bouton_batiment[i].largeur,
+                                     bouton_batiment[i].y + bouton_batiment[i].hauteur, al_map_rgb(200, 0, 200),4);
+        }
+    }
+    ///dessine la case ou est la souris
+    if (souris_sur_le_plateaux) {
+        al_draw_filled_rectangle(plateau->map[caseDeLaSourieY][caseDeLaSourieX].x,
+                                 plateau->map[caseDeLaSourieY][caseDeLaSourieX].y,
+                                 plateau->map[caseDeLaSourieY][caseDeLaSourieX].x + plateau->largeur_case,
+                                 plateau->map[caseDeLaSourieY][caseDeLaSourieX].y + plateau->largeur_case,
                                  al_map_rgb(0, 255, 0));
     }
     afficher_timer(compteur, roboto);
