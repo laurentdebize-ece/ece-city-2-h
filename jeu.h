@@ -16,7 +16,7 @@
 
 /////   macro
 #define LARGEUR 1024
-#define HAUTEUR 500
+#define HAUTEUR 768
 
 #define NB_COLONNES 45
 #define NB_LIGNES 35
@@ -64,6 +64,7 @@ void choix_batiment(Bouton bouton[], int x, int y, int *batiment);
 void construire_batiment(Plateau* plateau,int choix_batiment,int souris_sur_le_plateau,int caseX,int caseY);
 void construire_route(Plateau* plateau,int caseX,int caseY);
 void construire_maison(Plateau* plateau,int caseX,int caseY);
+void construire_chateau_eau(Plateau* plateau,int caseX,int caseY);
 ////emplacement souris
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau);
 

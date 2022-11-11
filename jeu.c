@@ -104,7 +104,7 @@ void choix_etage(Bouton bouton[], int x, int y, int *etage) {
 /////choix batiment
 void initialisation_choix_batiment(Bouton *bouton) {
 
-    bouton->nb_bouton=2;
+    bouton->nb_bouton=3;
     bouton[0].largeur = 60;
     bouton[0].hauteur = 60;
     bouton[0].x = 10;
@@ -113,6 +113,10 @@ void initialisation_choix_batiment(Bouton *bouton) {
     bouton[1].hauteur = 60;
     bouton[1].x = 10;
     bouton[1].y = 370;
+    bouton[2].largeur = 60;
+    bouton[2].hauteur = 60;
+    bouton[2].x = 10;
+    bouton[2].y = 440;
 
 }
 void choix_batiment(Bouton bouton[], int x, int y, int *batiment) {
@@ -142,7 +146,10 @@ void construire_batiment(Plateau* plateau,int choix_batiment,int souris_sur_le_p
                 construire_maison(plateau,caseX,caseY);
                 break;
             }
-
+            case 3:{
+                construire_chateau_eau(plateau,caseX,caseY);
+                break;
+            }
         }
     }
 }
@@ -160,10 +167,39 @@ void construire_maison(Plateau* plateau,int caseX,int caseY){
             }
         }
     }
-    if(nb_case_vide==9){
+    if(nb_case_vide==3*3){
         for(int i=-1;i<=1;i++){
             for(int j=-1;j<=1;j++){
-                plateau->map[caseY+i][caseX+j].etat=2;
+                if(i==0 && j==0){
+                    plateau->map[caseY+i][caseX+j].etat=20;
+
+                }else{
+                    plateau->map[caseY+i][caseX+j].etat=2;
+
+                }
+            }
+        }
+    }
+}
+void construire_chateau_eau(Plateau* plateau,int caseX,int caseY){
+    int nb_case_vide=0;
+    for(int i=-2;i<=3;i++){
+        for(int j=-1;j<=2;j++){
+            if(plateau->map[caseY+i][caseX+j].etat==0){
+                nb_case_vide++;
+            }
+        }
+    }
+    if(nb_case_vide==4*6){
+        for(int i=-2;i<=3;i++){
+            for(int j=-1;j<=2;j++){
+                if(i==0 && j==0){
+                    plateau->map[caseY+i][caseX+j].etat=30;
+
+                }else{
+                    plateau->map[caseY+i][caseX+j].etat=3;
+
+                }
             }
         }
     }
@@ -229,6 +265,12 @@ void dessiner_etage_0(Plateau *plateau) {
                 al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
                                          plateau->map[i][j].x + plateau->largeur_case,
                                          plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(0, 255, 255));
+
+            }
+            if (plateau->map[i][j].etat == 3) {
+                al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
+                                         plateau->map[i][j].x + plateau->largeur_case,
+                                         plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 255, 0));
 
             }
         }
