@@ -109,6 +109,7 @@ int main() {
 
     }
     sauvegarde_jeu(plateau);
+
     for(int i=0; i<plateau->nb_ligne;i++){
         free(plateau->map[i]);
     }

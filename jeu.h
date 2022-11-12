@@ -104,4 +104,5 @@ void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaS
 /////////     sauvegarde jeu     ///////////
 void sauvegarde_jeu(Plateau *plateau);
 
+
 #endif //ECE_CITY_2_H_JEU_H

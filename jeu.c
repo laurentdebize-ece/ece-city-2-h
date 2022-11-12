@@ -257,6 +257,7 @@ void construire_centrale_elec(Plateau* plateau,int caseX,int caseY){
 }
 
 
+
 /////////      viabilté maison       ///////////
 void verifier_viabilite_pour_les_maison_non_viable(Plateau* plateau){
     for(int i=0;i<plateau->nb_maison;i++){
