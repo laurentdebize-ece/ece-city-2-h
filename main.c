@@ -22,7 +22,7 @@ int main() {
 
     Plateau * plateau;
     Bouton bouton_etage[3] = {0};
-    Bouton bouton_choix_batiment[2]={0};
+    Bouton bouton_choix_batiment[4]={0};
 
 
     assert(al_init());
@@ -95,7 +95,7 @@ int main() {
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN : {
                 choix_etage(bouton_etage, event.mouse.x, event.mouse.y, &etage);
                 choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y, &choix_batiment_a_construire);
-                construire_batiment(plateau,choix_batiment_a_construire,souris_sur_le_plateau,caseDeLaSourieX,caseDeLaSourieY);
+                construire_batiment(plateau,choix_batiment_a_construire,souris_sur_le_plateau,caseDeLaSourieX,caseDeLaSourieY,compteur_temps);
                 break;
             }
             case ALLEGRO_EVENT_TIMER : {

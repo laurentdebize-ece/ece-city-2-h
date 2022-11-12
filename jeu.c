@@ -1,6 +1,7 @@
 #include "jeu.h"
 
-/////plateau
+/////////      plateau        ///////////
+
 Plateau *creer_plateau(int nb_ligne, int nb_colonne) {
     Plateau *Newplateau = (Plateau *) malloc(sizeof(Plateau));
 
@@ -9,6 +10,7 @@ Plateau *creer_plateau(int nb_ligne, int nb_colonne) {
     for (int i = 0; i < nb_ligne; ++i) {
         Newplateau->map[i] = (Case *) malloc(nb_colonne * sizeof(Case));
     }
+    Newplateau->tab_de_maison = (Maison*) malloc(100 * sizeof(Maison));
 
     return Newplateau;
 }
@@ -35,6 +37,7 @@ Plateau *lire_plateau() {
     plateau->nb_colonne = nb_colonne;
     plateau->nb_ligne = nb_ligne;
     plateau->largeur_case = largeur_case;
+    plateau->nb_maison = 0;
 
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
@@ -75,7 +78,8 @@ void dessiner_plateau(Plateau *plateau) {
     }
 }
 
-/////choix etage
+/////////      choix etage        ///////////
+
 void initialisation_choix_etage(Bouton *bouton) {
     for (int i = 0; i < 3; i++) {
         bouton[i].largeur = 100;
@@ -101,10 +105,12 @@ void choix_etage(Bouton bouton[], int x, int y, int *etage) {
         }
     }
 }
-/////choix batiment
+
+/////////      choix batiment        ///////////
+
 void initialisation_choix_batiment(Bouton *bouton) {
 
-    bouton->nb_bouton=3;
+    bouton->nb_bouton=4;
     bouton[0].largeur = 60;
     bouton[0].hauteur = 60;
     bouton[0].x = 10;
@@ -117,6 +123,10 @@ void initialisation_choix_batiment(Bouton *bouton) {
     bouton[2].hauteur = 60;
     bouton[2].x = 10;
     bouton[2].y = 440;
+    bouton[3].largeur = 60;
+    bouton[3].hauteur = 60;
+    bouton[3].x = 10;
+    bouton[3].y = 510;
 
 }
 void choix_batiment(Bouton bouton[], int x, int y, int *batiment) {
@@ -134,8 +144,9 @@ void choix_batiment(Bouton bouton[], int x, int y, int *batiment) {
 }
 
 
-/////construire batiment
-void construire_batiment(Plateau* plateau,int choix_batiment,int souris_sur_le_plateau,int caseX,int caseY){
+/////////      construire batiment       ///////////
+
+void construire_batiment(Plateau* plateau,int choix_batiment,int souris_sur_le_plateau,int caseX,int caseY,int timer){
     if(souris_sur_le_plateau==1){
         switch (choix_batiment) {
             case 1:{
@@ -143,11 +154,15 @@ void construire_batiment(Plateau* plateau,int choix_batiment,int souris_sur_le_p
                 break;
             }
             case 2:{
-                construire_maison(plateau,caseX,caseY);
+                construire_maison(plateau,caseX,caseY,timer);
                 break;
             }
             case 3:{
                 construire_chateau_eau(plateau,caseX,caseY);
+                break;
+            }
+            case 4:{
+                construire_centrale_elec(plateau,caseX,caseY);
                 break;
             }
         }
@@ -156,9 +171,10 @@ void construire_batiment(Plateau* plateau,int choix_batiment,int souris_sur_le_p
 void construire_route(Plateau* plateau,int caseX,int caseY){
     if(plateau->map[caseY][caseX].etat==0){
         plateau->map[caseY][caseX].etat=1;
+        verifier_viabilite_pour_les_maison_non_viable(plateau);
     }
 }
-void construire_maison(Plateau* plateau,int caseX,int caseY){
+void construire_maison(Plateau* plateau,int caseX,int caseY,int timer){
     int nb_case_vide=0;
     for(int i=-1;i<=1;i++){
         for(int j=-1;j<=1;j++){
@@ -171,7 +187,9 @@ void construire_maison(Plateau* plateau,int caseX,int caseY){
         for(int i=-1;i<=1;i++){
             for(int j=-1;j<=1;j++){
                 if(i==0 && j==0){
-                    plateau->map[caseY+i][caseX+j].etat=20;
+                    crer_une_maison(plateau,caseX,caseY,timer);
+                    plateau->nb_maison++;
+                    plateau->map[caseY+i][caseX+j].etat=2000+plateau->nb_maison*10;
 
                 }else{
                     plateau->map[caseY+i][caseX+j].etat=2;
@@ -181,6 +199,14 @@ void construire_maison(Plateau* plateau,int caseX,int caseY){
         }
     }
 }
+void crer_une_maison(Plateau* plateau,int caseX,int caseY,int timer){
+    plateau->tab_de_maison[plateau->nb_maison].date_creation=timer;
+    plateau->tab_de_maison[plateau->nb_maison].caseY=caseY;
+    plateau->tab_de_maison[plateau->nb_maison].caseX=caseX;
+    plateau->tab_de_maison[plateau->nb_maison].stade=0;
+    plateau->tab_de_maison[plateau->nb_maison].viable= verifier_viabilite_maison(plateau,caseX,caseY);
+}
+
 void construire_chateau_eau(Plateau* plateau,int caseX,int caseY){
     int nb_case_vide=0;
     for(int i=-2;i<=3;i++){
@@ -202,10 +228,130 @@ void construire_chateau_eau(Plateau* plateau,int caseX,int caseY){
                 }
             }
         }
+        verifier_viabilite_pour_les_maison_non_viable(plateau);
+    }
+}
+void construire_centrale_elec(Plateau* plateau,int caseX,int caseY){
+    int nb_case_vide=0;
+    for(int i=-1;i<=2;i++){
+        for(int j=-2;j<=3;j++){
+            if(plateau->map[caseY+i][caseX+j].etat==0){
+                nb_case_vide++;
+            }
+        }
+    }
+    if(nb_case_vide==4*6){
+        for(int i=-1;i<=2;i++){
+            for(int j=-2;j<=3;j++){
+                if(i==0 && j==0){
+                    plateau->map[caseY+i][caseX+j].etat=40;
+
+                }else{
+                    plateau->map[caseY+i][caseX+j].etat=4;
+
+                }
+            }
+        }
+        verifier_viabilite_pour_les_maison_non_viable(plateau);
     }
 }
 
-////emplacement souris
+
+/////////      viabilté maison       ///////////
+void verifier_viabilite_pour_les_maison_non_viable(Plateau* plateau){
+    for(int i=0;i<plateau->nb_maison;i++){
+        if(plateau->tab_de_maison[i].viable==0){
+            plateau->tab_de_maison[i].viable=verifier_viabilite_maison(plateau,plateau->tab_de_maison[i].caseX,plateau->tab_de_maison[i].caseY);
+        }
+    }
+}
+
+int verifier_viabilite_maison(Plateau* plateau,int caseX,int caseY){
+    int connecte_a_eau=0;
+    int connecte_a_elec=0;
+    for(int i=-2;i<=2;i++){
+        for(int j=-2;j<=2;j++){
+            if((i==2 || j==2 || i==-2 || j==-2) && i!=j && i!=-j){
+                if(plateau->map[caseY+i][caseX+j].etat==1){
+                    chercher_eau_et_electicite(plateau, caseX+j, caseY+i, &connecte_a_eau, &connecte_a_elec);
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < plateau->nb_ligne; i++) {
+        for (int j = 0; j < plateau->nb_colonne; j++) {
+            if (plateau->map[i][j].etat==11) {
+                plateau->map[i][j].etat = 1;
+            }
+        }
+    }
+    if(connecte_a_eau==1 && connecte_a_elec==1){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+void chercher_eau_et_electicite(Plateau* plateau,int caseX,int caseY,int* connecte_a_eau, int* connecte_a_elec){
+    if(*connecte_a_eau==0 || *connecte_a_elec==0) {
+        for (int i = 4; i > 0; i--) {
+            if (plateau->map[caseY - 1][caseX].etat == i) {
+                if (i == 4 && *connecte_a_elec != 1) {
+                    *connecte_a_elec = 1;
+                }
+                if (i == 3 && *connecte_a_eau != 1) {
+                    *connecte_a_eau = 1;
+                }
+                if (i == 1) {
+                    plateau->map[caseY - 1][caseX].etat = 11;
+                    chercher_eau_et_electicite(plateau, caseX, caseY - 1, connecte_a_eau, connecte_a_elec);
+                }
+
+            }
+            if (plateau->map[caseY + 1][caseX].etat == i) {
+                if (i == 4 && *connecte_a_elec != 1) {
+                    *connecte_a_elec = 1;
+                }
+                if (i == 3 && *connecte_a_eau != 1) {
+                    *connecte_a_eau = 1;
+                }
+                if (i == 1) {
+                    plateau->map[caseY + 1][caseX].etat = 11;
+                    chercher_eau_et_electicite(plateau, caseX, caseY + 1, connecte_a_eau, connecte_a_elec);
+                }
+            }
+            if (plateau->map[caseY][caseX - 1].etat == i) {
+                if (i == 4 && *connecte_a_elec != 1) {
+                    *connecte_a_elec = 1;
+                }
+                if (i == 3 && *connecte_a_eau != 1) {
+                    *connecte_a_eau = 1;
+                }
+                if (i == 1) {
+                    plateau->map[caseY][caseX - 1].etat = 11;
+                    chercher_eau_et_electicite(plateau, caseX - 1, caseY, connecte_a_eau, connecte_a_elec);
+                }
+
+            }
+            if (plateau->map[caseY][caseX + 1].etat == i) {
+                if (i == 4 && *connecte_a_elec != 1) {
+                    *connecte_a_elec = 1;
+                }
+                if (i == 3 && *connecte_a_eau != 1) {
+                    *connecte_a_eau = 1;
+                }
+                if (i == 1) {
+                    plateau->map[caseY][caseX + 1].etat = 11;
+                    chercher_eau_et_electicite(plateau, caseX + 1, caseY, connecte_a_eau, connecte_a_elec);
+                }
+            }
+        }
+    }
+}
+
+
+/////////      emplacement souris       ///////////
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_sur_le_plateau, Plateau *plateau) {
     // ne pas oublie de bien commencer à l'origine du tableau
     int a = 0;
@@ -230,13 +376,15 @@ void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_su
 
 }
 
-/////timer
+
+/////////     timer      ///////////
 void afficher_timer(int timer, ALLEGRO_FONT *roboto) {
     timer /= 10;
     al_draw_textf(roboto, al_map_rgb(255, 255, 255), 50, 10, ALLEGRO_ALIGN_RIGHT, "%ds", timer);
 }
 
-/////dessiner batiment
+
+/////////     dessiner batiment      ///////////
 void dessiner_batiment(Plateau *plateau, int etage) {
     if (etage == 0) {
         dessiner_etage_0(plateau);
@@ -261,6 +409,18 @@ void dessiner_etage_0(Plateau *plateau) {
                                          plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(0, 0, 255));
 
             }
+            if (plateau->map[i][j].etat/1000 == 2) {
+                if(plateau->tab_de_maison[(plateau->map[i][j].etat/10-200)-1].viable==1){
+                    al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
+                                             plateau->map[i][j].x + plateau->largeur_case,
+                                             plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(0, 255, 255));
+                }else{
+                    al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
+                                             plateau->map[i][j].x + plateau->largeur_case,
+                                             plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(100, 0, 255));
+                }
+
+            }
             if (plateau->map[i][j].etat == 2) {
                 al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
                                          plateau->map[i][j].x + plateau->largeur_case,
@@ -268,6 +428,12 @@ void dessiner_etage_0(Plateau *plateau) {
 
             }
             if (plateau->map[i][j].etat == 3) {
+                al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
+                                         plateau->map[i][j].x + plateau->largeur_case,
+                                         plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 255, 0));
+
+            }
+            if (plateau->map[i][j].etat == 4) {
                 al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
                                          plateau->map[i][j].x + plateau->largeur_case,
                                          plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 255, 0));
@@ -314,7 +480,7 @@ void dessiner_etage_2(Plateau *plateau) {
 }
 
 
-/////dessiner tout
+/////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaSourieX,
                    int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[],Bouton bouton_batiment[],ALLEGRO_FONT *roboto,
                    int compteur) {
@@ -348,7 +514,9 @@ void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaS
     al_flip_display();
 }
 
-////sauvegarde jeu
+
+/////////     sauvegarde jeu     ///////////
+
 void sauvegarde_jeu(Plateau *plateau) {
     FILE *ifs = fopen("../sauvegarde", "w");
 
