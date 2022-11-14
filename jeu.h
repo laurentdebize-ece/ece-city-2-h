@@ -16,7 +16,7 @@
 
 /////   macro
 #define LARGEUR 1024
-#define HAUTEUR 768
+#define HAUTEUR 600
 
 #define NB_COLONNES 45
 #define NB_LIGNES 35
@@ -43,6 +43,7 @@ typedef  struct Maison {
     int caseX, caseY;
     int nb_habitant;
     int eau_utilise;
+    int elec_utilise;
     int stade;
     int viable;
 }Maison;
@@ -52,15 +53,16 @@ typedef  struct Maison_alimentee {
     int quantite;
 }Maison_alimentee;
 
-typedef  struct Eau {
-    ALLEGRO_BITMAP *image_batiment;
+typedef  struct Ressource {
+    ALLEGRO_BITMAP *image_batiment[2];
+    int type;
     int largeur,hauteur;
     int caseX, caseY;
     int capacite_max;
     int capacite_utilisee;
     int nb_maison_alimentee;
     Maison_alimentee* tab_des_maisons_alimentee;
-}Eau;
+}Ressource;
 
 typedef struct Plateau {
     int largeur_case;
@@ -72,7 +74,9 @@ typedef struct Plateau {
     int nb_maison;
     Maison* tab_de_maison;
     int nb_chateau_eau;
-    Eau *tab_chateau_eau;
+    Ressource *tab_chateau_eau;
+    int nb_centrale_elec;
+    Ressource* tab_centrale_elec;
 } Plateau;
 
 
@@ -100,6 +104,7 @@ void crer_une_maison(Plateau* plateau,int caseX,int caseY,int timer);
 void construire_chateau_eau(Plateau* plateau,int caseX,int caseY);
 void crer_un_chateau_eau(Plateau* plateau,int caseX,int caseY);
 void construire_centrale_elec(Plateau* plateau,int caseX,int caseY);
+void crer_une_centrale_elec(Plateau *plateau, int caseX, int caseY);
 
 /////////      evolution maison       ///////////
 void evolution_maison(Plateau* plateau,int timer);
@@ -113,8 +118,13 @@ void chercher_eau_et_electicite(Plateau* plateau,int caseX,int caseY,int* connec
 int verifier_si_assez_d_eau_disponible(Plateau *plateau, int numero_de_la_maison, int quantite_eau_necesaire);
 void chercher_une_maison_en_particulier(Plateau* plateau,int caseX,int caseY, int numero_de_la_maison,int*maison_trouve);
 void alimentation_en_eau(Plateau *plateau);
-void chercher_maison_la_plus_proche(Plateau *plateau, int caseX, int caseY, int *numero_maison_numero,
+void chercher_maison_la_plus_proche_qui_a_besoin_d_eau(Plateau *plateau, int caseX, int caseY, int *numero_maison_numero,
                                     int *plus_petite_distance, int distance);
+
+/////////      alimentation en elec       ///////////
+int verifier_si_assez_d_elec_disponible_dans_une_centrale(Plateau *plateau, int numero_de_la_maison, int quantite_elec_necesaire);
+void alimentation_en_elec(Plateau *plateau);
+void chercher_maison_qui_a_besoin_d_elec(Plateau *plateau, int caseX, int caseY, int *numero_maison_trouve,int num_centrale_elec);
 
 /////////      emplacement souris       ///////////
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau);
