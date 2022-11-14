@@ -19,6 +19,8 @@ int main() {
     int etage=0;
     int choix_batiment_a_construire=0;
     int compteur_temps=0;
+    int temps_en_seconde;
+
 
     Plateau * plateau;
     Bouton bouton_etage[3] = {0};
@@ -95,17 +97,23 @@ int main() {
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN : {
                 choix_etage(bouton_etage, event.mouse.x, event.mouse.y, &etage);
                 choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y, &choix_batiment_a_construire);
-                construire_batiment(plateau,choix_batiment_a_construire,souris_sur_le_plateau,caseDeLaSourieX,caseDeLaSourieY,compteur_temps);
+                construire_batiment(plateau,choix_batiment_a_construire,souris_sur_le_plateau,caseDeLaSourieX,caseDeLaSourieY,temps_en_seconde);
                 break;
             }
             case ALLEGRO_EVENT_TIMER : {
+                if(temps_en_seconde*10==compteur_temps){
+                    evolution_maison(plateau,temps_en_seconde);
+
+                }
                 compteur_temps++;
+
                 break;
             }
 
         }
+        temps_en_seconde=compteur_temps/10;
         dessiner_tout(plateau,etage,choix_batiment_a_construire, caseDeLaSourieX,
-                      caseDeLaSourieY,souris_sur_le_plateau,bouton_etage,bouton_choix_batiment,roboto,compteur_temps);
+                      caseDeLaSourieY,souris_sur_le_plateau,bouton_etage,bouton_choix_batiment,roboto,temps_en_seconde);
 
     }
     sauvegarde_jeu(plateau);
@@ -114,6 +122,12 @@ int main() {
         free(plateau->map[i]);
     }
     free(plateau->map);
+    free(plateau->tab_de_maison);
+    for(int i=0; i<plateau->nb_chateau_eau;i++){
+        free(plateau->tab_chateau_eau[i].tab_des_maisons_alimentee);
+    }
+    free(plateau->tab_chateau_eau);
+    free(plateau);
 
     al_destroy_font(roboto);
     al_destroy_display(display);
