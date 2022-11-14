@@ -83,11 +83,6 @@ int main() {
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_AXES : {
-                /*
-                if((((event.mouse.x<=plateau->map[caseDeLaSourieY][caseDeLaSourieX].x || event.mouse.x>=(plateau->map[caseDeLaSourieY][caseDeLaSourieX].x+plateau->largeur_case))) || ((event.mouse.y<=plateau->map[caseDeLaSourieY][caseDeLaSourieX].y || event.mouse.y>=(plateau->map[caseDeLaSourieY][caseDeLaSourieX].y+plateau->largeur_case)))) || souris_sur_le_plateaux==0){
-                    chercherCaseDeLaSourie(event.mouse.x, event.mouse.y, &caseDeLaSourieX,
-                                            &caseDeLaSourieY,&souris_sur_le_plateaux,plateau);
-                }*/
 
                  chercherCaseDeLaSourie(event.mouse.x, event.mouse.y, &caseDeLaSourieX,
                                        &caseDeLaSourieY,&souris_sur_le_plateau,plateau);
@@ -104,6 +99,13 @@ int main() {
                 if(temps_en_seconde*10==compteur_temps){
                     evolution_maison(plateau,temps_en_seconde);
 
+                }
+                if(temps_en_seconde%15==0){
+                    int gain=0;
+                    for(int i=0;i<plateau->nb_maison;i++){
+                        gain+=(plateau->tab_de_maison[i].nb_habitant*10);
+                    }
+                    plateau->compte_en_banque+=gain;
                 }
                 compteur_temps++;
 

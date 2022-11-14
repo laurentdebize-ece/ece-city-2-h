@@ -68,6 +68,8 @@ typedef struct Plateau {
     int largeur_case;
     int nb_ligne;
     int nb_colonne;
+    int compte_en_banque;
+    int *tab_des_prix;
     Case **map;
     int nb_stade_different;
     int* tab_nb_habitant_pour_chaque_stade_de_maison;
@@ -98,19 +100,19 @@ void choix_batiment(Bouton bouton[], int x, int y, int *batiment);
 
 /////////      construire batiment       ///////////
 void construire_batiment(Plateau* plateau,int choix_batiment,int souris_sur_le_plateau,int caseX,int caseY,int timer);
-void construire_route(Plateau* plateau,int caseX,int caseY);
+void construire_route(Plateau* plateau,int caseX,int caseY, int timer);
 void construire_maison(Plateau* plateau,int caseX,int caseY,int timer);
 void crer_une_maison(Plateau* plateau,int caseX,int caseY,int timer);
-void construire_chateau_eau(Plateau* plateau,int caseX,int caseY);
+void construire_chateau_eau(Plateau* plateau,int caseX,int caseY, int timer);
 void crer_un_chateau_eau(Plateau* plateau,int caseX,int caseY);
-void construire_centrale_elec(Plateau* plateau,int caseX,int caseY);
+void construire_centrale_elec(Plateau* plateau,int caseX,int caseY, int timer);
 void crer_une_centrale_elec(Plateau *plateau, int caseX, int caseY);
 
 /////////      evolution maison       ///////////
 void evolution_maison(Plateau* plateau,int timer);
 
 /////////      viabilté maison       ///////////
-void verifier_viabilite_pour_les_maison_non_viable(Plateau* plateau);
+void verifier_viabilite_pour_les_maison_non_viable(Plateau* plateau, int timer);
 int verifier_viabilite_maison(Plateau* plateau,int caseX,int caseY);
 void chercher_eau_et_electicite(Plateau* plateau,int caseX,int caseY,int* connecte_a_eau,int* connecte_a_elec);
 
@@ -129,14 +131,18 @@ void chercher_maison_qui_a_besoin_d_elec(Plateau *plateau, int caseX, int caseY,
 /////////      emplacement souris       ///////////
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau);
 
-/////////     timer      ///////////
-void afficher_timer(int timer, ALLEGRO_FONT *roboto);
-
 /////////     dessiner batiment      ///////////
 void dessiner_batiment(Plateau *plateau, int etage);
 void dessiner_etage_0(Plateau *plateau);
 void dessiner_etage_1(Plateau *plateau);
 void dessiner_etage_2(Plateau *plateau);
+
+/////////     afficher timer      ///////////
+void afficher_timer(int timer, ALLEGRO_FONT *roboto);
+
+/////////     efficher argent      ///////////
+void afficher_compte_en_banque(Plateau * plateau, ALLEGRO_FONT *roboto);
+
 
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaSourieX,

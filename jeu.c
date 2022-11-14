@@ -10,6 +10,7 @@ Plateau *creer_plateau(int nb_ligne, int nb_colonne) {
     for (int i = 0; i < nb_ligne; ++i) {
         Newplateau->map[i] = (Case *) malloc(nb_colonne * sizeof(Case));
     }
+    Newplateau->tab_des_prix = (int *) malloc(4 * sizeof(int));
     Newplateau->tab_nb_habitant_pour_chaque_stade_de_maison = (int *) malloc(6 * sizeof(int));
     Newplateau->tab_de_maison = (Maison *) malloc(100 * sizeof(Maison));
     Newplateau->tab_chateau_eau = (Ressource *) malloc(20 * sizeof(Ressource));
@@ -24,6 +25,7 @@ Plateau *lire_plateau() {
     int largeur_case, nb_colonne, nb_ligne;
     int etat;
     int nb_stade, nb_habitant_necesaire;
+    int banque_initial,prix;
 
 
     if (!ifs) {
@@ -53,6 +55,13 @@ Plateau *lire_plateau() {
     for (int i = 0; i < plateau->nb_stade_different; i++) {
         fscanf(ifs, "%d", &nb_habitant_necesaire);
         plateau->tab_nb_habitant_pour_chaque_stade_de_maison[i] = nb_habitant_necesaire;
+    }
+
+    fscanf(ifs, "%d", &banque_initial);
+    plateau->compte_en_banque = banque_initial;
+    for (int i = 0; i < 4; i++) {
+        fscanf(ifs, "%d", &prix);
+        plateau->tab_des_prix[i] = prix;
     }
 
     plateau->nb_maison = 0;
@@ -165,7 +174,7 @@ construire_batiment(Plateau *plateau, int choix_batiment, int souris_sur_le_plat
     if (souris_sur_le_plateau == 1) {
         switch (choix_batiment) {
             case 1: {
-                construire_route(plateau, caseX, caseY);
+                construire_route(plateau, caseX, caseY, timer);
                 break;
             }
             case 2: {
@@ -173,21 +182,22 @@ construire_batiment(Plateau *plateau, int choix_batiment, int souris_sur_le_plat
                 break;
             }
             case 3: {
-                construire_chateau_eau(plateau, caseX, caseY);
+                construire_chateau_eau(plateau, caseX, caseY, timer);
                 break;
             }
             case 4: {
-                construire_centrale_elec(plateau, caseX, caseY);
+                construire_centrale_elec(plateau, caseX, caseY, timer);
                 break;
             }
         }
     }
 }
 
-void construire_route(Plateau *plateau, int caseX, int caseY) {
-    if (plateau->map[caseY][caseX].etat == 0) {
+void construire_route(Plateau *plateau, int caseX, int caseY, int timer) {
+    if (plateau->map[caseY][caseX].etat == 0 && ((plateau->compte_en_banque-plateau->tab_des_prix[1-1])>=0)) {
+        plateau->compte_en_banque-=plateau->tab_des_prix[1-1];
         plateau->map[caseY][caseX].etat = 1;
-        verifier_viabilite_pour_les_maison_non_viable(plateau);
+        verifier_viabilite_pour_les_maison_non_viable(plateau, timer);
     }
 }
 
@@ -200,7 +210,8 @@ void construire_maison(Plateau *plateau, int caseX, int caseY, int timer) {
             }
         }
     }
-    if (nb_case_vide == 3 * 3) {
+    if (nb_case_vide == 3 * 3 && ((plateau->compte_en_banque-plateau->tab_des_prix[2-1])>=0)) {
+        plateau->compte_en_banque-=plateau->tab_des_prix[2-1];
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (i == 0 && j == 0) {
@@ -218,7 +229,6 @@ void construire_maison(Plateau *plateau, int caseX, int caseY, int timer) {
 }
 
 void crer_une_maison(Plateau *plateau, int caseX, int caseY, int timer) {
-    plateau->tab_de_maison[plateau->nb_maison].date_creation = timer;
     plateau->tab_de_maison[plateau->nb_maison].caseY = caseY;
     plateau->tab_de_maison[plateau->nb_maison].caseX = caseX;
     plateau->tab_de_maison[plateau->nb_maison].stade = 0;
@@ -226,9 +236,12 @@ void crer_une_maison(Plateau *plateau, int caseX, int caseY, int timer) {
     plateau->tab_de_maison[plateau->nb_maison].eau_utilise = 0;
     plateau->tab_de_maison[plateau->nb_maison].elec_utilise = 0;
     plateau->tab_de_maison[plateau->nb_maison].viable = verifier_viabilite_maison(plateau, caseX, caseY);
+    if (plateau->tab_de_maison[plateau->nb_maison].viable == 1) {
+        plateau->tab_de_maison[plateau->nb_maison].date_creation = timer;
+    }
 }
 
-void construire_chateau_eau(Plateau *plateau, int caseX, int caseY) {
+void construire_chateau_eau(Plateau *plateau, int caseX, int caseY, int timer) {
     int nb_case_vide = 0;
     for (int i = -2; i <= 3; i++) {
         for (int j = -1; j <= 2; j++) {
@@ -237,7 +250,8 @@ void construire_chateau_eau(Plateau *plateau, int caseX, int caseY) {
             }
         }
     }
-    if (nb_case_vide == 4 * 6) {
+    if (nb_case_vide == 4 * 6 && ((plateau->compte_en_banque-plateau->tab_des_prix[3-1])>=0)) {
+        plateau->compte_en_banque-=plateau->tab_des_prix[3-1];
         for (int i = -2; i <= 3; i++) {
             for (int j = -1; j <= 2; j++) {
                 if (i == 0 && j == 0) {
@@ -251,7 +265,7 @@ void construire_chateau_eau(Plateau *plateau, int caseX, int caseY) {
                 }
             }
         }
-        verifier_viabilite_pour_les_maison_non_viable(plateau);
+        verifier_viabilite_pour_les_maison_non_viable(plateau, timer);
     }
 }
 
@@ -267,7 +281,7 @@ void crer_un_chateau_eau(Plateau *plateau, int caseX, int caseY) {
 
 }
 
-void construire_centrale_elec(Plateau *plateau, int caseX, int caseY) {
+void construire_centrale_elec(Plateau *plateau, int caseX, int caseY, int timer) {
     int nb_case_vide = 0;
     for (int i = -1; i <= 2; i++) {
         for (int j = -2; j <= 3; j++) {
@@ -276,7 +290,8 @@ void construire_centrale_elec(Plateau *plateau, int caseX, int caseY) {
             }
         }
     }
-    if (nb_case_vide == 4 * 6) {
+    if (nb_case_vide == 4 * 6 && ((plateau->compte_en_banque-plateau->tab_des_prix[4-1])>=0)) {
+        plateau->compte_en_banque-=plateau->tab_des_prix[4-1];
         for (int i = -1; i <= 2; i++) {
             for (int j = -2; j <= 3; j++) {
                 if (i == 0 && j == 0) {
@@ -290,7 +305,7 @@ void construire_centrale_elec(Plateau *plateau, int caseX, int caseY) {
                 }
             }
         }
-        verifier_viabilite_pour_les_maison_non_viable(plateau);
+        verifier_viabilite_pour_les_maison_non_viable(plateau, timer);
     }
 }
 
@@ -310,21 +325,25 @@ void crer_une_centrale_elec(Plateau *plateau, int caseX, int caseY) {
 void evolution_maison(Plateau *plateau, int timer) {
     for (int i = 0; i < plateau->nb_maison; i++) {
         int verification_eau_dispo = 0;
-        int verification_elec_dispo=0;
+        int verification_elec_dispo = 0;
         if (plateau->tab_de_maison[i].viable) {
-            if (plateau->tab_de_maison[i].stade < 4 && (timer - plateau->tab_de_maison[i].date_creation) % 15 == 0) {
+            if (plateau->tab_de_maison[i].stade < 4 &&
+                ((timer - plateau->tab_de_maison[i].date_creation) - 15 * (plateau->tab_de_maison[i].stade + 1)) >= 0) {
                 verification_eau_dispo = verifier_si_assez_d_eau_disponible(plateau, i + 1,
-                                                                                 plateau->tab_nb_habitant_pour_chaque_stade_de_maison[
-                                                                                         plateau->tab_de_maison[i].stade +
-                                                                                         1] -
-                                                                                 plateau->tab_de_maison[i].nb_habitant);
-                verification_elec_dispo= verifier_si_assez_d_elec_disponible_dans_une_centrale(plateau,i+1,plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[i].stade +1]);
-                if (verification_eau_dispo == 1 && verification_elec_dispo==1) {
+                                                                            plateau->tab_nb_habitant_pour_chaque_stade_de_maison[
+                                                                                    plateau->tab_de_maison[i].stade +
+                                                                                    1] -
+                                                                            plateau->tab_de_maison[i].nb_habitant);
+                verification_elec_dispo = verifier_si_assez_d_elec_disponible_dans_une_centrale(plateau, i + 1,
+                                                                                                plateau->tab_nb_habitant_pour_chaque_stade_de_maison[
+                                                                                                        plateau->tab_de_maison[i].stade +
+                                                                                                        1]);
+                if (verification_eau_dispo == 1 && verification_elec_dispo == 1) {
                     plateau->tab_de_maison[i].stade++;
                     plateau->tab_de_maison[i].nb_habitant = plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[i].stade];
                     plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat++;
                     alimentation_en_eau(plateau);
-                    //alimentation_en_elec(plateau);
+                    alimentation_en_elec(plateau);
                 }
             }
         }
@@ -333,11 +352,14 @@ void evolution_maison(Plateau *plateau, int timer) {
 
 
 /////////      viabilté maison       ///////////
-void verifier_viabilite_pour_les_maison_non_viable(Plateau *plateau) {
+void verifier_viabilite_pour_les_maison_non_viable(Plateau *plateau, int timer) {
     for (int i = 0; i < plateau->nb_maison; i++) {
         if (plateau->tab_de_maison[i].viable == 0) {
             plateau->tab_de_maison[i].viable = verifier_viabilite_maison(plateau, plateau->tab_de_maison[i].caseX,
                                                                          plateau->tab_de_maison[i].caseY);
+            if (plateau->tab_de_maison[i].viable == 1) {
+                plateau->tab_de_maison[plateau->nb_maison].date_creation = timer;
+            }
         }
     }
 }
@@ -745,7 +767,7 @@ int verifier_si_assez_d_elec_disponible_dans_une_centrale(Plateau *plateau, int 
                 a++;
                 if ((i == -2 || i == 3 || j == -3 || j == 4) && a != 1 && a != 8 && a != 5 * 8 + 1 && a != 6 * 8) {
                     if (plateau->map[plateau->tab_centrale_elec[k].caseY + i][plateau->tab_centrale_elec[k].caseX +
-                                                                            j].etat == 1) {
+                                                                              j].etat == 1) {
                         chercher_une_maison_en_particulier(plateau, plateau->tab_centrale_elec[k].caseX + j,
                                                            plateau->tab_centrale_elec[k].caseY + i, numero_de_la_maison,
                                                            &maison_trouve);
@@ -807,7 +829,7 @@ void alimentation_en_elec(Plateau *plateau) {
                     a++;
                     if ((i == -3 || i == 4 || j == -2 || j == 3) && a != 1 && a != 6 && a != 7 * 6 + 1 && a != 8 * 6) {
                         if (plateau->map[plateau->tab_centrale_elec[k].caseY + i][plateau->tab_centrale_elec[k].caseX +
-                                                                                j].etat == 1) {
+                                                                                  j].etat == 1) {
                             chercher_maison_qui_a_besoin_d_elec(plateau, plateau->tab_centrale_elec[k].caseX + j,
                                                                 plateau->tab_centrale_elec[k].caseY + i,
                                                                 &numero_maison_trouve, k + 1);
@@ -825,8 +847,10 @@ void alimentation_en_elec(Plateau *plateau) {
             }
             if (numero_maison_trouve != 0) {
                 plateau->tab_centrale_elec[k].tab_des_maisons_alimentee[plateau->tab_centrale_elec[k].nb_maison_alimentee].numero_maison = numero_maison_trouve;
-                plateau->tab_centrale_elec[k].tab_des_maisons_alimentee[plateau->tab_centrale_elec[k].nb_maison_alimentee].quantite = plateau->tab_de_maison[numero_maison_trouve - 1].nb_habitant;
-                plateau->tab_de_maison[numero_maison_trouve -1].elec_utilise += plateau->tab_centrale_elec[k].tab_des_maisons_alimentee[plateau->tab_centrale_elec[k].nb_maison_alimentee].quantite;
+                plateau->tab_centrale_elec[k].tab_des_maisons_alimentee[plateau->tab_centrale_elec[k].nb_maison_alimentee].quantite = plateau->tab_de_maison[
+                        numero_maison_trouve - 1].nb_habitant;
+                plateau->tab_de_maison[numero_maison_trouve -
+                                       1].elec_utilise += plateau->tab_centrale_elec[k].tab_des_maisons_alimentee[plateau->tab_centrale_elec[k].nb_maison_alimentee].quantite;
                 plateau->tab_centrale_elec[k].capacite_utilisee += plateau->tab_centrale_elec[k].tab_des_maisons_alimentee[plateau->tab_centrale_elec[k].nb_maison_alimentee].quantite;
                 plateau->tab_centrale_elec[k].nb_maison_alimentee++;
 
@@ -986,12 +1010,6 @@ void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_su
 }
 
 
-/////////     timer      ///////////
-void afficher_timer(int timer, ALLEGRO_FONT *roboto) {
-
-    al_draw_textf(roboto, al_map_rgb(255, 255, 255), 50, 10, ALLEGRO_ALIGN_RIGHT, "%ds", timer);
-}
-
 
 /////////     dessiner batiment      ///////////
 void dessiner_batiment(Plateau *plateau, int etage) {
@@ -1025,7 +1043,7 @@ void dessiner_etage_0(Plateau *plateau) {
                             al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
                                                      plateau->map[i][j].x + plateau->largeur_case,
                                                      plateau->map[i][j].y + plateau->largeur_case,
-                                                     al_map_rgb(0, 50 * stade, 255));
+                                                     al_map_rgb(0, 50 * stade, 0));
                         }
 
                     }
@@ -1095,6 +1113,18 @@ void dessiner_etage_2(Plateau *plateau) {
     }
 }
 
+/////////     afficher timer      ///////////
+void afficher_timer(int timer, ALLEGRO_FONT *roboto) {
+
+    al_draw_textf(roboto, al_map_rgb(255, 255, 255), 50, 10, ALLEGRO_ALIGN_RIGHT, "%ds", timer);
+}
+
+/////////     efficher argent      ///////////
+void afficher_compte_en_banque(Plateau * plateau, ALLEGRO_FONT *roboto) {
+
+    al_draw_textf(roboto, al_map_rgb(255, 255, 255), LARGEUR-100, 10, ALLEGRO_ALIGN_LEFT, "%d euros", plateau->compte_en_banque);
+}
+
 
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLaSourieX,
@@ -1130,6 +1160,7 @@ void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLa
                                  al_map_rgb(0, 255, 0));
     }
     afficher_timer(compteur, roboto);
+    afficher_compte_en_banque(plateau,roboto);
     al_flip_display();
 }
 
