@@ -134,12 +134,19 @@ void dessiner_etage_0(Plateau *plateau);
 void dessiner_etage_1(Plateau *plateau);
 void dessiner_etage_2(Plateau *plateau);
 
+/////////     afficher interface      ///////////
+void afficher_interface(Plateau * plateau, int timer, ALLEGRO_FONT *roboto);
+
 /////////     afficher timer      ///////////
 void afficher_timer(int timer, ALLEGRO_FONT *roboto);
-
-/////////     efficher argent      ///////////
+/////////     afficher argent      ///////////
 void afficher_compte_en_banque(Plateau * plateau, ALLEGRO_FONT *roboto);
-
+/////////     afficher nb habitant      ///////////
+void afficher_nb_habitant(Plateau *plateau, ALLEGRO_FONT *roboto);
+/////////     afficher eau totale    ///////////
+void afficher_rapport_sur_eau_total(Plateau *plateau, ALLEGRO_FONT *roboto);
+/////////     afficher electricite totale    ///////////
+void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *roboto);
 
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaSourieX,
