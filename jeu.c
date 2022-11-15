@@ -132,7 +132,7 @@ void choix_etage(Bouton bouton[], int x, int y, int *etage) {
 
 void initialisation_choix_batiment(Bouton *bouton) {
 
-    bouton->nb_bouton = 4;
+    bouton->nb_bouton = 5;
     bouton[0].largeur = 60;
     bouton[0].hauteur = 60;
     bouton[0].x = 10;
@@ -149,6 +149,10 @@ void initialisation_choix_batiment(Bouton *bouton) {
     bouton[3].hauteur = 60;
     bouton[3].x = 10;
     bouton[3].y = 510;
+    bouton[4].largeur = 60;
+    bouton[4].hauteur = 60;
+    bouton[4].x = 10;
+    bouton[4].y = 580;
 
 }
 
@@ -187,6 +191,10 @@ construire_batiment(Plateau *plateau, int choix_batiment, int souris_sur_le_plat
             }
             case 4: {
                 construire_centrale_elec(plateau, caseX, caseY, timer);
+                break;
+            }
+            case 5: {
+                detruire(plateau, caseX, caseY);
                 break;
             }
         }
@@ -321,7 +329,39 @@ void crer_une_centrale_elec(Plateau *plateau, int caseX, int caseY) {
             20 * sizeof(Maison_alimentee));
 
 }
+/////////      detruire      ///////////
+void detruire(Plateau *plateau, int caseX, int caseY){
+    int batiment_a_detruire=0;
+    batiment_a_detruire=plateau->map[caseY][caseX].etat;
+    switch (batiment_a_detruire) {
+        case 1:{
+            detruire_une_route(plateau,caseX,caseY);
+            break;
+        }
+        case 2:{
+            detruire_une_maison(plateau,caseX,caseY);
+            break;
+        }
+        case 3:{
+            detruire_un_chateau_d_eau(plateau,caseX,caseY);
+            break;
+        }
+        case 4:{
+            detruire_une_centrale_electrique(plateau,caseX,caseY);
+            break;
+        }
 
+    }
+}
+void detruire_une_route(Plateau *plateau, int caseX, int caseY){
+    plateau->map[caseY][caseX].etat=0;
+    for(int i=0;i<plateau->nb_maison;i++){
+        plateau->tab_de_maison[i].viable= verifier_viabilite_maison(plateau,plateau->tab_de_maison[i].caseX,plateau->tab_de_maison[i].caseY);
+    }
+}
+void detruire_une_maison(Plateau *plateau, int caseX, int caseY){}
+void detruire_un_chateau_d_eau(Plateau *plateau, int caseX, int caseY){}
+void detruire_une_centrale_electrique(Plateau *plateau, int caseX, int caseY){}
 /////////      evolution maison       ///////////
 void evolution_maison(Plateau *plateau, int timer) {
     for (int i = 0; i < plateau->nb_maison; i++) {
@@ -1177,7 +1217,7 @@ void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *robo
     al_draw_textf(roboto, al_map_rgb(0, 0, 0), 610 + 240/2, 505, ALLEGRO_ALIGN_CENTER, "%.0f/%.0f",capacite_utilise_en_elec,capacite_totale_en_elec);
     al_draw_rectangle(610, 505, 610 + 240, 535, al_map_rgb(0, 0, 0), 2);
     if(capacite_totale_en_elec!=0){
-        al_draw_filled_rectangle(610, 505, 610 + 240 * (3000 / capacite_totale_en_elec), 535, al_map_rgba(255, 255, 0,30));
+        al_draw_filled_rectangle(610, 505, 610 + 240 * (capacite_utilise_en_elec / capacite_totale_en_elec), 535, al_map_rgba(255, 255, 0,30));
     }
 }
 

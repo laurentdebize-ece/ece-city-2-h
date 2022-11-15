@@ -105,6 +105,13 @@ void crer_un_chateau_eau(Plateau* plateau,int caseX,int caseY);
 void construire_centrale_elec(Plateau* plateau,int caseX,int caseY, int timer);
 void crer_une_centrale_elec(Plateau *plateau, int caseX, int caseY);
 
+/////////      detruire      ///////////
+void detruire(Plateau *plateau, int caseX, int caseY);
+void detruire_une_route(Plateau *plateau, int caseX, int caseY);
+void detruire_une_maison(Plateau *plateau, int caseX, int caseY);
+void detruire_un_chateau_d_eau(Plateau *plateau, int caseX, int caseY);
+void detruire_une_centrale_electrique(Plateau *plateau, int caseX, int caseY);
+
 /////////      evolution maison       ///////////
 void evolution_maison(Plateau* plateau,int timer);
 
