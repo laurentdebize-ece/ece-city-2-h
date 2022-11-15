@@ -129,6 +129,12 @@ int main() {
         free(plateau->tab_chateau_eau[i].tab_des_maisons_alimentee);
     }
     free(plateau->tab_chateau_eau);
+    for(int i=0; i<plateau->nb_centrale_elec;i++){
+        free(plateau->tab_centrale_elec[i].tab_des_maisons_alimentee);
+    }
+    free(plateau->tab_centrale_elec);
+    free(plateau->tab_nb_habitant_pour_chaque_stade_de_maison);
+    free(plateau->tab_des_prix);
     free(plateau);
 
     al_destroy_font(roboto);

@@ -16,11 +16,8 @@
 
 /////   macro
 #define LARGEUR 1024
-#define HAUTEUR 600
+#define HAUTEUR 768
 
-#define NB_COLONNES 45
-#define NB_LIGNES 35
-#define LARGEUR_CASE 20
 
 /////structures
 typedef struct Bouton {

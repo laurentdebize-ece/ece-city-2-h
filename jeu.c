@@ -25,7 +25,7 @@ Plateau *lire_plateau() {
     int largeur_case, nb_colonne, nb_ligne;
     int etat;
     int nb_stade, nb_habitant_necesaire;
-    int banque_initial,prix;
+    int banque_initial, prix;
 
 
     if (!ifs) {
@@ -194,8 +194,8 @@ construire_batiment(Plateau *plateau, int choix_batiment, int souris_sur_le_plat
 }
 
 void construire_route(Plateau *plateau, int caseX, int caseY, int timer) {
-    if (plateau->map[caseY][caseX].etat == 0 && ((plateau->compte_en_banque-plateau->tab_des_prix[1-1])>=0)) {
-        plateau->compte_en_banque-=plateau->tab_des_prix[1-1];
+    if (plateau->map[caseY][caseX].etat == 0 && ((plateau->compte_en_banque - plateau->tab_des_prix[1 - 1]) >= 0)) {
+        plateau->compte_en_banque -= plateau->tab_des_prix[1 - 1];
         plateau->map[caseY][caseX].etat = 1;
         verifier_viabilite_pour_les_maison_non_viable(plateau, timer);
     }
@@ -210,8 +210,8 @@ void construire_maison(Plateau *plateau, int caseX, int caseY, int timer) {
             }
         }
     }
-    if (nb_case_vide == 3 * 3 && ((plateau->compte_en_banque-plateau->tab_des_prix[2-1])>=0)) {
-        plateau->compte_en_banque-=plateau->tab_des_prix[2-1];
+    if (nb_case_vide == 3 * 3 && ((plateau->compte_en_banque - plateau->tab_des_prix[2 - 1]) >= 0)) {
+        plateau->compte_en_banque -= plateau->tab_des_prix[2 - 1];
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (i == 0 && j == 0) {
@@ -229,6 +229,7 @@ void construire_maison(Plateau *plateau, int caseX, int caseY, int timer) {
 }
 
 void crer_une_maison(Plateau *plateau, int caseX, int caseY, int timer) {
+    plateau->tab_de_maison[plateau->nb_maison].date_creation = timer;
     plateau->tab_de_maison[plateau->nb_maison].caseY = caseY;
     plateau->tab_de_maison[plateau->nb_maison].caseX = caseX;
     plateau->tab_de_maison[plateau->nb_maison].stade = 0;
@@ -236,9 +237,6 @@ void crer_une_maison(Plateau *plateau, int caseX, int caseY, int timer) {
     plateau->tab_de_maison[plateau->nb_maison].eau_utilise = 0;
     plateau->tab_de_maison[plateau->nb_maison].elec_utilise = 0;
     plateau->tab_de_maison[plateau->nb_maison].viable = verifier_viabilite_maison(plateau, caseX, caseY);
-    if (plateau->tab_de_maison[plateau->nb_maison].viable == 1) {
-        plateau->tab_de_maison[plateau->nb_maison].date_creation = timer;
-    }
 }
 
 void construire_chateau_eau(Plateau *plateau, int caseX, int caseY, int timer) {
@@ -250,8 +248,8 @@ void construire_chateau_eau(Plateau *plateau, int caseX, int caseY, int timer) {
             }
         }
     }
-    if (nb_case_vide == 4 * 6 && ((plateau->compte_en_banque-plateau->tab_des_prix[3-1])>=0)) {
-        plateau->compte_en_banque-=plateau->tab_des_prix[3-1];
+    if (nb_case_vide == 4 * 6 && ((plateau->compte_en_banque - plateau->tab_des_prix[3 - 1]) >= 0)) {
+        plateau->compte_en_banque -= plateau->tab_des_prix[3 - 1];
         for (int i = -2; i <= 3; i++) {
             for (int j = -1; j <= 2; j++) {
                 if (i == 0 && j == 0) {
@@ -290,8 +288,8 @@ void construire_centrale_elec(Plateau *plateau, int caseX, int caseY, int timer)
             }
         }
     }
-    if (nb_case_vide == 4 * 6 && ((plateau->compte_en_banque-plateau->tab_des_prix[4-1])>=0)) {
-        plateau->compte_en_banque-=plateau->tab_des_prix[4-1];
+    if (nb_case_vide == 4 * 6 && ((plateau->compte_en_banque - plateau->tab_des_prix[4 - 1]) >= 0)) {
+        plateau->compte_en_banque -= plateau->tab_des_prix[4 - 1];
         for (int i = -1; i <= 2; i++) {
             for (int j = -2; j <= 3; j++) {
                 if (i == 0 && j == 0) {
@@ -357,9 +355,9 @@ void verifier_viabilite_pour_les_maison_non_viable(Plateau *plateau, int timer) 
         if (plateau->tab_de_maison[i].viable == 0) {
             plateau->tab_de_maison[i].viable = verifier_viabilite_maison(plateau, plateau->tab_de_maison[i].caseX,
                                                                          plateau->tab_de_maison[i].caseY);
-            if (plateau->tab_de_maison[i].viable == 1) {
+            /*if (plateau->tab_de_maison[i].viable == 1) {
                 plateau->tab_de_maison[plateau->nb_maison].date_creation = timer;
-            }
+            }*/
         }
     }
 }
@@ -824,15 +822,15 @@ void alimentation_en_elec(Plateau *plateau) {
                numero_maison_trouve != 0) {
             int a = 0;
             numero_maison_trouve = 0;
-            for (int i = -3; i <= 4; i++) {
-                for (int j = -2; j <= 3; j++) {
+            for (int i = -2; i <= 3; i++) {
+                for (int j = -3; j <= 4; j++) {
                     a++;
-                    if ((i == -3 || i == 4 || j == -2 || j == 3) && a != 1 && a != 6 && a != 7 * 6 + 1 && a != 8 * 6) {
+                    if ((i == -2 || i == 3 || j == -3 || j == 4) && a != 1 && a != 8 && a != 5 * 8 + 1 && a != 6 * 8) {
                         if (plateau->map[plateau->tab_centrale_elec[k].caseY + i][plateau->tab_centrale_elec[k].caseX +
                                                                                   j].etat == 1) {
                             chercher_maison_qui_a_besoin_d_elec(plateau, plateau->tab_centrale_elec[k].caseX + j,
                                                                 plateau->tab_centrale_elec[k].caseY + i,
-                                                                &numero_maison_trouve, k + 1);
+                                                                &numero_maison_trouve,(plateau->tab_centrale_elec[k].capacite_max-plateau->tab_centrale_elec[k].capacite_utilisee) );
 
                         }
                     }
@@ -861,28 +859,31 @@ void alimentation_en_elec(Plateau *plateau) {
 }
 
 void chercher_maison_qui_a_besoin_d_elec(Plateau *plateau, int caseX, int caseY, int *numero_maison_trouve,
-                                         int num_centrale_elec) {
+                                         int capacite_restante_de_la_centrale) {
 
     if (*numero_maison_trouve == 0) {
         for (int i = 2; i > 0; i--) {
             if (plateau->map[caseY - 1][caseX].etat == i) {
                 if (i == 2) {
-                    if (plateau->map[caseY - 2][caseX].etat > 2000 &&
-                        (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                         plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                        plateau->tab_de_maison[plateau->map[caseY - 2][caseX].etat / 10 - 200 - 1].nb_habitant) {
+                    if (plateau->map[caseY - 2][caseX].etat > 2000 && (plateau->tab_de_maison[plateau->map[caseY - 2][caseX].etat /10 - 200 - 1].nb_habitant > plateau->tab_de_maison[plateau->map[caseY - 2][caseX].etat /10 - 200 - 1].elec_utilise)&&(capacite_restante_de_la_centrale >=
+                                                                       plateau->tab_de_maison[
+                                                                               plateau->map[caseY - 2][caseX].etat /
+                                                                               10 - 200 - 1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY - 2][caseX].etat / 10 - 200;
-                    } else if (plateau->map[caseY - 2][caseX - 1].etat > 2000 &&
-                               (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                                plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                               plateau->tab_de_maison[plateau->map[caseY - 2][caseX - 1].etat / 10 - 200 -
-                                                      1].nb_habitant) {
+                    } else if (plateau->map[caseY - 2][caseX - 1].etat > 2000 && (plateau->tab_de_maison[plateau->map[caseY - 2][caseX-1].etat /10 - 200 - 1].nb_habitant>plateau->tab_de_maison[plateau->map[caseY - 2][caseX-1].etat /10 - 200 - 1].elec_utilise)&&(capacite_restante_de_la_centrale >=
+                                                                                  plateau->tab_de_maison[
+                                                                                          plateau->map[caseY - 2][
+                                                                                                  caseX -
+                                                                                                  1].etat /
+                                                                                          10 - 200 -
+                                                                                          1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY - 2][caseX - 1].etat / 10 - 200;
-                    } else if (plateau->map[caseY - 2][caseX + 1].etat > 2000 &&
-                               (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                                plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                               plateau->tab_de_maison[plateau->map[caseY - 2][caseX + 1].etat / 10 - 200 -
-                                                      1].nb_habitant) {
+                    } else if (plateau->map[caseY - 2][caseX + 1].etat > 2000 && (plateau->tab_de_maison[plateau->map[caseY - 2][caseX+1].etat /10 - 200 - 1].nb_habitant>plateau->tab_de_maison[plateau->map[caseY - 2][caseX+1].etat /10 - 200 - 1].elec_utilise)&&(capacite_restante_de_la_centrale >=
+                                                                                  plateau->tab_de_maison[
+                                                                                          plateau->map[caseY - 2][
+                                                                                                  caseX + 1].etat / 10 -
+                                                                                          200 -
+                                                                                          1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY - 2][caseX + 1].etat / 10 - 200;
                     }
 
@@ -890,28 +891,30 @@ void chercher_maison_qui_a_besoin_d_elec(Plateau *plateau, int caseX, int caseY,
                 if (i == 1) {
                     plateau->map[caseY - 1][caseX].etat = 11;
                     chercher_maison_qui_a_besoin_d_elec(plateau, caseX, caseY - 1, numero_maison_trouve,
-                                                        num_centrale_elec);
+                                                        capacite_restante_de_la_centrale);
                 }
 
             }
             if (plateau->map[caseY + 1][caseX].etat == i) {
                 if (i == 2) {
-                    if (plateau->map[caseY + 2][caseX].etat > 2000 &&
-                        (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                         plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                        plateau->tab_de_maison[plateau->map[caseY + 2][caseX].etat / 10 - 200 - 1].nb_habitant) {
+                    if (plateau->map[caseY + 2][caseX].etat > 2000 &&(plateau->tab_de_maison[plateau->map[caseY + 2][caseX].etat /10 - 200 - 1].nb_habitant>plateau->tab_de_maison[plateau->map[caseY + 2][caseX].etat /10 - 200 - 1].elec_utilise)&& (capacite_restante_de_la_centrale >=
+                                                                       plateau->tab_de_maison[
+                                                                               plateau->map[caseY + 2][caseX].etat /
+                                                                               10 - 200 - 1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY + 2][caseX].etat / 10 - 200;
-                    } else if (plateau->map[caseY + 2][caseX - 1].etat > 2000 &&
-                               (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                                plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                               plateau->tab_de_maison[plateau->map[caseY + 2][caseX - 1].etat / 10 - 200 -
-                                                      1].nb_habitant) {
+                    } else if (plateau->map[caseY + 2][caseX - 1].etat > 2000 && (plateau->tab_de_maison[plateau->map[caseY + 2][caseX-1].etat /10 - 200 - 1].nb_habitant>plateau->tab_de_maison[plateau->map[caseY + 2][caseX-1].etat /10 - 200 - 1].elec_utilise)&&(capacite_restante_de_la_centrale >=
+                                                                                  plateau->tab_de_maison[
+                                                                                          plateau->map[caseY + 2][
+                                                                                                  caseX - 1].etat / 10 -
+                                                                                          200 -
+                                                                                          1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY + 2][caseX - 1].etat / 10 - 200;
-                    } else if (plateau->map[caseY + 2][caseX + 1].etat > 2000 &&
-                               (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                                plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                               plateau->tab_de_maison[plateau->map[caseY + 2][caseX + 1].etat / 10 - 200 -
-                                                      1].nb_habitant) {
+                    } else if (plateau->map[caseY + 2][caseX + 1].etat > 2000 &&(plateau->tab_de_maison[plateau->map[caseY + 2][caseX+1].etat /10 - 200 - 1].nb_habitant>plateau->tab_de_maison[plateau->map[caseY + 2][caseX+1].etat /10 - 200 - 1].elec_utilise)&& (capacite_restante_de_la_centrale >=
+                                                                                  plateau->tab_de_maison[
+                                                                                          plateau->map[caseY + 2][
+                                                                                                  caseX + 1].etat / 10 -
+                                                                                          200 -
+                                                                                          1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY + 2][caseX + 1].etat / 10 - 200;
                     }
 
@@ -919,27 +922,29 @@ void chercher_maison_qui_a_besoin_d_elec(Plateau *plateau, int caseX, int caseY,
                 if (i == 1) {
                     plateau->map[caseY + 1][caseX].etat = 11;
                     chercher_maison_qui_a_besoin_d_elec(plateau, caseX, caseY + 1, numero_maison_trouve,
-                                                        num_centrale_elec);
+                                                        capacite_restante_de_la_centrale);
                 }
             }
             if (plateau->map[caseY][caseX - 1].etat == i) {
                 if (i == 2) {
-                    if (plateau->map[caseY][caseX - 2].etat > 2000 &&
-                        (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                         plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                        plateau->tab_de_maison[plateau->map[caseY][caseX - 2].etat / 10 - 200 - 1].nb_habitant) {
+                    if (plateau->map[caseY][caseX - 2].etat > 2000 && (plateau->tab_de_maison[plateau->map[caseY][caseX-2].etat /10 - 200 - 1].nb_habitant>plateau->tab_de_maison[plateau->map[caseY][caseX-2].etat /10 - 200 - 1].elec_utilise)&&(capacite_restante_de_la_centrale >=
+                                                                       plateau->tab_de_maison[
+                                                                               plateau->map[caseY][caseX - 2].etat /
+                                                                               10 - 200 - 1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY][caseX - 2].etat / 10 - 200;
-                    } else if (plateau->map[caseY - 1][caseX - 2].etat > 2000 &&
-                               (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                                plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                               plateau->tab_de_maison[plateau->map[caseY - 1][caseX - 2].etat / 10 - 200 -
-                                                      1].nb_habitant) {
+                    } else if (plateau->map[caseY - 1][caseX - 2].etat > 2000 && (plateau->tab_de_maison[plateau->map[caseY-1][caseX-2].etat /10 - 200 - 1].nb_habitant>plateau->tab_de_maison[plateau->map[caseY-1][caseX-2].etat /10 - 200 - 1].elec_utilise)&&(capacite_restante_de_la_centrale >=
+                                                                                  plateau->tab_de_maison[
+                                                                                          plateau->map[caseY - 1][
+                                                                                                  caseX - 2].etat / 10 -
+                                                                                          200 -
+                                                                                          1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY - 1][caseX - 2].etat / 10 - 200;
-                    } else if (plateau->map[caseY + 1][caseX - 2].etat > 2000 &&
-                               (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                                plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                               plateau->tab_de_maison[plateau->map[caseY + 1][caseX - 2].etat / 10 - 200 -
-                                                      1].nb_habitant) {
+                    } else if (plateau->map[caseY + 1][caseX - 2].etat > 2000 &&(plateau->tab_de_maison[plateau->map[caseY+1][caseX-2].etat /10 - 200 - 1].nb_habitant>plateau->tab_de_maison[plateau->map[caseY+1][caseX-2].etat /10 - 200 - 1].elec_utilise)&& (capacite_restante_de_la_centrale >=
+                                                                                  plateau->tab_de_maison[
+                                                                                          plateau->map[caseY + 1][
+                                                                                                  caseX - 2].etat / 10 -
+                                                                                          200 -
+                                                                                          1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY + 1][caseX - 2].etat / 10 - 200;
                     }
 
@@ -947,28 +952,30 @@ void chercher_maison_qui_a_besoin_d_elec(Plateau *plateau, int caseX, int caseY,
                 if (i == 1) {
                     plateau->map[caseY][caseX - 1].etat = 11;
                     chercher_maison_qui_a_besoin_d_elec(plateau, caseX - 1, caseY, numero_maison_trouve,
-                                                        num_centrale_elec);
+                                                        capacite_restante_de_la_centrale);
                 }
 
             }
             if (plateau->map[caseY][caseX + 1].etat == i) {
                 if (i == 2) {
-                    if (plateau->map[caseY][caseX + 2].etat > 2000 &&
-                        (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                         plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                        plateau->tab_de_maison[plateau->map[caseY][caseX + 2].etat / 10 - 200 - 1].nb_habitant) {
+                    if (plateau->map[caseY][caseX + 2].etat > 2000 && (plateau->tab_de_maison[plateau->map[caseY][caseX+2].etat /10 - 200 - 1].nb_habitant>plateau->tab_de_maison[plateau->map[caseY][caseX+2].etat /10 - 200 - 1].elec_utilise)&&(capacite_restante_de_la_centrale >=
+                                                                       plateau->tab_de_maison[
+                                                                               plateau->map[caseY][caseX + 2].etat /
+                                                                               10 - 200 - 1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY][caseX + 2].etat / 10 - 200;
-                    } else if (plateau->map[caseY - 1][caseX + 2].etat > 2000 &&
-                               (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                                plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                               plateau->tab_de_maison[plateau->map[caseY - 1][caseX + 2].etat / 10 - 200 -
-                                                      1].nb_habitant) {
+                    } else if (plateau->map[caseY - 1][caseX + 2].etat > 2000 && (plateau->tab_de_maison[plateau->map[caseY-1][caseX+2].etat /10 - 200 - 1].nb_habitant>plateau->tab_de_maison[plateau->map[caseY-1][caseX+2].etat /10 - 200 - 1].elec_utilise)&&(capacite_restante_de_la_centrale >=
+                                                                                  plateau->tab_de_maison[
+                                                                                          plateau->map[caseY - 1][
+                                                                                                  caseX + 2].etat / 10 -
+                                                                                          200 -
+                                                                                          1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY - 1][caseX + 2].etat / 10 - 200;
-                    } else if (plateau->map[caseY + 1][caseX + 2].etat > 2000 &&
-                               (plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_max -
-                                plateau->tab_centrale_elec[num_centrale_elec - 1].capacite_utilisee) >=
-                               plateau->tab_de_maison[plateau->map[caseY + 1][caseX + 2].etat / 10 - 200 -
-                                                      1].nb_habitant) {
+                    } else if (plateau->map[caseY + 1][caseX + 2].etat > 2000 && (plateau->tab_de_maison[plateau->map[caseY+1][caseX+2].etat /10 - 200 - 1].nb_habitant>plateau->tab_de_maison[plateau->map[caseY+1][caseX+2].etat /10 - 200 - 1].elec_utilise)&&(capacite_restante_de_la_centrale >=
+                                                                                  plateau->tab_de_maison[
+                                                                                          plateau->map[caseY + 1][
+                                                                                                  caseX + 2].etat / 10 -
+                                                                                          200 -
+                                                                                          1].nb_habitant)) {
                         *numero_maison_trouve = plateau->map[caseY + 1][caseX + 2].etat / 10 - 200;
                     }
 
@@ -976,7 +983,7 @@ void chercher_maison_qui_a_besoin_d_elec(Plateau *plateau, int caseX, int caseY,
                 if (i == 1) {
                     plateau->map[caseY][caseX + 1].etat = 11;
                     chercher_maison_qui_a_besoin_d_elec(plateau, caseX + 1, caseY, numero_maison_trouve,
-                                                        num_centrale_elec);
+                                                        capacite_restante_de_la_centrale);
                 }
             }
         }
@@ -1008,7 +1015,6 @@ void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_su
     }
 
 }
-
 
 
 /////////     dessiner batiment      ///////////
@@ -1120,9 +1126,9 @@ void afficher_timer(int timer, ALLEGRO_FONT *roboto) {
 }
 
 /////////     efficher argent      ///////////
-void afficher_compte_en_banque(Plateau * plateau, ALLEGRO_FONT *roboto) {
-
-    al_draw_textf(roboto, al_map_rgb(255, 255, 255), LARGEUR-100, 10, ALLEGRO_ALIGN_LEFT, "%d euros", plateau->compte_en_banque);
+void afficher_compte_en_banque(Plateau *plateau, ALLEGRO_FONT *roboto) {
+    al_draw_textf(roboto, al_map_rgb(255, 255, 255), LARGEUR - 100, 10, ALLEGRO_ALIGN_LEFT, "%d euros",
+                  plateau->compte_en_banque);
 }
 
 
@@ -1160,7 +1166,7 @@ void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLa
                                  al_map_rgb(0, 255, 0));
     }
     afficher_timer(compteur, roboto);
-    afficher_compte_en_banque(plateau,roboto);
+    afficher_compte_en_banque(plateau, roboto);
     al_flip_display();
 }
 
