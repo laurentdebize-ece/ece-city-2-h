@@ -55,6 +55,8 @@ typedef  struct Ressource {
     int type;
     int largeur,hauteur;
     int caseX, caseY;
+    int caseX_haut_gauche,caseY_haut_gauche;
+    int caseX_droite_bas, caseY_droite_bas;
     int capacite_max;
     int capacite_utilisee;
     int nb_maison_alimentee;
