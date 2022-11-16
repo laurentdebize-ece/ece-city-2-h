@@ -1,7 +1,5 @@
 #ifndef ECE_CITY_2_H_JEU_H
 #define ECE_CITY_2_H_JEU_H
-
-
 /////  bibliothèque
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,6 +15,7 @@
 /////   macro
 #define LARGEUR 1024
 #define HAUTEUR 768
+
 
 
 /////structures
@@ -80,6 +79,8 @@ typedef struct Plateau {
     int nb_centrale_elec;
     Ressource* tab_centrale_elec;
 } Plateau;
+
+
 
 
 
@@ -164,7 +165,7 @@ void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *robo
 
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaSourieX,
-                   int caseDeLaSourieY,int souris_sur_le_plateaux,Bouton bouton[],Bouton bouton_batiment[],ALLEGRO_FONT *roboto);
+                   int caseDeLaSourieY,int souris_sur_le_plateaux,Bouton bouton[],Bouton bouton_batiment[],ALLEGRO_FONT *roboto, ALLEGRO_BITMAP* map);
 
 /////////     sauvegarde jeu     ///////////
 void sauvegarde_jeu(Plateau *plateau);

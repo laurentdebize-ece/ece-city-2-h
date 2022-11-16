@@ -4,7 +4,7 @@
 int main() {
     /// PARTE ALLEGRO
     srand(time(NULL));
-    bool end = FALSE;
+    bool end = false;
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *queue = NULL;
     ALLEGRO_EVENT event = {0};
@@ -36,10 +36,16 @@ int main() {
     assert(al_install_audio());
     assert(al_init_acodec_addon());
 
+
+    ALLEGRO_BITMAP* map = al_load_bitmap("../image/map.png");
+
+
+
+
     display = al_create_display(LARGEUR, HAUTEUR);
     assert(display != NULL);
     al_set_window_title(display, "ECE-city");
-    al_set_window_position(display, 0, 0);
+   //al_set_window_position(display, 0, 0);
     timer = al_create_timer(1.0/10.0);
     if (timer == NULL) {
         al_destroy_display(display);
@@ -79,7 +85,7 @@ int main() {
 
         switch (event.type) {
             case ALLEGRO_EVENT_DISPLAY_CLOSE : {
-                end = TRUE;
+                end = true;
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_AXES : {
@@ -109,8 +115,9 @@ int main() {
 
         }
         plateau->temps_en_seconde=compteur_temps/10;
+
         dessiner_tout(plateau,etage,choix_batiment_a_construire, caseDeLaSourieX,
-                      caseDeLaSourieY,souris_sur_le_plateau,bouton_etage,bouton_choix_batiment,roboto);
+                      caseDeLaSourieY,souris_sur_le_plateau,bouton_etage,bouton_choix_batiment,roboto,map);
 
     }
     sauvegarde_jeu(plateau);

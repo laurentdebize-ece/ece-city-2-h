@@ -1,5 +1,7 @@
 #include "jeu.h"
 
+
+
 /////////      plateau        ///////////
 
 Plateau *creer_plateau(int nb_ligne, int nb_colonne) {
@@ -114,6 +116,7 @@ void initialiser_plateau(Plateau *plateau) {
 }
 
 void dessiner_plateau(Plateau *plateau) {
+
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
             al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
@@ -1497,8 +1500,8 @@ void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *robo
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLaSourieX,
                    int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[], Bouton bouton_batiment[],
-                   ALLEGRO_FONT *roboto) {
-    al_clear_to_color(al_map_rgb_f(0, 0, 0));
+                   ALLEGRO_FONT *roboto, ALLEGRO_BITMAP* map) {
+    al_draw_bitmap(map, 0, 0, NULL);
     dessiner_plateau(plateau);
     dessiner_batiment(plateau, etage);
     ///dessine les boutons pour les etages
