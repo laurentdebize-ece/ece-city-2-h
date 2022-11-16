@@ -57,11 +57,12 @@ int main() {
         exit(EXIT_FAILURE);
     }
     /// images ////
-    ALLEGRO_BITMAP* map = al_load_bitmap("../image/map.png");
-    ALLEGRO_BITMAP* caseHerbe = al_load_bitmap("../image/herbe.png");
+    ALLEGRO_BITMAP *map = al_load_bitmap("../image/map.png");
+    ALLEGRO_BITMAP *caseHerbe = al_load_bitmap("../image/herbe.png");
 
     /// Ecriture
     roboto = al_load_ttf_font("../fonts/roboto/RobotoCondensed-Regular.ttf", 30, 0);
+    ALLEGRO_FONT *robotoLabelBouton = al_load_ttf_font("../fonts/roboto/RobotoCondensed-Regular.ttf", 20, 0);
     if (!roboto) {
         al_destroy_display(display);
         al_destroy_timer(timer);
@@ -98,9 +99,10 @@ int main() {
             }
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN : {
                 choix_etage(bouton_etage, event.mouse.x, event.mouse.y, &etage);
-                if (etage==0){
+                if (etage == 0) {
                     choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y, &choix_batiment_a_construire);
-                    construire_batiment(plateau,choix_batiment_a_construire,sourisSurLePlateau,caseDeLaSourisX,caseDeLaSourisY);
+                    construire_batiment(plateau, choix_batiment_a_construire, sourisSurLePlateau, caseDeLaSourisX,
+                                        caseDeLaSourisY);
                 }
                 break;
             }
@@ -117,7 +119,8 @@ int main() {
         }
         plateau->temps_en_seconde = compteur_temps / 10;
         dessiner_tout(plateau, etage, choix_batiment_a_construire, caseDeLaSourisX,
-                      caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment, roboto,map, caseHerbe);
+                      caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment, roboto,
+                      robotoLabelBouton, map, caseHerbe);
     }
     sauvegarde_jeu(plateau);
 
