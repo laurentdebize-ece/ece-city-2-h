@@ -19,7 +19,6 @@ int main() {
     int etage=0;
     int choix_batiment_a_construire=0;
     int compteur_temps=0;
-    int temps_en_seconde;
 
 
     Plateau * plateau;
@@ -69,7 +68,8 @@ int main() {
 
     /// debut du jeux
 
-    plateau = lire_plateau();
+    plateau = lire_plateau(0);
+    compteur_temps=plateau->temps_en_seconde*10;
     initialiser_plateau(plateau);
     initialisation_choix_etage(bouton_etage);
     initialisation_choix_batiment(bouton_choix_batiment);
@@ -92,15 +92,15 @@ int main() {
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN : {
                 choix_etage(bouton_etage, event.mouse.x, event.mouse.y, &etage);
                 choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y, &choix_batiment_a_construire);
-                construire_batiment(plateau,choix_batiment_a_construire,souris_sur_le_plateau,caseDeLaSourieX,caseDeLaSourieY,temps_en_seconde);
+                construire_batiment(plateau,choix_batiment_a_construire,souris_sur_le_plateau,caseDeLaSourieX,caseDeLaSourieY);
                 break;
             }
             case ALLEGRO_EVENT_TIMER : {
-                if(temps_en_seconde*10==compteur_temps){
-                    evolution_maison(plateau,temps_en_seconde);
+                if(plateau->temps_en_seconde*10==compteur_temps){
+                    evolution_maison(plateau);
 
                 }
-                if(temps_en_seconde%15==0){
+                if(plateau->temps_en_seconde%15==0){
                     int gain=0;
                     for(int i=0;i<plateau->nb_maison;i++){
                         gain+=(plateau->tab_de_maison[i].nb_habitant*10);
@@ -113,9 +113,9 @@ int main() {
             }
 
         }
-        temps_en_seconde=compteur_temps/10;
+        plateau->temps_en_seconde=compteur_temps/10;
         dessiner_tout(plateau,etage,choix_batiment_a_construire, caseDeLaSourieX,
-                      caseDeLaSourieY,souris_sur_le_plateau,bouton_etage,bouton_choix_batiment,roboto,temps_en_seconde);
+                      caseDeLaSourieY,souris_sur_le_plateau,bouton_etage,bouton_choix_batiment,roboto);
 
     }
     sauvegarde_jeu(plateau);

@@ -67,6 +67,7 @@ typedef struct Plateau {
     int largeur_case;
     int nb_ligne;
     int nb_colonne;
+    int temps_en_seconde;
     int compte_en_banque;
     int *tab_des_prix;
     Case **map;
@@ -84,7 +85,8 @@ typedef struct Plateau {
 
 /////////      plateau        ///////////
 Plateau *creer_plateau(int nb_ligne, int nb_colonne);
-Plateau *lire_plateau();
+Plateau *lire_plateau(int charger_sauvegarde);
+void lire_prix_et_nb_habitant(Plateau* plateau);
 void initialiser_plateau(Plateau *plateau);
 void dessiner_plateau(Plateau *plateau);
 
@@ -98,13 +100,13 @@ void initialisation_choix_batiment(Bouton *bouton);
 void choix_batiment(Bouton bouton[], int x, int y, int *batiment);
 
 /////////      construire batiment       ///////////
-void construire_batiment(Plateau* plateau,int choix_batiment,int souris_sur_le_plateau,int caseX,int caseY,int timer);
-void construire_route(Plateau* plateau,int caseX,int caseY, int timer);
-void construire_maison(Plateau* plateau,int caseX,int caseY,int timer);
-void crer_une_maison(Plateau* plateau,int caseX,int caseY,int timer);
-void construire_chateau_eau(Plateau* plateau,int caseX,int caseY, int timer);
+void construire_batiment(Plateau* plateau,int choix_batiment,int souris_sur_le_plateau,int caseX,int caseY);
+void construire_route(Plateau* plateau,int caseX,int caseY);
+void construire_maison(Plateau* plateau,int caseX,int caseY);
+void crer_une_maison(Plateau* plateau,int caseX,int caseY);
+void construire_chateau_eau(Plateau* plateau,int caseX,int caseY);
 void crer_un_chateau_eau(Plateau* plateau,int caseX,int caseY);
-void construire_centrale_elec(Plateau* plateau,int caseX,int caseY, int timer);
+void construire_centrale_elec(Plateau* plateau,int caseX,int caseY);
 void crer_une_centrale_elec(Plateau *plateau, int caseX, int caseY);
 
 /////////      detruire      ///////////
@@ -115,10 +117,10 @@ void detruire_un_chateau_d_eau(Plateau *plateau, int caseX, int caseY);
 void detruire_une_centrale_electrique(Plateau *plateau, int caseX, int caseY);
 
 /////////      evolution maison       ///////////
-void evolution_maison(Plateau* plateau,int timer);
+void evolution_maison(Plateau* plateau);
 
 /////////      viabilté maison       ///////////
-void verifier_viabilite_pour_les_maison_non_viable(Plateau* plateau, int timer);
+void verifier_viabilite_pour_les_maison_non_viable(Plateau* plateau);
 int verifier_viabilite_maison(Plateau* plateau,int caseX,int caseY);
 void chercher_eau_et_electicite(Plateau* plateau,int caseX,int caseY,int* connecte_a_eau,int* connecte_a_elec);
 
@@ -144,7 +146,7 @@ void dessiner_etage_1(Plateau *plateau);
 void dessiner_etage_2(Plateau *plateau);
 
 /////////     afficher interface      ///////////
-void afficher_interface(Plateau * plateau, int timer, ALLEGRO_FONT *roboto);
+void afficher_interface(Plateau * plateau,  ALLEGRO_FONT *roboto);
 
 /////////     afficher timer      ///////////
 void afficher_timer(int timer, ALLEGRO_FONT *roboto);
@@ -159,10 +161,11 @@ void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *robo
 
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaSourieX,
-                   int caseDeLaSourieY,int souris_sur_le_plateaux,Bouton bouton[],Bouton bouton_batiment[],ALLEGRO_FONT *roboto,int compteur);
+                   int caseDeLaSourieY,int souris_sur_le_plateaux,Bouton bouton[],Bouton bouton_batiment[],ALLEGRO_FONT *roboto);
 
 /////////     sauvegarde jeu     ///////////
 void sauvegarde_jeu(Plateau *plateau);
+void charger_la_sauvegarde(Plateau* plateau);
 
 
 #endif //ECE_CITY_2_H_JEU_H
