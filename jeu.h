@@ -91,7 +91,7 @@ Plateau *creer_plateau(int nb_ligne, int nb_colonne);
 Plateau *lire_plateau(int charger_sauvegarde);
 void lire_prix_et_nb_habitant(Plateau* plateau);
 void initialiser_plateau(Plateau *plateau);
-void dessiner_plateau(Plateau *plateau);
+void dessiner_plateau(Plateau *plateau, ALLEGRO_BITMAP* herbe);
 
 
 /////////      choix etage        ///////////
@@ -167,8 +167,7 @@ void afficher_rapport_sur_eau_total(Plateau *plateau, ALLEGRO_FONT *roboto);
 void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *roboto);
 
 /////////     dessiner tout     ///////////
-void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaSourieX,
-                   int caseDeLaSourieY,int souris_sur_le_plateaux,Bouton bouton[],Bouton bouton_batiment[],ALLEGRO_FONT *roboto, ALLEGRO_BITMAP* map);
+void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaSourieX,int caseDeLaSourieY,int souris_sur_le_plateaux,Bouton bouton[],Bouton bouton_batiment[],ALLEGRO_FONT *roboto, ALLEGRO_BITMAP* map, ALLEGRO_BITMAP* herbe);
 
 /////////     sauvegarde jeu     ///////////
 void sauvegarde_jeu(Plateau *plateau);

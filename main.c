@@ -4,7 +4,7 @@
 int main() {
     /// Partie Allegro
     srand(time(NULL));
-    bool end = FALSE;
+    bool end = false;
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *queue = NULL;
     ALLEGRO_EVENT event = {0};
@@ -39,7 +39,7 @@ int main() {
     display = al_create_display(LARGEUR, HAUTEUR);
     assert(display != NULL);
     al_set_window_title(display, "ECE City");
-    al_set_window_position(display, 0, 0);
+    //al_set_window_position(display, 0, 0);
 
     // Timer
     timer = al_create_timer(1.0 / 10.0);
@@ -56,8 +56,9 @@ int main() {
         al_destroy_timer(timer);
         exit(EXIT_FAILURE);
     }
-
+    /// images ////
     ALLEGRO_BITMAP* map = al_load_bitmap("../image/map.png");
+    ALLEGRO_BITMAP* caseHerbe = al_load_bitmap("../image/herbe.png");
 
     /// Ecriture
     roboto = al_load_ttf_font("../fonts/roboto/RobotoCondensed-Regular.ttf", 30, 0);
@@ -85,7 +86,7 @@ int main() {
         switch (event.type) {
 
             case ALLEGRO_EVENT_DISPLAY_CLOSE : {
-                end = TRUE;
+                end = true;
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_AXES : {
@@ -116,7 +117,7 @@ int main() {
         }
         plateau->temps_en_seconde = compteur_temps / 10;
         dessiner_tout(plateau, etage, choix_batiment_a_construire, caseDeLaSourisX,
-                      caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment, roboto,map);
+                      caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment, roboto,map, caseHerbe);
     }
     sauvegarde_jeu(plateau);
 

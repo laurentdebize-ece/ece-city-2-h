@@ -115,13 +115,13 @@ void initialiser_plateau(Plateau *plateau) {
     }
 }
 
-void dessiner_plateau(Plateau *plateau) {
+void dessiner_plateau(Plateau *plateau, ALLEGRO_BITMAP* herbe) {
 
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
             al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
                               plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 255, 255), 1);
-
+            al_draw_bitmap(herbe,plateau->map[i][j].x,plateau->map[i][j].y, NULL);
         }
     }
 }
@@ -1331,6 +1331,7 @@ void dessiner_etage_0(Plateau *plateau) {
                 al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
                                   plateau->map[i][j].x + plateau->largeur_case,
                                   plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 255, 255), 1);
+
             }
             if (plateau->map[i][j].etat == 1) {
                 al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
@@ -1390,6 +1391,7 @@ void dessiner_etage_1(Plateau *plateau) {
                 al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
                                   plateau->map[i][j].x + plateau->largeur_case,
                                   plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 255, 255), 1);
+
             }
             if (plateau->map[i][j].etat == 1) {
                 al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
@@ -1507,9 +1509,9 @@ void dessinerBoutonEtage(Bouton bouton) {
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLaSourieX,
                    int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[], Bouton bouton_batiment[],
-                   ALLEGRO_FONT *roboto, ALLEGRO_BITMAP* map) {
+                   ALLEGRO_FONT *roboto, ALLEGRO_BITMAP* map, ALLEGRO_BITMAP* herbe) {
     al_draw_bitmap(map, 0, 0, 0);
-    dessiner_plateau(plateau);
+    dessiner_plateau(plateau, herbe);
     dessiner_batiment(plateau, etage);
     ///dessine les boutons pour les etages
     for (int i = 0; i < bouton_etage->nb_bouton; i++) {
