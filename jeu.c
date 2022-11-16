@@ -1508,7 +1508,7 @@ void dessinerBoutonEtage(Bouton bouton) {
 void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLaSourieX,
                    int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[], Bouton bouton_batiment[],
                    ALLEGRO_FONT *roboto, ALLEGRO_BITMAP* map) {
-    al_draw_bitmap(map, 0, 0, NULL);
+    al_draw_bitmap(map, 0, 0, 0);
     dessiner_plateau(plateau);
     dessiner_batiment(plateau, etage);
     ///dessine les boutons pour les etages

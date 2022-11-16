@@ -57,6 +57,8 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
+    ALLEGRO_BITMAP* map = al_load_bitmap("../image/map.png");
+
     /// Ecriture
     roboto = al_load_ttf_font("../fonts/roboto/RobotoCondensed-Regular.ttf", 30, 0);
     if (!roboto) {
@@ -97,7 +99,7 @@ int main() {
                 choix_etage(bouton_etage, event.mouse.x, event.mouse.y, &etage);
                 if (etage==0){
                     choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y, &choix_batiment_a_construire);
-                    construire_batiment(plateau,choix_batiment_a_construire,souris_sur_le_plateau,caseDeLaSourieX,caseDeLaSourieY);
+                    construire_batiment(plateau,choix_batiment_a_construire,sourisSurLePlateau,caseDeLaSourisX,caseDeLaSourisY);
                 }
                 break;
             }
@@ -114,7 +116,7 @@ int main() {
         }
         plateau->temps_en_seconde = compteur_temps / 10;
         dessiner_tout(plateau, etage, choix_batiment_a_construire, caseDeLaSourisX,
-                      caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment, roboto);
+                      caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment, roboto,map);
     }
     sauvegarde_jeu(plateau);
 
