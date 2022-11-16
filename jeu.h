@@ -167,6 +167,7 @@ void gain_d_argent(Plateau *plateau);
 
 /////////      emplacement souris       ///////////
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_sur_le_plateaux, Plateau *plateau);
+void chercherCaseSouris(int x, int y, int *caseX, int *caseY, Plateau *plateau, int *sourisSurLePlateau);
 
 void afficherCaseSouris(int mouseX, int mouseY, Plateau *plateau);
 

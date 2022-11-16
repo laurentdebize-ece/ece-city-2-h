@@ -1302,28 +1302,18 @@ void gain_d_argent(Plateau *plateau) {
 }
 
 /////////      emplacement souris       ///////////
-void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_sur_le_plateau, Plateau *plateau) {
-    // ne pas oublie de bien commencer à l'origine du tableau
-    int a = 0;
-    for (int i = 0; i < plateau->nb_ligne; i++) {
-        for (int j = 0; j < plateau->nb_colonne; j++) {
-            if (((x - plateau->map[0][0].x) >= j * plateau->largeur_case &&
-                 (x - plateau->map[0][0].x) <= (j + 1) * plateau->largeur_case) &&
-                ((y - plateau->map[0][0].y) >= i * plateau->largeur_case &&
-                 (y - plateau->map[0][0].y) < (i + 1) * plateau->largeur_case)) {
-                *caseX = j;
-                *caseY = i;
-            } else {
-                a++;
-            }
-        }
-    }
-    if (a == plateau->nb_ligne * plateau->nb_colonne) {
-        *souris_sur_le_plateau = 0;
-    } else {
-        *souris_sur_le_plateau = 1;
-    }
+void chercherCaseSouris(int x, int y, int *caseX, int *caseY, Plateau *plateau, int *sourisSurLePlateau) {
+    int offsetX = LARGEUR - (plateau->nb_colonne * plateau->largeur_case);
+    int offsetY = HAUTEUR - (plateau->nb_ligne * plateau->largeur_case);
 
+    *caseX = (x - offsetX) / 20;
+    *caseY = (y - offsetY) / 20;
+
+    if (x >= offsetX && y >= offsetY) {
+        *sourisSurLePlateau = 1;
+    } else {
+        *sourisSurLePlateau = 0;
+    }
 }
 
 

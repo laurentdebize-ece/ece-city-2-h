@@ -92,8 +92,8 @@ int main() {
             }
             case ALLEGRO_EVENT_MOUSE_AXES : {
 
-                chercherCaseDeLaSourie(event.mouse.x, event.mouse.y, &caseDeLaSourisX,
-                                       &caseDeLaSourisY, &sourisSurLePlateau, plateau);
+                chercherCaseSouris(event.mouse.x, event.mouse.y, &caseDeLaSourisX,
+                                   &caseDeLaSourisY, plateau, &sourisSurLePlateau);
 
                 break;
             }
