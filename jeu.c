@@ -21,10 +21,10 @@ Plateau *creer_plateau(int nb_ligne, int nb_colonne) {
 }
 
 Plateau *lire_plateau(int charger_sauvegarde) {
-    FILE *ifs = NULL;
-    if (charger_sauvegarde == 1) {
+    FILE *ifs=NULL;
+    if(charger_sauvegarde==1){
         ifs = fopen("../sauvegarde", "r");
-    } else {
+    }else{
         ifs = fopen("../map", "r");
     }
 
@@ -69,14 +69,13 @@ Plateau *lire_plateau(int charger_sauvegarde) {
 
     fclose(ifs);
     lire_prix_et_nb_habitant(plateau);
-    if (charger_sauvegarde == 1) {
+    if(charger_sauvegarde==1){
         charger_la_sauvegarde(plateau);
     }
 
     return plateau;
 }
-
-void lire_prix_et_nb_habitant(Plateau *plateau) {
+void lire_prix_et_nb_habitant(Plateau* plateau){
     FILE *ifs = fopen("../argent_et_nb_habitant", "r");
     int nb_stade, nb_habitant_necesaire;
     int prix;
@@ -116,7 +115,7 @@ void initialiser_plateau(Plateau *plateau) {
     }
 }
 
-void dessiner_plateau(Plateau *plateau, ALLEGRO_BITMAP *herbe) {
+void dessiner_plateau(Plateau *plateau, ALLEGRO_BITMAP* herbe) {
 
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
@@ -131,12 +130,13 @@ void dessiner_plateau(Plateau *plateau, ALLEGRO_BITMAP *herbe) {
 
 void initialisation_choix_etage(Bouton *bouton) {
     for (int i = 0; i < 3; i++) {
-        bouton[i].largeur = 90;
-        bouton[i].hauteur = 40;
+        bouton[i].largeur = 100;
+        bouton[i].hauteur = 50;
+
     }
 
     bouton->nb_bouton = 3;
-    bouton[0].x = 120;
+    bouton[0].x = 10;
     bouton[0].y = 40;
 
     bouton[0].label = "Etage 0";
@@ -271,8 +271,8 @@ void crer_une_maison(Plateau *plateau, int caseX, int caseY) {
     //plateau->tab_de_maison[plateau->nb_maison].date_creation = timer;
     plateau->tab_de_maison[plateau->nb_maison].caseY = caseY;
     plateau->tab_de_maison[plateau->nb_maison].caseX = caseX;
-    plateau->tab_de_maison[plateau->nb_maison].largeur = plateau->largeur_case * 3;
-    plateau->tab_de_maison[plateau->nb_maison].hauteur = plateau->largeur_case * 3;
+    plateau->tab_de_maison[plateau->nb_maison].largeur=plateau->largeur_case*3;
+    plateau->tab_de_maison[plateau->nb_maison].hauteur=plateau->largeur_case*3;
     plateau->tab_de_maison[plateau->nb_maison].stade = 0;
     plateau->tab_de_maison[plateau->nb_maison].nb_habitant = 0;
     plateau->tab_de_maison[plateau->nb_maison].eau_utilise = 0;
@@ -313,14 +313,14 @@ void construire_chateau_eau(Plateau *plateau, int caseX, int caseY) {
 
 void crer_un_chateau_eau(Plateau *plateau, int caseX, int caseY) {
     plateau->tab_chateau_eau[plateau->nb_chateau_eau].type = 1;
-    plateau->tab_chateau_eau[plateau->nb_chateau_eau].largeur = plateau->largeur_case * 4;
-    plateau->tab_chateau_eau[plateau->nb_chateau_eau].hauteur = plateau->largeur_case * 6;
+    plateau->tab_chateau_eau[plateau->nb_chateau_eau].largeur=plateau->largeur_case*4;
+    plateau->tab_chateau_eau[plateau->nb_chateau_eau].hauteur=plateau->largeur_case*6;
     plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseY = caseY;
     plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseX = caseX;
-    plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseX_haut_gauche = caseX - 1;
-    plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseY_haut_gauche = caseY - 2;
-    plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseX_droite_bas = caseX + 2;
-    plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseY_droite_bas = caseY + 3;
+    plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseX_haut_gauche = caseX-1;
+    plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseY_haut_gauche = caseY-2;
+    plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseX_droite_bas = caseX+2;
+    plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseY_droite_bas = caseY+3;
     plateau->tab_chateau_eau[plateau->nb_chateau_eau].capacite_max = 5000;
     plateau->tab_chateau_eau[plateau->nb_chateau_eau].capacite_utilisee = 0;
     plateau->tab_chateau_eau[plateau->nb_chateau_eau].nb_maison_alimentee = 0;
@@ -345,7 +345,7 @@ void construire_centrale_elec(Plateau *plateau, int caseX, int caseY) {
         for (int i = -1; i <= 2; i++) {
             for (int j = -2; j <= 3; j++) {
                 if (i == 0 && j == 0) {
-                    plateau->map[caseY + i][caseX + j].etat = 400 + plateau->nb_centrale_elec;
+                    plateau->map[caseY + i][caseX + j].etat = 400+plateau->nb_centrale_elec;
 
                 } else {
                     plateau->map[caseY + i][caseX + j].etat = 4;
@@ -359,14 +359,14 @@ void construire_centrale_elec(Plateau *plateau, int caseX, int caseY) {
 
 void crer_une_centrale_elec(Plateau *plateau, int caseX, int caseY) {
     plateau->tab_centrale_elec[plateau->nb_centrale_elec].type = 2;
-    plateau->tab_centrale_elec[plateau->nb_centrale_elec].largeur = plateau->largeur_case * 6;
-    plateau->tab_centrale_elec[plateau->nb_centrale_elec].hauteur = plateau->largeur_case * 4;
+    plateau->tab_centrale_elec[plateau->nb_centrale_elec].largeur=plateau->largeur_case*6;
+    plateau->tab_centrale_elec[plateau->nb_centrale_elec].hauteur=plateau->largeur_case*4;
     plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseY = caseY;
     plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseX = caseX;
-    plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseX_haut_gauche = caseX - 2;
-    plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseY_haut_gauche = caseY - 1;
-    plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseX_droite_bas = caseX + 3;
-    plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseY_droite_bas = caseY + 2;
+    plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseX_haut_gauche = caseX-2;
+    plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseY_haut_gauche = caseY-1;
+    plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseX_droite_bas = caseX+3;
+    plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseY_droite_bas = caseY+2;
     plateau->tab_centrale_elec[plateau->nb_centrale_elec].capacite_max = 5000;
     plateau->tab_centrale_elec[plateau->nb_centrale_elec].capacite_utilisee = 0;
     plateau->tab_centrale_elec[plateau->nb_centrale_elec].nb_maison_alimentee = 0;
@@ -380,11 +380,11 @@ void detruire(Plateau *plateau, int caseX, int caseY) {
     int batiment_a_detruire = 0;
     batiment_a_detruire = plateau->map[caseY][caseX].etat;
     if (plateau->map[caseY][caseX].etat > 2000) {
-        batiment_a_detruire = 2;
-    } else if (plateau->map[caseY][caseX].etat > 300 && plateau->map[caseY][caseX].etat < 400) {
-        batiment_a_detruire = 3;
-    } else if (plateau->map[caseY][caseX].etat > 400 && plateau->map[caseY][caseX].etat < 500) {
-        batiment_a_detruire = 4;
+        batiment_a_detruire=2;
+    }else if (plateau->map[caseY][caseX].etat > 300 && plateau->map[caseY][caseX].etat < 400) {
+        batiment_a_detruire=3;
+    }else if (plateau->map[caseY][caseX].etat > 400 && plateau->map[caseY][caseX].etat < 500) {
+        batiment_a_detruire=4;
     }
     switch (batiment_a_detruire) {
         case 1: {
@@ -413,7 +413,7 @@ void detruire_une_route(Plateau *plateau, int caseX, int caseY) {
         if (plateau->tab_de_maison[i].viable == 1) {
             plateau->tab_de_maison[i].viable = verifier_viabilite_maison(plateau, plateau->tab_de_maison[i].caseX,
                                                                          plateau->tab_de_maison[i].caseY);
-            if (plateau->tab_de_maison[i].viable == 0 && plateau->tab_de_maison[i].stade > 0) {
+            if (plateau->tab_de_maison[i].viable == 0 && plateau->tab_de_maison[i].stade>0) {
                 plateau->tab_de_maison[i].stade = 5;
                 plateau->tab_de_maison[i].nb_habitant = plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[i].stade];
                 plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat = (
@@ -455,34 +455,30 @@ void detruire_un_chateau_d_eau(Plateau *plateau, int caseX, int caseY) {
     int centre_du_chateau_d_eau_en_X = 0;
     int centre_du_chateau_d_eau_en_Y = 0;
     if (plateau->map[caseY][caseX].etat < 300) {
-        for (int i = 0; i < plateau->nb_chateau_eau; i++) {
-            if (caseX >= plateau->tab_chateau_eau[i].caseX_haut_gauche &&
-                caseX <= plateau->tab_chateau_eau[i].caseX_droite_bas &&
-                caseY >= plateau->tab_chateau_eau[i].caseY_haut_gauche &&
-                caseY <= plateau->tab_chateau_eau[i].caseY_droite_bas) {
-                centre_du_chateau_d_eau_en_X = plateau->tab_chateau_eau[i].caseX;
-                centre_du_chateau_d_eau_en_Y = plateau->tab_chateau_eau[i].caseY;
-            }
-        }
+       for(int i=0;i<plateau->nb_chateau_eau;i++){
+           if(caseX>=plateau->tab_chateau_eau[i].caseX_haut_gauche && caseX<=plateau->tab_chateau_eau[i].caseX_droite_bas && caseY>=plateau->tab_chateau_eau[i].caseY_haut_gauche&& caseY<=plateau->tab_chateau_eau[i].caseY_droite_bas){
+               centre_du_chateau_d_eau_en_X =plateau->tab_chateau_eau[i].caseX;
+               centre_du_chateau_d_eau_en_Y =plateau->tab_chateau_eau[i].caseY;
+           }
+       }
     } else {
         centre_du_chateau_d_eau_en_X = caseX;
         centre_du_chateau_d_eau_en_Y = caseY;
     }
 
-    for (int i = 0; i < plateau->nb_chateau_eau; i++) {
-        if ((plateau->map[centre_du_chateau_d_eau_en_Y][centre_du_chateau_d_eau_en_X].etat - 300) < i + 1) {
-            plateau->tab_chateau_eau[i - 1].caseX = plateau->tab_chateau_eau[i].caseX;
-            plateau->tab_chateau_eau[i - 1].caseY = plateau->tab_chateau_eau[i].caseY;
-            plateau->tab_chateau_eau[i - 1].caseX_haut_gauche = plateau->tab_chateau_eau[i].caseX_haut_gauche;
-            plateau->tab_chateau_eau[i - 1].caseY_haut_gauche = plateau->tab_chateau_eau[i].caseY_haut_gauche;
-            plateau->tab_chateau_eau[i - 1].caseX_droite_bas = plateau->tab_chateau_eau[i].caseX_droite_bas;
-            plateau->tab_chateau_eau[i - 1].caseY_droite_bas = plateau->tab_chateau_eau[i].caseY_droite_bas;
-            plateau->tab_chateau_eau[i - 1].capacite_max = plateau->tab_chateau_eau[i].capacite_max;
-            plateau->tab_chateau_eau[i - 1].capacite_utilisee = plateau->tab_chateau_eau[i].capacite_utilisee;
-            plateau->tab_chateau_eau[i - 1].nb_maison_alimentee = plateau->tab_chateau_eau[i].nb_maison_alimentee;
-            free(plateau->tab_chateau_eau[i - 1].tab_des_maisons_alimentee);
-            plateau->tab_chateau_eau[i -
-                                     1].tab_des_maisons_alimentee = plateau->tab_chateau_eau[i].tab_des_maisons_alimentee;
+    for(int i=0;i<plateau->nb_chateau_eau;i++){
+        if((plateau->map[centre_du_chateau_d_eau_en_Y][centre_du_chateau_d_eau_en_X].etat-300)<i+1 ){
+            plateau->tab_chateau_eau[i-1].caseX=plateau->tab_chateau_eau[i].caseX;
+            plateau->tab_chateau_eau[i-1].caseY=plateau->tab_chateau_eau[i].caseY;
+            plateau->tab_chateau_eau[i-1].caseX_haut_gauche=plateau->tab_chateau_eau[i].caseX_haut_gauche;
+            plateau->tab_chateau_eau[i-1].caseY_haut_gauche=plateau->tab_chateau_eau[i].caseY_haut_gauche;
+            plateau->tab_chateau_eau[i-1].caseX_droite_bas=plateau->tab_chateau_eau[i].caseX_droite_bas;
+            plateau->tab_chateau_eau[i-1].caseY_droite_bas=plateau->tab_chateau_eau[i].caseY_droite_bas;
+            plateau->tab_chateau_eau[i-1].capacite_max=plateau->tab_chateau_eau[i].capacite_max;
+            plateau->tab_chateau_eau[i-1].capacite_utilisee=plateau->tab_chateau_eau[i].capacite_utilisee;
+            plateau->tab_chateau_eau[i-1].nb_maison_alimentee=plateau->tab_chateau_eau[i].nb_maison_alimentee;
+            free(plateau->tab_chateau_eau[i-1].tab_des_maisons_alimentee);
+            plateau->tab_chateau_eau[i-1].tab_des_maisons_alimentee=plateau->tab_chateau_eau[i].tab_des_maisons_alimentee;
         }
     }
     free(plateau->tab_chateau_eau[plateau->nb_chateau_eau].tab_des_maisons_alimentee);
@@ -499,7 +495,7 @@ void detruire_un_chateau_d_eau(Plateau *plateau, int caseX, int caseY) {
         if (plateau->tab_de_maison[i].viable == 1) {
             plateau->tab_de_maison[i].viable = verifier_viabilite_maison(plateau, plateau->tab_de_maison[i].caseX,
                                                                          plateau->tab_de_maison[i].caseY);
-            if (plateau->tab_de_maison[i].viable == 0 && plateau->tab_de_maison[i].stade > 0) {
+            if (plateau->tab_de_maison[i].viable == 0 && plateau->tab_de_maison[i].stade>0) {
                 plateau->tab_de_maison[i].stade = 5;
                 plateau->tab_de_maison[i].nb_habitant = plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[i].stade];
                 plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat = (
@@ -516,13 +512,10 @@ void detruire_une_centrale_electrique(Plateau *plateau, int caseX, int caseY) {
     int centre_de_la_centrale_elec_en_X = 0;
     int centre_de_la_centrale_elec_en_Y = 0;
     if (plateau->map[caseY][caseX].etat < 300) {
-        for (int i = 0; i < plateau->nb_centrale_elec; i++) {
-            if (caseX >= plateau->tab_centrale_elec[i].caseX_haut_gauche &&
-                caseX <= plateau->tab_centrale_elec[i].caseX_droite_bas &&
-                caseY >= plateau->tab_centrale_elec[i].caseY_haut_gauche &&
-                caseY <= plateau->tab_centrale_elec[i].caseY_droite_bas) {
-                centre_de_la_centrale_elec_en_X = plateau->tab_centrale_elec[i].caseX;
-                centre_de_la_centrale_elec_en_Y = plateau->tab_centrale_elec[i].caseY;
+        for(int i=0;i<plateau->nb_centrale_elec;i++){
+            if(caseX>=plateau->tab_centrale_elec[i].caseX_haut_gauche && caseX<=plateau->tab_centrale_elec[i].caseX_droite_bas && caseY>=plateau->tab_centrale_elec[i].caseY_haut_gauche&& caseY<=plateau->tab_centrale_elec[i].caseY_droite_bas){
+                centre_de_la_centrale_elec_en_X =plateau->tab_centrale_elec[i].caseX;
+                centre_de_la_centrale_elec_en_Y =plateau->tab_centrale_elec[i].caseY;
             }
         }
     } else {
@@ -530,20 +523,19 @@ void detruire_une_centrale_electrique(Plateau *plateau, int caseX, int caseY) {
         centre_de_la_centrale_elec_en_Y = caseY;
     }
 
-    for (int i = 0; i < plateau->nb_centrale_elec; i++) {
-        if ((plateau->map[centre_de_la_centrale_elec_en_Y][centre_de_la_centrale_elec_en_X].etat - 300) < i + 1) {
-            plateau->tab_centrale_elec[i - 1].caseX = plateau->tab_centrale_elec[i].caseX;
-            plateau->tab_centrale_elec[i - 1].caseY = plateau->tab_centrale_elec[i].caseY;
-            plateau->tab_centrale_elec[i - 1].caseX_haut_gauche = plateau->tab_centrale_elec[i].caseX_haut_gauche;
-            plateau->tab_centrale_elec[i - 1].caseY_haut_gauche = plateau->tab_centrale_elec[i].caseY_haut_gauche;
-            plateau->tab_centrale_elec[i - 1].caseX_droite_bas = plateau->tab_centrale_elec[i].caseX_droite_bas;
-            plateau->tab_centrale_elec[i - 1].caseY_droite_bas = plateau->tab_centrale_elec[i].caseY_droite_bas;
-            plateau->tab_centrale_elec[i - 1].capacite_max = plateau->tab_centrale_elec[i].capacite_max;
-            plateau->tab_centrale_elec[i - 1].capacite_utilisee = plateau->tab_centrale_elec[i].capacite_utilisee;
-            plateau->tab_centrale_elec[i - 1].nb_maison_alimentee = plateau->tab_centrale_elec[i].nb_maison_alimentee;
-            free(plateau->tab_centrale_elec[i - 1].tab_des_maisons_alimentee);
-            plateau->tab_centrale_elec[i -
-                                       1].tab_des_maisons_alimentee = plateau->tab_centrale_elec[i].tab_des_maisons_alimentee;
+    for(int i=0;i<plateau->nb_centrale_elec;i++){
+        if((plateau->map[centre_de_la_centrale_elec_en_Y][centre_de_la_centrale_elec_en_X].etat-300)<i+1 ){
+            plateau->tab_centrale_elec[i-1].caseX=plateau->tab_centrale_elec[i].caseX;
+            plateau->tab_centrale_elec[i-1].caseY=plateau->tab_centrale_elec[i].caseY;
+            plateau->tab_centrale_elec[i-1].caseX_haut_gauche=plateau->tab_centrale_elec[i].caseX_haut_gauche;
+            plateau->tab_centrale_elec[i-1].caseY_haut_gauche=plateau->tab_centrale_elec[i].caseY_haut_gauche;
+            plateau->tab_centrale_elec[i-1].caseX_droite_bas=plateau->tab_centrale_elec[i].caseX_droite_bas;
+            plateau->tab_centrale_elec[i-1].caseY_droite_bas=plateau->tab_centrale_elec[i].caseY_droite_bas;
+            plateau->tab_centrale_elec[i-1].capacite_max=plateau->tab_centrale_elec[i].capacite_max;
+            plateau->tab_centrale_elec[i-1].capacite_utilisee=plateau->tab_centrale_elec[i].capacite_utilisee;
+            plateau->tab_centrale_elec[i-1].nb_maison_alimentee=plateau->tab_centrale_elec[i].nb_maison_alimentee;
+            free(plateau->tab_centrale_elec[i-1].tab_des_maisons_alimentee);
+            plateau->tab_centrale_elec[i-1].tab_des_maisons_alimentee=plateau->tab_centrale_elec[i].tab_des_maisons_alimentee;
         }
     }
     free(plateau->tab_centrale_elec[plateau->nb_centrale_elec].tab_des_maisons_alimentee);
@@ -560,7 +552,7 @@ void detruire_une_centrale_electrique(Plateau *plateau, int caseX, int caseY) {
         if (plateau->tab_de_maison[i].viable == 1) {
             plateau->tab_de_maison[i].viable = verifier_viabilite_maison(plateau, plateau->tab_de_maison[i].caseX,
                                                                          plateau->tab_de_maison[i].caseY);
-            if (plateau->tab_de_maison[i].viable == 0 && plateau->tab_de_maison[i].stade > 0) {
+            if (plateau->tab_de_maison[i].viable == 0 && plateau->tab_de_maison[i].stade>0) {
                 plateau->tab_de_maison[i].stade = 5;
                 plateau->tab_de_maison[i].nb_habitant = plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[i].stade];
                 plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat = (
@@ -593,7 +585,7 @@ void evolution_maison(Plateau *plateau) {
                 if (verification_eau_dispo == 1 && verification_elec_dispo == 1) {
                     plateau->tab_de_maison[i].stade++;
                     plateau->tab_de_maison[i].nb_habitant = plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[i].stade];
-                    plateau->tab_de_maison[i].date_creation = plateau->temps_en_seconde;
+                    plateau->tab_de_maison[i].date_creation=plateau->temps_en_seconde;
                     plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat++;
                     alimentation_en_eau(plateau);
                     alimentation_en_elec(plateau);
@@ -1292,10 +1284,10 @@ void chercher_maison_qui_a_besoin_d_elec(Plateau *plateau, int caseX, int caseY,
 }
 
 /////////      gain d'argent      ///////////
-void gain_d_argent(Plateau *plateau) {
-    if (plateau->temps_en_seconde % 15 == 0) {
-        for (int i = 0; i < plateau->nb_maison; i++) {
-            plateau->compte_en_banque += (plateau->tab_de_maison[i].nb_habitant);
+void gain_d_argent(Plateau* plateau){
+    if(plateau->temps_en_seconde%15==0){
+        for(int i=0;i<plateau->nb_maison;i++){
+            plateau->compte_en_banque+=(plateau->tab_de_maison[i].nb_habitant);
         }
     }
 }
@@ -1354,21 +1346,8 @@ void dessiner_etage_0(Plateau *plateau) {
             }
         }
     }
-    for (int k = 0; k < plateau->nb_maison; k++) {
+    for(int k=0;k<plateau->nb_maison;k++){
 
-        al_draw_filled_rectangle((plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
-                                 (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
-                                 (plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
-                                 plateau->tab_de_maison[k].largeur,
-                                 (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
-                                 plateau->tab_de_maison[k].hauteur,
-                                 al_map_rgb(0, 10 + 40 * plateau->tab_de_maison[k].stade, 100));
-
-        if (plateau->tab_de_maison[k].viable == 0) {
             al_draw_filled_rectangle((plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
                                      (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
                                      (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
@@ -1379,34 +1358,33 @@ void dessiner_etage_0(Plateau *plateau) {
                                      (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
                                      (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
                                      plateau->tab_de_maison[k].hauteur,
-                                     al_map_rgba(100, 0, 0, 30));
+                                     al_map_rgb(0, 10 + 40 * plateau->tab_de_maison[k].stade, 100));
+
+        if(plateau->tab_de_maison[k].viable==0){
+            al_draw_filled_rectangle((plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
+                                     (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
+                                     (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
+                                     (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
+                                     (plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
+                                     (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
+                                     plateau->tab_de_maison[k].largeur,
+                                     (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
+                                     (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
+                                     plateau->tab_de_maison[k].hauteur,
+                                     al_map_rgba(100, 0, 0,30));
 
         }
     }
-    for (int k = 0; k < plateau->nb_chateau_eau; k++) {
-        al_draw_filled_rectangle(plateau->tab_chateau_eau[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
-                                 plateau->tab_chateau_eau[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
-                                 plateau->tab_chateau_eau[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
-                                 plateau->tab_chateau_eau[k].largeur,
-                                 plateau->tab_chateau_eau[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
-                                 plateau->tab_chateau_eau[k].hauteur, al_map_rgb(255, 255, 0));
+    for(int k=0;k<plateau->nb_chateau_eau;k++){
+        al_draw_filled_rectangle(plateau->tab_chateau_eau[k].caseX_haut_gauche*plateau->largeur_case+(LARGEUR-plateau->largeur_case*plateau->nb_colonne), plateau->tab_chateau_eau[k].caseY_haut_gauche*plateau->largeur_case+(HAUTEUR-plateau->largeur_case*plateau->nb_ligne),
+                                 plateau->tab_chateau_eau[k].caseX_haut_gauche*plateau->largeur_case+(LARGEUR-plateau->largeur_case*plateau->nb_colonne)+plateau->tab_chateau_eau[k].largeur,
+                                 plateau->tab_chateau_eau[k].caseY_haut_gauche*plateau->largeur_case+(HAUTEUR-plateau->largeur_case*plateau->nb_ligne)+plateau->tab_chateau_eau[k].hauteur, al_map_rgb(255, 255, 0));
 
     }
-    for (int k = 0; k < plateau->nb_centrale_elec; k++) {
-        al_draw_filled_rectangle(plateau->tab_centrale_elec[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
-                                 plateau->tab_centrale_elec[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
-                                 plateau->tab_centrale_elec[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
-                                 plateau->tab_centrale_elec[k].largeur,
-                                 plateau->tab_centrale_elec[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
-                                 plateau->tab_centrale_elec[k].hauteur, al_map_rgb(255, 255, 0));
+    for(int k=0;k<plateau->nb_centrale_elec;k++){
+        al_draw_filled_rectangle(plateau->tab_centrale_elec[k].caseX_haut_gauche*plateau->largeur_case+(LARGEUR-plateau->largeur_case*plateau->nb_colonne), plateau->tab_centrale_elec[k].caseY_haut_gauche*plateau->largeur_case+(HAUTEUR-plateau->largeur_case*plateau->nb_ligne),
+                                 plateau->tab_centrale_elec[k].caseX_haut_gauche*plateau->largeur_case+(LARGEUR-plateau->largeur_case*plateau->nb_colonne)+plateau->tab_centrale_elec[k].largeur,
+                                 plateau->tab_centrale_elec[k].caseY_haut_gauche*plateau->largeur_case+(HAUTEUR-plateau->largeur_case*plateau->nb_ligne)+plateau->tab_centrale_elec[k].hauteur, al_map_rgb(255, 255, 0));
 
     }
 }
@@ -1441,6 +1419,186 @@ void dessiner_etage_1(Plateau *plateau) {
                                  plateau->tab_chateau_eau[k].hauteur, al_map_rgb(255, 0, 0));
 
     }
+    for (int k = 0; k < plateau->nb_maison; k++) {
+        if (plateau->tab_de_maison[k].viable == 1 && plateau->tab_de_maison[k].stade < 5 &&
+            plateau->tab_de_maison[k].stade > 0) {
+            al_draw_filled_rectangle((plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
+                                     (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
+                                     (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
+                                     (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
+                                     (plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
+                                     (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
+                                     plateau->tab_de_maison[k].largeur,
+                                     (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
+                                     (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
+                                     plateau->tab_de_maison[k].hauteur,
+                                     al_map_rgb(0, 10 + 40 * plateau->tab_de_maison[k].stade, 100));
+        }
+    }
+
+
+    affiche_capacite_eau_de_chaque_batiment(plateau, caseDeLaSourieX, caseDeLaSourieY, roboto);
+}
+
+void affiche_capacite_eau_de_chaque_batiment(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY,
+                                             ALLEGRO_FONT *roboto) {
+    if (caseDeLaSourieX < plateau->nb_colonne / 2) {
+        if (caseDeLaSourieY < plateau->nb_ligne / 2) {
+            for (int k = 0; k < plateau->nb_chateau_eau; k++) {
+                if (caseDeLaSourieX >= plateau->tab_chateau_eau[k].caseX_haut_gauche &&
+                    caseDeLaSourieX <= plateau->tab_chateau_eau[k].caseX_droite_bas &&
+                    caseDeLaSourieY >= plateau->tab_chateau_eau[k].caseY_haut_gauche &&
+                    caseDeLaSourieY <= plateau->tab_chateau_eau[k].caseY_droite_bas) {
+                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX + 1) * plateau->largeur_case +
+                                                                 (LARGEUR -
+                                                                  plateau->largeur_case * plateau->nb_colonne),
+                                  (caseDeLaSourieY + 1) * plateau->largeur_case +
+                                  (HAUTEUR - plateau->largeur_case * plateau->nb_ligne), ALLEGRO_ALIGN_LEFT,
+                                  "Chateau %d : %d / %d", k + 1, plateau->tab_chateau_eau[k].capacite_utilisee,
+                                  plateau->tab_chateau_eau[k].capacite_max);
+                }
+            }
+            for (int k = 0; k < plateau->nb_maison; k++) {
+                if (caseDeLaSourieX >= (plateau->tab_de_maison[k].caseX - 1) &&
+                    caseDeLaSourieX <= (plateau->tab_de_maison[k].caseX + 1) &&
+                    caseDeLaSourieY >= (plateau->tab_de_maison[k].caseY - 1) &&
+                    caseDeLaSourieY <= (plateau->tab_de_maison[k].caseY + 1)) {
+                    int a = 0;
+                    for (int i = 0; i < plateau->nb_chateau_eau; i++) {
+                        for (int j = 0; j < plateau->tab_chateau_eau[i].nb_maison_alimentee; j++) {
+                            if (plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
+                                al_draw_textf(roboto, al_map_rgb(0, 255, 0),
+                                              (caseDeLaSourieX + 1) * plateau->largeur_case +
+                                              (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
+                                              (caseDeLaSourieY + 1) * plateau->largeur_case +
+                                              (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) + 30 * a,
+                                              ALLEGRO_ALIGN_LEFT, "Chateau %d : %d / %d", i + 1,
+                                              plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].quantite,
+                                              plateau->tab_de_maison[k].eau_utilise);
+                                a++;
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int k = 0; k < plateau->nb_chateau_eau; k++) {
+                if (caseDeLaSourieX >= plateau->tab_chateau_eau[k].caseX_haut_gauche &&
+                    caseDeLaSourieX <= plateau->tab_chateau_eau[k].caseX_droite_bas &&
+                    caseDeLaSourieY >= plateau->tab_chateau_eau[k].caseY_haut_gauche &&
+                    caseDeLaSourieY <= plateau->tab_chateau_eau[k].caseY_droite_bas) {
+                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX + 1) * plateau->largeur_case +
+                                                                 (LARGEUR -
+                                                                  plateau->largeur_case * plateau->nb_colonne),
+                                  (caseDeLaSourieY - 1) * plateau->largeur_case +
+                                  (HAUTEUR - plateau->largeur_case * plateau->nb_ligne), ALLEGRO_ALIGN_LEFT,
+                                  "Chateau %d : %d / %d", k + 1, plateau->tab_chateau_eau[k].capacite_utilisee,
+                                  plateau->tab_chateau_eau[k].capacite_max);
+                }
+            }
+            for (int k = 0; k < plateau->nb_maison; k++) {
+                if (caseDeLaSourieX >= (plateau->tab_de_maison[k].caseX - 1) &&
+                    caseDeLaSourieX <= (plateau->tab_de_maison[k].caseX + 1) &&
+                    caseDeLaSourieY >= (plateau->tab_de_maison[k].caseY - 1) &&
+                    caseDeLaSourieY <= (plateau->tab_de_maison[k].caseY + 1)) {
+                    int a = 0;
+                    for (int i = 0; i < plateau->nb_chateau_eau; i++) {
+                        for (int j = plateau->tab_chateau_eau[i].nb_maison_alimentee; j >= 0; j--) {
+                            if (plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
+                                al_draw_textf(roboto, al_map_rgb(0, 255, 0),
+                                              (caseDeLaSourieX + 1) * plateau->largeur_case +
+                                              (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
+                                              (caseDeLaSourieY - 1) * plateau->largeur_case +
+                                              (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) - 30 * a,
+                                              ALLEGRO_ALIGN_LEFT, "Chateau %d : %d / %d", i + 1,
+                                              plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].quantite,
+                                              plateau->tab_de_maison[k].eau_utilise);
+                                a++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        if (caseDeLaSourieY < plateau->nb_ligne / 2) {
+            for (int k = 0; k < plateau->nb_chateau_eau; k++) {
+                if (caseDeLaSourieX >= plateau->tab_chateau_eau[k].caseX_haut_gauche &&
+                    caseDeLaSourieX <= plateau->tab_chateau_eau[k].caseX_droite_bas &&
+                    caseDeLaSourieY >= plateau->tab_chateau_eau[k].caseY_haut_gauche &&
+                    caseDeLaSourieY <= plateau->tab_chateau_eau[k].caseY_droite_bas) {
+                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
+                                                                                                              plateau->largeur_case *
+                                                                                                              plateau->nb_colonne),
+                                  (caseDeLaSourieY + 1) * plateau->largeur_case +
+                                  (HAUTEUR - plateau->largeur_case * plateau->nb_ligne), ALLEGRO_ALIGN_RIGHT,
+                                  "Chateau %d : %d / %d", k + 1, plateau->tab_chateau_eau[k].capacite_utilisee,
+                                  plateau->tab_chateau_eau[k].capacite_max);
+                }
+            }
+            for (int k = 0; k < plateau->nb_maison; k++) {
+                if (caseDeLaSourieX >= (plateau->tab_de_maison[k].caseX - 1) &&
+                    caseDeLaSourieX <= (plateau->tab_de_maison[k].caseX + 1) &&
+                    caseDeLaSourieY >= (plateau->tab_de_maison[k].caseY - 1) &&
+                    caseDeLaSourieY <= (plateau->tab_de_maison[k].caseY + 1)) {
+                    int a = 0;
+                    for (int i = 0; i < plateau->nb_chateau_eau; i++) {
+                        for (int j = 0; j < plateau->tab_chateau_eau[i].nb_maison_alimentee; j++) {
+                            if (plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
+                                al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case +
+                                                                             (LARGEUR - plateau->largeur_case *
+                                                                                        plateau->nb_colonne),
+                                              (caseDeLaSourieY + 1) * plateau->largeur_case +
+                                              (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) + 30 * a,
+                                              ALLEGRO_ALIGN_RIGHT, "Chateau %d : %d / %d", i + 1,
+                                              plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].quantite,
+                                              plateau->tab_de_maison[k].eau_utilise);
+                                a++;
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int k = 0; k < plateau->nb_chateau_eau; k++) {
+                if (caseDeLaSourieX >= plateau->tab_chateau_eau[k].caseX_haut_gauche &&
+                    caseDeLaSourieX <= plateau->tab_chateau_eau[k].caseX_droite_bas &&
+                    caseDeLaSourieY >= plateau->tab_chateau_eau[k].caseY_haut_gauche &&
+                    caseDeLaSourieY <= plateau->tab_chateau_eau[k].caseY_droite_bas) {
+                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
+                                                                                                              plateau->largeur_case *
+                                                                                                              plateau->nb_colonne),
+                                  (caseDeLaSourieY - 1) * plateau->largeur_case +
+                                  (HAUTEUR - plateau->largeur_case * plateau->nb_ligne), ALLEGRO_ALIGN_RIGHT,
+                                  "Chateau %d : %d / %d", k + 1, plateau->tab_chateau_eau[k].capacite_utilisee,
+                                  plateau->tab_chateau_eau[k].capacite_max);
+                }
+            }
+            for (int k = 0; k < plateau->nb_maison; k++) {
+                if (caseDeLaSourieX >= (plateau->tab_de_maison[k].caseX - 1) &&
+                    caseDeLaSourieX <= (plateau->tab_de_maison[k].caseX + 1) &&
+                    caseDeLaSourieY >= (plateau->tab_de_maison[k].caseY - 1) &&
+                    caseDeLaSourieY <= (plateau->tab_de_maison[k].caseY + 1)) {
+                    int a = 0;
+                    for (int i = 0; i < plateau->nb_chateau_eau; i++) {
+                        for (int j = plateau->tab_chateau_eau[i].nb_maison_alimentee; j >= 0; j--) {
+                            if (plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
+                                al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case +
+                                                                             (LARGEUR - plateau->largeur_case *
+                                                                                        plateau->nb_colonne),
+                                              (caseDeLaSourieY - 1) * plateau->largeur_case +
+                                              (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) - 30 * a,
+                                              ALLEGRO_ALIGN_RIGHT, "Chateau %d : %d / %d", i + 1,
+                                              plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].quantite,
+                                              plateau->tab_de_maison[k].eau_utilise);
+                                a++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 void dessiner_etage_2(Plateau *plateau) {
@@ -1471,6 +1629,176 @@ void dessiner_etage_2(Plateau *plateau) {
                                  (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
                                  plateau->tab_centrale_elec[k].hauteur, al_map_rgb(255, 0, 255));
 
+    }
+    for (int k = 0; k < plateau->nb_maison; k++) {
+        if (plateau->tab_de_maison[k].viable == 1 && plateau->tab_de_maison[k].stade < 5 &&
+            plateau->tab_de_maison[k].stade > 0) {
+            al_draw_filled_rectangle((plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
+                                     (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
+                                     (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
+                                     (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
+                                     (plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
+                                     (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
+                                     plateau->tab_de_maison[k].largeur,
+                                     (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
+                                     (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
+                                     plateau->tab_de_maison[k].hauteur,
+                                     al_map_rgb(0, 10 + 40 * plateau->tab_de_maison[k].stade, 100));
+        }
+    }
+    affiche_capacite_elec_de_chaque_batiment(plateau, caseDeLaSourieX, caseDeLaSourieY, roboto);
+}
+
+void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY,
+                                              ALLEGRO_FONT *roboto) {
+    if (caseDeLaSourieX < plateau->nb_colonne / 2) {
+        if (caseDeLaSourieY < plateau->nb_ligne / 2) {
+            for (int k = 0; k < plateau->nb_centrale_elec; k++) {
+                if (caseDeLaSourieX >= plateau->tab_centrale_elec[k].caseX_haut_gauche &&
+                    caseDeLaSourieX <= plateau->tab_centrale_elec[k].caseX_droite_bas &&
+                    caseDeLaSourieY >= plateau->tab_centrale_elec[k].caseY_haut_gauche &&
+                    caseDeLaSourieY <= plateau->tab_centrale_elec[k].caseY_droite_bas) {
+                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX + 1) * plateau->largeur_case +
+                                                                 (LARGEUR -
+                                                                  plateau->largeur_case * plateau->nb_colonne),
+                                  (caseDeLaSourieY + 1) * plateau->largeur_case +
+                                  (HAUTEUR - plateau->largeur_case * plateau->nb_ligne), ALLEGRO_ALIGN_LEFT,
+                                  "Chateau %d : %d / %d", k + 1, plateau->tab_centrale_elec[k].capacite_utilisee,
+                                  plateau->tab_centrale_elec[k].capacite_max);
+                }
+            }
+            for (int k = 0; k < plateau->nb_maison; k++) {
+                if (caseDeLaSourieX >= (plateau->tab_de_maison[k].caseX - 1) &&
+                    caseDeLaSourieX <= (plateau->tab_de_maison[k].caseX + 1) &&
+                    caseDeLaSourieY >= (plateau->tab_de_maison[k].caseY - 1) &&
+                    caseDeLaSourieY <= (plateau->tab_de_maison[k].caseY + 1)) {
+                    for (int i = 0; i < plateau->nb_centrale_elec; i++) {
+                        for (int j = 0; j < plateau->tab_centrale_elec[i].nb_maison_alimentee; j++) {
+                            if (plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
+                                al_draw_textf(roboto, al_map_rgb(0, 255, 0),
+                                              (caseDeLaSourieX + 1) * plateau->largeur_case +
+                                              (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
+                                              (caseDeLaSourieY + 1) * plateau->largeur_case +
+                                              (HAUTEUR - plateau->largeur_case * plateau->nb_ligne), ALLEGRO_ALIGN_LEFT,
+                                              "Chateau %d : %d / %d", i + 1,
+                                              plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].quantite,
+                                              plateau->tab_de_maison[k].elec_utilise);
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int k = 0; k < plateau->nb_centrale_elec; k++) {
+                if (caseDeLaSourieX >= plateau->tab_centrale_elec[k].caseX_haut_gauche &&
+                    caseDeLaSourieX <= plateau->tab_centrale_elec[k].caseX_droite_bas &&
+                    caseDeLaSourieY >= plateau->tab_centrale_elec[k].caseY_haut_gauche &&
+                    caseDeLaSourieY <= plateau->tab_centrale_elec[k].caseY_droite_bas) {
+                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX + 1) * plateau->largeur_case +
+                                                                 (LARGEUR -
+                                                                  plateau->largeur_case * plateau->nb_colonne),
+                                  (caseDeLaSourieY - 1) * plateau->largeur_case +
+                                  (HAUTEUR - plateau->largeur_case * plateau->nb_ligne), ALLEGRO_ALIGN_LEFT,
+                                  "Chateau %d : %d / %d", k + 1, plateau->tab_centrale_elec[k].capacite_utilisee,
+                                  plateau->tab_centrale_elec[k].capacite_max);
+                }
+            }
+            for (int k = 0; k < plateau->nb_maison; k++) {
+                if (caseDeLaSourieX >= (plateau->tab_de_maison[k].caseX - 1) &&
+                    caseDeLaSourieX <= (plateau->tab_de_maison[k].caseX + 1) &&
+                    caseDeLaSourieY >= (plateau->tab_de_maison[k].caseY - 1) &&
+                    caseDeLaSourieY <= (plateau->tab_de_maison[k].caseY + 1)) {
+                    for (int i = 0; i < plateau->nb_centrale_elec; i++) {
+                        for (int j = plateau->tab_centrale_elec[i].nb_maison_alimentee; j >= 0; j--) {
+                            if (plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
+                                al_draw_textf(roboto, al_map_rgb(0, 255, 0),
+                                              (caseDeLaSourieX + 1) * plateau->largeur_case +
+                                              (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
+                                              (caseDeLaSourieY - 1) * plateau->largeur_case +
+                                              (HAUTEUR - plateau->largeur_case * plateau->nb_ligne), ALLEGRO_ALIGN_LEFT,
+                                              "Chateau %d : %d / %d", i + 1,
+                                              plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].quantite,
+                                              plateau->tab_de_maison[k].elec_utilise);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        if (caseDeLaSourieY < plateau->nb_ligne / 2) {
+            for (int k = 0; k < plateau->nb_centrale_elec; k++) {
+                if (caseDeLaSourieX >= plateau->tab_centrale_elec[k].caseX_haut_gauche &&
+                    caseDeLaSourieX <= plateau->tab_centrale_elec[k].caseX_droite_bas &&
+                    caseDeLaSourieY >= plateau->tab_centrale_elec[k].caseY_haut_gauche &&
+                    caseDeLaSourieY <= plateau->tab_centrale_elec[k].caseY_droite_bas) {
+                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
+                                                                                                              plateau->largeur_case *
+                                                                                                              plateau->nb_colonne),
+                                  (caseDeLaSourieY + 1) * plateau->largeur_case +
+                                  (HAUTEUR - plateau->largeur_case * plateau->nb_ligne), ALLEGRO_ALIGN_RIGHT,
+                                  "Chateau %d : %d / %d", k + 1, plateau->tab_centrale_elec[k].capacite_utilisee,
+                                  plateau->tab_centrale_elec[k].capacite_max);
+                }
+            }
+            for (int k = 0; k < plateau->nb_maison; k++) {
+                if (caseDeLaSourieX >= (plateau->tab_de_maison[k].caseX - 1) &&
+                    caseDeLaSourieX <= (plateau->tab_de_maison[k].caseX + 1) &&
+                    caseDeLaSourieY >= (plateau->tab_de_maison[k].caseY - 1) &&
+                    caseDeLaSourieY <= (plateau->tab_de_maison[k].caseY + 1)) {
+                    for (int i = 0; i < plateau->nb_centrale_elec; i++) {
+                        for (int j = 0; j < plateau->tab_centrale_elec[i].nb_maison_alimentee; j++) {
+                            if (plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
+                                al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case +
+                                                                             (LARGEUR - plateau->largeur_case *
+                                                                                        plateau->nb_colonne),
+                                              (caseDeLaSourieY + 1) * plateau->largeur_case +
+                                              (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
+                                              ALLEGRO_ALIGN_RIGHT, "Chateau %d : %d / %d", i + 1,
+                                              plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].quantite,
+                                              plateau->tab_de_maison[k].elec_utilise);
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int k = 0; k < plateau->nb_centrale_elec; k++) {
+                if (caseDeLaSourieX >= plateau->tab_centrale_elec[k].caseX_haut_gauche &&
+                    caseDeLaSourieX <= plateau->tab_centrale_elec[k].caseX_droite_bas &&
+                    caseDeLaSourieY >= plateau->tab_centrale_elec[k].caseY_haut_gauche &&
+                    caseDeLaSourieY <= plateau->tab_centrale_elec[k].caseY_droite_bas) {
+                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
+                                                                                                              plateau->largeur_case *
+                                                                                                              plateau->nb_colonne),
+                                  (caseDeLaSourieY - 1) * plateau->largeur_case +
+                                  (HAUTEUR - plateau->largeur_case * plateau->nb_ligne), ALLEGRO_ALIGN_RIGHT,
+                                  "Chateau %d : %d / %d", k + 1, plateau->tab_centrale_elec[k].capacite_utilisee,
+                                  plateau->tab_centrale_elec[k].capacite_max);
+                }
+            }
+            for (int k = 0; k < plateau->nb_maison; k++) {
+                if (caseDeLaSourieX >= (plateau->tab_de_maison[k].caseX - 1) &&
+                    caseDeLaSourieX <= (plateau->tab_de_maison[k].caseX + 1) &&
+                    caseDeLaSourieY >= (plateau->tab_de_maison[k].caseY - 1) &&
+                    caseDeLaSourieY <= (plateau->tab_de_maison[k].caseY + 1)) {
+                    for (int i = 0; i < plateau->nb_centrale_elec; i++) {
+                        for (int j = plateau->tab_centrale_elec[i].nb_maison_alimentee; j >= 0; j--) {
+                            if (plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
+                                al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case +
+                                                                             (LARGEUR - plateau->largeur_case *
+                                                                                        plateau->nb_colonne),
+                                              (caseDeLaSourieY - 1) * plateau->largeur_case +
+                                              (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
+                                              ALLEGRO_ALIGN_RIGHT, "Chateau %d : %d / %d", i + 1,
+                                              plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].quantite,
+                                              plateau->tab_de_maison[k].elec_utilise);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -1573,10 +1901,10 @@ void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLa
     dessiner_batiment(plateau, etage);
     ///dessine les boutons pour les etages
     for (int i = 0; i < bouton_etage->nb_bouton; i++) {
-        dessinerBoutonEtage(bouton_etage[i], robotoLabelBoutton);
+        dessinerBoutonEtage(bouton_etage[i]);
     }
     ///dessine les boutons pour choisir les batiments
-    if (etage == 0) {
+    if (etage==0){
         for (int i = 0; i < bouton_batiment->nb_bouton; i++) {
             al_draw_filled_rectangle(bouton_batiment[i].x, bouton_batiment[i].y,
                                      bouton_batiment[i].x + bouton_batiment[i].largeur,
@@ -1630,7 +1958,7 @@ void sauvegarde_jeu(Plateau *plateau) {
 
 }
 
-void charger_la_sauvegarde(Plateau *plateau) {
+void charger_la_sauvegarde(Plateau* plateau){
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
             if (plateau->map[i][j].etat > 2000) {
@@ -1644,18 +1972,17 @@ void charger_la_sauvegarde(Plateau *plateau) {
             }
         }
     }
-    for (int k = 0; k < plateau->nb_chateau_eau; k++) {
+    for(int k=0;k<plateau->nb_chateau_eau;k++){
         for (int i = 0; i < plateau->nb_ligne; i++) {
             for (int j = 0; j < plateau->nb_colonne; j++) {
-                if (plateau->map[i][j].etat > 300 && plateau->map[i][j].etat < 400 &&
-                    ((plateau->map[i][j].etat - 300) == k + 1)) {
+                if (plateau->map[i][j].etat > 300 && plateau->map[i][j].etat < 400 && ((plateau->map[i][j].etat-300)==k+1)) {
                     plateau->tab_chateau_eau[k].type = 1;
-                    plateau->tab_chateau_eau[k].caseX = j;
-                    plateau->tab_chateau_eau[k].caseY = i;
-                    plateau->tab_chateau_eau[k].caseX_haut_gauche = j - 1;
-                    plateau->tab_chateau_eau[k].caseY_haut_gauche = i - 2;
-                    plateau->tab_chateau_eau[k].caseX_droite_bas = j + 2;
-                    plateau->tab_chateau_eau[k].caseY_droite_bas = i + 3;
+                    plateau->tab_chateau_eau[k].caseX=j;
+                    plateau->tab_chateau_eau[k].caseY=i;
+                    plateau->tab_chateau_eau[k].caseX_haut_gauche = j-1;
+                    plateau->tab_chateau_eau[k].caseY_haut_gauche = i-2;
+                    plateau->tab_chateau_eau[k].caseX_droite_bas = j+2;
+                    plateau->tab_chateau_eau[k].caseY_droite_bas = i+3;
                     plateau->tab_chateau_eau[k].capacite_max = 5000;
                     plateau->tab_chateau_eau[k].capacite_utilisee = 0;
                     plateau->tab_chateau_eau[k].nb_maison_alimentee = 0;
@@ -1665,18 +1992,17 @@ void charger_la_sauvegarde(Plateau *plateau) {
             }
         }
     }
-    for (int k = 0; k < plateau->nb_centrale_elec; k++) {
+    for(int k=0;k<plateau->nb_centrale_elec;k++){
         for (int i = 0; i < plateau->nb_ligne; i++) {
             for (int j = 0; j < plateau->nb_colonne; j++) {
-                if (plateau->map[i][j].etat > 400 && plateau->map[i][j].etat < 500 &&
-                    ((plateau->map[i][j].etat - 400) == k + 1)) {
+                if (plateau->map[i][j].etat > 400 && plateau->map[i][j].etat < 500 && ((plateau->map[i][j].etat-400)==k+1)) {
                     plateau->tab_centrale_elec[k].type = 2;
-                    plateau->tab_centrale_elec[k].caseX = j;
-                    plateau->tab_centrale_elec[k].caseY = i;
-                    plateau->tab_centrale_elec[k].caseX_haut_gauche = j - 2;
-                    plateau->tab_centrale_elec[k].caseY_haut_gauche = i - 1;
-                    plateau->tab_centrale_elec[k].caseX_droite_bas = j + 3;
-                    plateau->tab_centrale_elec[k].caseY_droite_bas = i + 2;
+                    plateau->tab_centrale_elec[k].caseX=j;
+                    plateau->tab_centrale_elec[k].caseY=i;
+                    plateau->tab_centrale_elec[k].caseX_haut_gauche = j-2;
+                    plateau->tab_centrale_elec[k].caseY_haut_gauche = i-1;
+                    plateau->tab_centrale_elec[k].caseX_droite_bas = j+3;
+                    plateau->tab_centrale_elec[k].caseY_droite_bas = i+2;
                     plateau->tab_centrale_elec[k].capacite_max = 5000;
                     plateau->tab_centrale_elec[k].capacite_utilisee = 0;
                     plateau->tab_centrale_elec[k].nb_maison_alimentee = 0;
@@ -1686,19 +2012,17 @@ void charger_la_sauvegarde(Plateau *plateau) {
             }
         }
     }
-    for (int k = 0; k < plateau->nb_maison; k++) {
+    for(int k=0;k<plateau->nb_maison;k++){
         for (int i = 0; i < plateau->nb_ligne; i++) {
             for (int j = 0; j < plateau->nb_colonne; j++) {
-                if (plateau->map[i][j].etat > 2000 && ((plateau->map[i][j].etat / 10 - 200) == k + 1)) {
-                    plateau->tab_de_maison[k].caseX = j;
-                    plateau->tab_de_maison[k].caseY = i;
-                    plateau->tab_de_maison[k].stade = plateau->map[i][j].etat % 6;
-                    plateau->tab_de_maison[k].nb_habitant = plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[k].stade];
-                    plateau->tab_de_maison[k].viable = verifier_viabilite_maison(plateau,
-                                                                                 plateau->tab_de_maison[k].caseX,
-                                                                                 plateau->tab_de_maison[k].caseY);
-                    if (plateau->tab_de_maison[k].viable == 1) {
-                        plateau->tab_de_maison[k].date_creation = plateau->temps_en_seconde;
+                if (plateau->map[i][j].etat > 2000 && ((plateau->map[i][j].etat/10-200)==k+1)) {
+                    plateau->tab_de_maison[k].caseX=j;
+                    plateau->tab_de_maison[k].caseY=i;
+                    plateau->tab_de_maison[k].stade=plateau->map[i][j].etat%6;
+                    plateau->tab_de_maison[k].nb_habitant=plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[k].stade];
+                    plateau->tab_de_maison[k].viable= verifier_viabilite_maison(plateau,plateau->tab_de_maison[k].caseX,plateau->tab_de_maison[k].caseY);
+                    if(plateau->tab_de_maison[k].viable==1){
+                        plateau->tab_de_maison[k].date_creation=plateau->temps_en_seconde;
                     }
                 }
             }
