@@ -147,10 +147,12 @@ void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_
 void afficherCaseSouris(int mouseX, int mouseY, Plateau* plateau);
 
 /////////     dessiner batiment      ///////////
-void dessiner_batiment(Plateau *plateau, int etage);
+void dessiner_batiment(Plateau *plateau, int etage, int caseDeLaSourieX, int caseDeLaSourieY,ALLEGRO_FONT *roboto);
 void dessiner_etage_0(Plateau *plateau);
-void dessiner_etage_1(Plateau *plateau);
-void dessiner_etage_2(Plateau *plateau);
+void dessiner_etage_1(Plateau *plateau,int caseDeLaSourieX, int caseDeLaSourieY,ALLEGRO_FONT *roboto);
+void affiche_capacite_eau_de_chaque_batiment(Plateau* plateau,int caseDeLaSourieX, int caseDeLaSourieY,ALLEGRO_FONT *roboto);
+void dessiner_etage_2(Plateau *plateau,int caseDeLaSourieX, int caseDeLaSourieY,ALLEGRO_FONT *roboto);
+void affiche_capacite_elec_de_chaque_batiment(Plateau* plateau,int caseDeLaSourieX, int caseDeLaSourieY,ALLEGRO_FONT *roboto);
 
 /////////     afficher interface      ///////////
 void afficher_interface(Plateau * plateau,  ALLEGRO_FONT *roboto);
