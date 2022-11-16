@@ -136,6 +136,9 @@ int verifier_si_assez_d_elec_disponible_dans_une_centrale(Plateau *plateau, int 
 void alimentation_en_elec(Plateau *plateau);
 void chercher_maison_qui_a_besoin_d_elec(Plateau *plateau, int caseX, int caseY, int *numero_maison_trouve,int num_centrale_elec);
 
+/////////      gain d'argent      ///////////
+void gain_d_argent(Plateau* plateau);
+
 /////////      emplacement souris       ///////////
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau);
 

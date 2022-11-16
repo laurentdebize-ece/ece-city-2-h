@@ -91,22 +91,17 @@ int main() {
             }
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN : {
                 choix_etage(bouton_etage, event.mouse.x, event.mouse.y, &etage);
-                choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y, &choix_batiment_a_construire);
-                construire_batiment(plateau,choix_batiment_a_construire,souris_sur_le_plateau,caseDeLaSourieX,caseDeLaSourieY);
+                if (etage==0){
+                    choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y, &choix_batiment_a_construire);
+                    construire_batiment(plateau,choix_batiment_a_construire,souris_sur_le_plateau,caseDeLaSourieX,caseDeLaSourieY);
+                }
                 break;
             }
             case ALLEGRO_EVENT_TIMER : {
                 if(plateau->temps_en_seconde*10==compteur_temps){
                     evolution_maison(plateau);
-
                 }
-                if(plateau->temps_en_seconde%15==0){
-                    int gain=0;
-                    for(int i=0;i<plateau->nb_maison;i++){
-                        gain+=(plateau->tab_de_maison[i].nb_habitant*10);
-                    }
-                    plateau->compte_en_banque+=gain;
-                }
+                gain_d_argent(plateau);
                 compteur_temps++;
 
                 break;
