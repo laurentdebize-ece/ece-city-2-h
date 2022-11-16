@@ -23,7 +23,9 @@
 typedef struct Bouton {
     int nb_bouton;
     int x, y;
-    float largeur, hauteur;
+    float hauteur, largeur;
+    char* label;
+    int hover;
 } Bouton;
 
 
@@ -141,6 +143,7 @@ void gain_d_argent(Plateau* plateau);
 
 /////////      emplacement souris       ///////////
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY,int*souris_sur_le_plateaux,Plateau* plateau);
+void afficherCaseSouris(int mouseX, int mouseY, Plateau* plateau);
 
 /////////     dessiner batiment      ///////////
 void dessiner_batiment(Plateau *plateau, int etage);
@@ -169,6 +172,8 @@ void dessiner_tout(Plateau *plateau, int etage,int choix_batiment, int caseDeLaS
 /////////     sauvegarde jeu     ///////////
 void sauvegarde_jeu(Plateau *plateau);
 void charger_la_sauvegarde(Plateau* plateau);
+
+void dessinerBoutonEtage(Bouton bouton);
 
 
 #endif //ECE_CITY_2_H_JEU_H

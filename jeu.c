@@ -1493,6 +1493,13 @@ void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *robo
     }
 }
 
+void dessinerBoutonEtage(Bouton bouton) {
+
+    ALLEGRO_COLOR lightgrey = al_map_rgb(211, 211, 211);
+    al_draw_filled_rectangle(bouton.x, bouton.y,
+                             bouton.x + bouton.largeur,bouton.y + bouton.hauteur,
+                             lightgrey);
+}
 
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLaSourieX,
@@ -1503,9 +1510,7 @@ void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLa
     dessiner_batiment(plateau, etage);
     ///dessine les boutons pour les etages
     for (int i = 0; i < bouton_etage->nb_bouton; i++) {
-        al_draw_filled_rectangle(bouton_etage[i].x, bouton_etage[i].y, bouton_etage[i].x + bouton_etage[i].largeur,
-                                 bouton_etage[i].y + bouton_etage[i].hauteur, al_map_rgb(100, 100, 100));
-
+        dessinerBoutonEtage(bouton_etage[i]);
     }
     ///dessine les boutons pour choisir les batiments
     if (etage==0){
