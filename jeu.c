@@ -1907,7 +1907,7 @@ void dessinerCaseSouris(int sourisSurPlateau, int choixBatiment, int caseX, int 
                                      plateau->map[caseY + 3][caseX + 2].y + plateau->largeur_case,
                                      al_map_rgba(255, 255, 0, 100));
 
-        } else if (choixBatiment == 4 && caseX >= 2 && caseY >= 1 && caseX <= 42 && caseY <= 31) {
+        } else if (choixBatiment == 4 && caseX >= 2 && caseY >= 1 && caseX <= 41 && caseY <= 31) {
             al_draw_filled_rectangle(plateau->map[caseY - 1][caseX - 2].x,
                                      plateau->map[caseY - 1][caseX - 2].y,
                                      plateau->map[caseY + 2][caseX + 3].x + plateau->largeur_case,
