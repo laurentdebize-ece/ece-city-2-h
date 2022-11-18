@@ -1889,6 +1889,41 @@ void dessinerBoutonEtage(Bouton bouton, ALLEGRO_FONT *font) {
                   ALLEGRO_ALIGN_CENTER, "%s", bouton.label);
 }
 
+void dessinerCaseSouris(int sourisSurPlateau, int choixBatiment, int caseX, int caseY, Plateau *plateau) {
+
+    if (sourisSurPlateau) {
+        // maison
+        if (choixBatiment == 2 && caseX >= 1 && caseY >= 1 && caseX <= 43 && caseY <= 33) {
+            al_draw_filled_rectangle(plateau->map[caseY - 1][caseX - 1].x,
+                                     plateau->map[caseY - 1][caseX - 1].y,
+                                     plateau->map[caseY + 1][caseX + 1].x + plateau->largeur_case,
+                                     plateau->map[caseY + 1][caseX + 1].y + plateau->largeur_case,
+                                     al_map_rgba(255, 0, 255, 100));
+        // chateau
+        } else if (choixBatiment == 3 && caseX >= 1 && caseY >= 2 && caseX <= 42 && caseY <= 31) {
+            al_draw_filled_rectangle(plateau->map[caseY - 2][caseX - 1].x,
+                                     plateau->map[caseY - 2][caseX - 1].y,
+                                     plateau->map[caseY + 3][caseX + 2].x + plateau->largeur_case,
+                                     plateau->map[caseY + 3][caseX + 2].y + plateau->largeur_case,
+                                     al_map_rgba(255, 255, 0, 100));
+
+        } else if (choixBatiment == 4 && caseX >= 2 && caseY >= 1 && caseX <= 42 && caseY <= 31) {
+            al_draw_filled_rectangle(plateau->map[caseY - 1][caseX - 2].x,
+                                     plateau->map[caseY - 1][caseX - 2].y,
+                                     plateau->map[caseY + 2][caseX + 3].x + plateau->largeur_case,
+                                     plateau->map[caseY + 2][caseX + 3].y + plateau->largeur_case,
+                                     al_map_rgba(255, 255, 0, 100));
+
+        } else {
+            al_draw_filled_rectangle(plateau->map[caseY][caseX].x,
+                                     plateau->map[caseY][caseX].y,
+                                     plateau->map[caseY][caseX].x + plateau->largeur_case,
+                                     plateau->map[caseY][caseX].y + plateau->largeur_case,
+                                     al_map_rgb(0, 255, 0));
+        }
+    }
+}
+
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLaSourieX,
                    int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[], Bouton bouton_batiment[],
@@ -1916,27 +1951,8 @@ void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLa
     }
 
     ///dessine la case ou est la souris
-    if (souris_sur_le_plateaux) {
-        if (choix_batiment == 2 && caseDeLaSourieX >= 1 && caseDeLaSourieY >= 1 && caseDeLaSourieX <= 43 && caseDeLaSourieY <= 33) {
-            al_draw_filled_rectangle(plateau->map[caseDeLaSourieY - 1][caseDeLaSourieX - 1].x,
-                                     plateau->map[caseDeLaSourieY - 1][caseDeLaSourieX - 1].y,
-                                     plateau->map[caseDeLaSourieY + 1][caseDeLaSourieX + 1].x + plateau->largeur_case,
-                                     plateau->map[caseDeLaSourieY + 1][caseDeLaSourieX + 1].y + plateau->largeur_case,
-                                     al_map_rgba(255, 0, 255, 100));
-        } else if (choix_batiment == 3 && caseDeLaSourieX >= 1 && caseDeLaSourieY >= 2 && caseDeLaSourieX <= 42 && caseDeLaSourieY <= 31) {
-            al_draw_filled_rectangle(plateau->map[caseDeLaSourieY - 2][caseDeLaSourieX - 1].x,
-                                     plateau->map[caseDeLaSourieY- 2][caseDeLaSourieX - 1].y,
-                                     plateau->map[caseDeLaSourieY + 3][caseDeLaSourieX + 2].x + plateau->largeur_case,
-                                     plateau->map[caseDeLaSourieY + 3][caseDeLaSourieX + 2].y + plateau->largeur_case,
-                                     al_map_rgba(255, 255, 0, 100));
-        } else {
-            al_draw_filled_rectangle(plateau->map[caseDeLaSourieY][caseDeLaSourieX].x,
-                                     plateau->map[caseDeLaSourieY][caseDeLaSourieX].y,
-                                     plateau->map[caseDeLaSourieY][caseDeLaSourieX].x + plateau->largeur_case,
-                                     plateau->map[caseDeLaSourieY][caseDeLaSourieX].y + plateau->largeur_case,
-                                     al_map_rgb(0, 255, 0));
-        }
-    }
+    dessinerCaseSouris(souris_sur_le_plateaux, choix_batiment, caseDeLaSourieX, caseDeLaSourieY, plateau);
+
     afficher_interface(plateau, roboto);
     al_flip_display();
 }
