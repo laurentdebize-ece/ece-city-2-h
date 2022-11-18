@@ -1930,7 +1930,7 @@ void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLa
                    ALLEGRO_FONT *roboto, ALLEGRO_FONT *robotoLabelBoutton, ALLEGRO_BITMAP *map, ALLEGRO_BITMAP *herbe) {
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
     al_draw_bitmap(map, 0, 0, 0);
-    //dessiner_plateau(plateau, herbe);
+    dessiner_plateau(plateau, herbe);
     dessiner_batiment(plateau, etage, caseDeLaSourieX, caseDeLaSourieY, roboto);
     ///dessine les boutons pour les etages
     for (int i = 0; i < bouton_etage->nb_bouton; i++) {
