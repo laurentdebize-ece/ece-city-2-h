@@ -1938,6 +1938,9 @@ void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLa
     }
     ///dessine les boutons pour choisir les batiments
     if (etage == 0) {
+        ///dessine la case ou est la souris
+        dessinerCaseSouris(souris_sur_le_plateaux, choix_batiment, caseDeLaSourieX, caseDeLaSourieY, plateau);
+
         for (int i = 0; i < bouton_batiment->nb_bouton; i++) {
             al_draw_filled_rectangle(bouton_batiment[i].x, bouton_batiment[i].y,
                                      bouton_batiment[i].x + bouton_batiment[i].largeur,
@@ -1949,9 +1952,6 @@ void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLa
             }
         }
     }
-
-    ///dessine la case ou est la souris
-    dessinerCaseSouris(souris_sur_le_plateaux, choix_batiment, caseDeLaSourieX, caseDeLaSourieY, plateau);
 
     afficher_interface(plateau, roboto);
     al_flip_display();
