@@ -61,7 +61,7 @@ int main() {
     ALLEGRO_BITMAP *caseHerbe = al_load_bitmap("../image/herbe.png");
 
     /// Ecriture
-    roboto = al_load_ttf_font("../fonts/roboto/RobotoCondensed-Regular.ttf", 30, 0);
+    roboto = al_load_ttf_font("../fonts/roboto/RobotoCondensed-Regular.ttf", 20, 0);
     ALLEGRO_FONT *robotoLabelBouton = al_load_ttf_font("../fonts/roboto/RobotoCondensed-Regular.ttf", 20, 0);
     if (!roboto) {
         al_destroy_display(display);
@@ -92,8 +92,7 @@ int main() {
             }
             case ALLEGRO_EVENT_MOUSE_AXES : {
 
-                chercherCaseSouris(event.mouse.x, event.mouse.y, &caseDeLaSourisX,
-                                   &caseDeLaSourisY, plateau, &sourisSurLePlateau);
+                chercherCaseSouris(event.mouse.x, event.mouse.y, &caseDeLaSourisX, &caseDeLaSourisY, plateau, &sourisSurLePlateau);
 
                 break;
             }

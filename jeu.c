@@ -122,7 +122,7 @@ void dessiner_plateau(Plateau *plateau, ALLEGRO_BITMAP *herbe) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
             al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y, plateau->map[i][j].x + plateau->largeur_case,
                               plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 255, 255), 1);
-            al_draw_bitmap(herbe, plateau->map[i][j].x, plateau->map[i][j].y, NULL);
+            //al_draw_bitmap(herbe, plateau->map[i][j].x, plateau->map[i][j].y, 0);
         }
     }
 }
@@ -1332,11 +1332,6 @@ void dessiner_batiment(Plateau *plateau, int etage, int caseDeLaSourieX, int cas
 void dessiner_etage_0(Plateau *plateau) {
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
-            if (plateau->map[i][j].etat == 0) {
-                al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
-                                  plateau->map[i][j].x + plateau->largeur_case,
-                                  plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 255, 255), 1);
-            }
             if (plateau->map[i][j].etat == 1) {
                 al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
                                          plateau->map[i][j].x + plateau->largeur_case,
@@ -1405,11 +1400,6 @@ void dessiner_etage_0(Plateau *plateau) {
 void dessiner_etage_1(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY, ALLEGRO_FONT *roboto) {
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
-            if (plateau->map[i][j].etat == 0) {
-                al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
-                                  plateau->map[i][j].x + plateau->largeur_case,
-                                  plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 255, 255), 1);
-            }
             if (plateau->map[i][j].etat == 1) {
                 al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
                                          plateau->map[i][j].x + plateau->largeur_case,
@@ -1616,11 +1606,6 @@ void affiche_capacite_eau_de_chaque_batiment(Plateau *plateau, int caseDeLaSouri
 void dessiner_etage_2(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY, ALLEGRO_FONT *roboto) {
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
-            if (plateau->map[i][j].etat == 0) {
-                al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
-                                  plateau->map[i][j].x + plateau->largeur_case,
-                                  plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 255, 255), 1);
-            }
             if (plateau->map[i][j].etat == 1) {
                 al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
                                          plateau->map[i][j].x + plateau->largeur_case,
@@ -1853,11 +1838,11 @@ void afficher_rapport_sur_eau_total(Plateau *plateau, ALLEGRO_FONT *roboto) {
         capacite_totale_en_eau += plateau->tab_chateau_eau[i].capacite_max;
         capacite_utilise_en_eau += plateau->tab_chateau_eau[i].capacite_utilisee;
     }
-    al_draw_textf(roboto, al_map_rgb(0, 0, 0), 610 + 240 / 2, 505, ALLEGRO_ALIGN_CENTER, "%.0f/%.0f",
+    al_draw_textf(roboto, al_map_rgb(0, 0, 0), 300 + 240 / 2, 20, ALLEGRO_ALIGN_CENTER, "%.0f/%.0f",
                   capacite_utilise_en_eau, capacite_totale_en_eau);
-    al_draw_rectangle(610, 505, 610 + 240, 535, al_map_rgb(0, 0, 0), 2);
+    al_draw_rectangle(300, 20, 300 + 240, 40, al_map_rgb(0, 0, 0), 2);
     if (capacite_totale_en_eau != 0) {
-        al_draw_filled_rectangle(610, 505, 610 + 240 * (capacite_utilise_en_eau / capacite_totale_en_eau), 535,
+        al_draw_filled_rectangle(300, 20, 300 + 240 * (capacite_utilise_en_eau / capacite_totale_en_eau), 40,
                                  al_map_rgba(0, 0, 255, 30));
     }
 }
@@ -1870,11 +1855,11 @@ void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *robo
         capacite_totale_en_elec += plateau->tab_centrale_elec[i].capacite_max;
         capacite_utilise_en_elec += plateau->tab_centrale_elec[i].capacite_utilisee;
     }
-    al_draw_textf(roboto, al_map_rgb(0, 0, 0), 610 + 240 / 2, 505, ALLEGRO_ALIGN_CENTER, "%.0f/%.0f",
+    al_draw_textf(roboto, al_map_rgb(0, 0, 0), 600 + 240 / 2, 20, ALLEGRO_ALIGN_CENTER, "%.0f/%.0f",
                   capacite_utilise_en_elec, capacite_totale_en_elec);
-    al_draw_rectangle(610, 505, 610 + 240, 535, al_map_rgb(0, 0, 0), 2);
+    al_draw_rectangle(600, 20, 600 + 240, 40, al_map_rgb(0, 0, 0), 2);
     if (capacite_totale_en_elec != 0) {
-        al_draw_filled_rectangle(610, 505, 610 + 240 * (capacite_utilise_en_elec / capacite_totale_en_elec), 535,
+        al_draw_filled_rectangle(600, 20, 600 + 240 * (capacite_utilise_en_elec / capacite_totale_en_elec), 40,
                                  al_map_rgba(255, 255, 0, 30));
     }
 }
@@ -1908,6 +1893,7 @@ void dessinerBoutonEtage(Bouton bouton, ALLEGRO_FONT *font) {
 void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLaSourieX,
                    int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[], Bouton bouton_batiment[],
                    ALLEGRO_FONT *roboto, ALLEGRO_FONT *robotoLabelBoutton, ALLEGRO_BITMAP *map, ALLEGRO_BITMAP *herbe) {
+    al_clear_to_color(al_map_rgb_f(0, 0, 0));
     al_draw_bitmap(map, 0, 0, 0);
     //dessiner_plateau(plateau, herbe);
     dessiner_batiment(plateau, etage, caseDeLaSourieX, caseDeLaSourieY, roboto);
