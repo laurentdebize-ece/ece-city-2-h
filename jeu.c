@@ -1931,11 +1931,19 @@ void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLa
 
     ///dessine la case ou est la souris
     if (souris_sur_le_plateaux) {
-        al_draw_filled_rectangle(plateau->map[caseDeLaSourieY][caseDeLaSourieX].x,
-                                 plateau->map[caseDeLaSourieY][caseDeLaSourieX].y,
-                                 plateau->map[caseDeLaSourieY][caseDeLaSourieX].x + plateau->largeur_case,
-                                 plateau->map[caseDeLaSourieY][caseDeLaSourieX].y + plateau->largeur_case,
-                                 al_map_rgb(0, 255, 0));
+        if (choix_batiment == 2 && caseDeLaSourieX >= 1 && caseDeLaSourieY >= 1 && caseDeLaSourieX <= 43 && caseDeLaSourieY <= 33) {
+            al_draw_filled_rectangle(plateau->map[caseDeLaSourieY - 1][caseDeLaSourieX - 1].x,
+                                     plateau->map[caseDeLaSourieY- 1][caseDeLaSourieX - 1].y,
+                                     plateau->map[caseDeLaSourieY + 1][caseDeLaSourieX + 1].x + plateau->largeur_case,
+                                     plateau->map[caseDeLaSourieY + 1][caseDeLaSourieX + 1].y + plateau->largeur_case,
+                                     al_map_rgba(255, 0, 255, 100));
+        } else {
+            al_draw_filled_rectangle(plateau->map[caseDeLaSourieY][caseDeLaSourieX].x,
+                                     plateau->map[caseDeLaSourieY][caseDeLaSourieX].y,
+                                     plateau->map[caseDeLaSourieY][caseDeLaSourieX].x + plateau->largeur_case,
+                                     plateau->map[caseDeLaSourieY][caseDeLaSourieX].y + plateau->largeur_case,
+                                     al_map_rgb(0, 255, 0));
+        }
     }
     afficher_interface(plateau, roboto);
     al_flip_display();
