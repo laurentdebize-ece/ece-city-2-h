@@ -1933,10 +1933,16 @@ void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLa
     if (souris_sur_le_plateaux) {
         if (choix_batiment == 2 && caseDeLaSourieX >= 1 && caseDeLaSourieY >= 1 && caseDeLaSourieX <= 43 && caseDeLaSourieY <= 33) {
             al_draw_filled_rectangle(plateau->map[caseDeLaSourieY - 1][caseDeLaSourieX - 1].x,
-                                     plateau->map[caseDeLaSourieY- 1][caseDeLaSourieX - 1].y,
+                                     plateau->map[caseDeLaSourieY - 1][caseDeLaSourieX - 1].y,
                                      plateau->map[caseDeLaSourieY + 1][caseDeLaSourieX + 1].x + plateau->largeur_case,
                                      plateau->map[caseDeLaSourieY + 1][caseDeLaSourieX + 1].y + plateau->largeur_case,
                                      al_map_rgba(255, 0, 255, 100));
+        } else if (choix_batiment == 3 && caseDeLaSourieX >= 1 && caseDeLaSourieY >= 2 && caseDeLaSourieX <= 42 && caseDeLaSourieY <= 31) {
+            al_draw_filled_rectangle(plateau->map[caseDeLaSourieY - 2][caseDeLaSourieX - 1].x,
+                                     plateau->map[caseDeLaSourieY- 2][caseDeLaSourieX - 1].y,
+                                     plateau->map[caseDeLaSourieY + 3][caseDeLaSourieX + 2].x + plateau->largeur_case,
+                                     plateau->map[caseDeLaSourieY + 3][caseDeLaSourieX + 2].y + plateau->largeur_case,
+                                     al_map_rgba(255, 255, 0, 100));
         } else {
             al_draw_filled_rectangle(plateau->map[caseDeLaSourieY][caseDeLaSourieX].x,
                                      plateau->map[caseDeLaSourieY][caseDeLaSourieX].y,
