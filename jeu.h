@@ -80,6 +80,11 @@ typedef struct Plateau {
     Ressource *tab_centrale_elec;
 } Plateau;
 
+typedef struct DebutDePartie{
+    ALLEGRO_BITMAP* debut[5];
+    int spriteX, spriteY, spriteHauteur, spriteLargeur;
+}DebutDePartie;
+
 
 /////////      plateau        ///////////
 Plateau *creer_plateau(int nb_ligne, int nb_colonne);
