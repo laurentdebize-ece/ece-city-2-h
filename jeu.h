@@ -34,7 +34,7 @@ typedef struct {
 typedef struct Stade{
     int nb_habitant;
     ALLEGRO_BITMAP* image_du_stade_correspondant;
-    int largeur_du_batiment,hauteur_du_batiment;
+    int largeur_du_batiment, hauteur_du_batiment;
 }Stade;
 
 typedef struct Maison {
@@ -54,9 +54,13 @@ typedef struct Maison_alimentee {
     int quantite;
 } Maison_alimentee;
 
+typedef struct Batiment_pour_ressource_dessin{
+    ALLEGRO_BITMAP* image_du_batiment;
+    int largeur_du_batiment, hauteur_du_batiment;
+}Batiment_pour_ressource_dessin;
+
 typedef struct Ressource {
-    ALLEGRO_BITMAP *image_batiment[2];
-    int type;
+    ALLEGRO_BITMAP *image_batiment;
     int largeur, hauteur;
     int caseX, caseY;
     int caseX_haut_gauche, caseY_haut_gauche;
@@ -79,6 +83,7 @@ typedef struct Plateau {
     Stade* tab_des_different_stade_possible;
     int nb_maison;
     Maison *tab_de_maison;
+    Batiment_pour_ressource_dessin * tab_dessin_ressource;
     int nb_chateau_eau;
     Ressource *tab_chateau_eau;
     int nb_centrale_elec;

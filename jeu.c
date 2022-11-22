@@ -15,6 +15,7 @@ Plateau *creer_plateau(int nb_ligne, int nb_colonne) {
     Newplateau->tab_des_prix = (int *) malloc(4 * sizeof(int));
     Newplateau->tab_des_different_stade_possible = (Stade *) malloc(6 * sizeof(Stade));
     Newplateau->tab_de_maison = (Maison *) malloc(100 * sizeof(Maison));
+    Newplateau->tab_dessin_ressource = (Batiment_pour_ressource_dessin *) malloc(2 * sizeof(Batiment_pour_ressource_dessin));
     Newplateau->tab_chateau_eau = (Ressource *) malloc(20 * sizeof(Ressource));
     Newplateau->tab_centrale_elec = (Ressource *) malloc(20 * sizeof(Ressource));
     return Newplateau;
@@ -108,6 +109,14 @@ void lire_prix_et_stade(Plateau *plateau) {
     plateau->tab_des_different_stade_possible[3].hauteur_du_batiment = plateau->largeur_case * 6;
     plateau->tab_des_different_stade_possible[4].hauteur_du_batiment = plateau->largeur_case * 6;
     plateau->tab_des_different_stade_possible[5].hauteur_du_batiment = plateau->largeur_case * 3;
+
+
+    plateau->tab_dessin_ressource[0].image_du_batiment=al_load_bitmap("../image/chateau d'eau.png");
+    plateau->tab_dessin_ressource[0].largeur_du_batiment=plateau->largeur_case * 4;
+    plateau->tab_dessin_ressource[0].hauteur_du_batiment=plateau->largeur_case * 6;
+    plateau->tab_dessin_ressource[1].image_du_batiment=al_load_bitmap("../image/powerplant.png");
+    plateau->tab_dessin_ressource[1].largeur_du_batiment=plateau->largeur_case * 6;
+    plateau->tab_dessin_ressource[1].hauteur_du_batiment=plateau->largeur_case * 4;
 
     for (int i = 0; i < 4; i++) {
         fscanf(ifs, "%d", &prix);
@@ -334,9 +343,9 @@ void construire_chateau_eau(Plateau *plateau, int caseX, int caseY) {
 }
 
 void crer_un_chateau_eau(Plateau *plateau, int caseX, int caseY) {
-    plateau->tab_chateau_eau[plateau->nb_chateau_eau].type = 1;
-    plateau->tab_chateau_eau[plateau->nb_chateau_eau].largeur = plateau->largeur_case * 4;
-    plateau->tab_chateau_eau[plateau->nb_chateau_eau].hauteur = plateau->largeur_case * 6;
+    plateau->tab_chateau_eau[plateau->nb_chateau_eau].image_batiment = plateau->tab_dessin_ressource[0].image_du_batiment;
+    plateau->tab_chateau_eau[plateau->nb_chateau_eau].largeur = plateau->tab_dessin_ressource[0].largeur_du_batiment;
+    plateau->tab_chateau_eau[plateau->nb_chateau_eau].hauteur = plateau->tab_dessin_ressource[0].hauteur_du_batiment;
     plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseY = caseY;
     plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseX = caseX;
     plateau->tab_chateau_eau[plateau->nb_chateau_eau].caseX_haut_gauche = caseX - 1;
@@ -380,9 +389,9 @@ void construire_centrale_elec(Plateau *plateau, int caseX, int caseY) {
 }
 
 void crer_une_centrale_elec(Plateau *plateau, int caseX, int caseY) {
-    plateau->tab_centrale_elec[plateau->nb_centrale_elec].type = 2;
-    plateau->tab_centrale_elec[plateau->nb_centrale_elec].largeur = plateau->largeur_case * 6;
-    plateau->tab_centrale_elec[plateau->nb_centrale_elec].hauteur = plateau->largeur_case * 4;
+    plateau->tab_centrale_elec[plateau->nb_centrale_elec].image_batiment = plateau->tab_dessin_ressource[1].image_du_batiment;
+    plateau->tab_centrale_elec[plateau->nb_centrale_elec].largeur = plateau->tab_dessin_ressource[1].largeur_du_batiment;
+    plateau->tab_centrale_elec[plateau->nb_centrale_elec].hauteur = plateau->tab_dessin_ressource[1].hauteur_du_batiment;
     plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseY = caseY;
     plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseX = caseX;
     plateau->tab_centrale_elec[plateau->nb_centrale_elec].caseX_haut_gauche = caseX - 2;
@@ -1414,29 +1423,21 @@ void dessiner_etage_0(Plateau *plateau) {
         }
     }
     for (int k = 0; k < plateau->nb_chateau_eau; k++) {
-        al_draw_filled_rectangle(plateau->tab_chateau_eau[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
-                                 plateau->tab_chateau_eau[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
-                                 plateau->tab_chateau_eau[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
-                                 plateau->tab_chateau_eau[k].largeur,
-                                 plateau->tab_chateau_eau[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
-                                 plateau->tab_chateau_eau[k].hauteur, al_map_rgb(255, 255, 0));
+        al_draw_bitmap(plateau->tab_chateau_eau[k].image_batiment,
+                       (plateau->tab_chateau_eau[k].caseX + 3) * plateau->largeur_case +
+                       (LARGEUR - plateau->largeur_case * plateau->nb_colonne) - plateau->tab_chateau_eau[k].largeur,
+                       (plateau->tab_chateau_eau[k].caseY + 4) * plateau->largeur_case +
+                       (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) - plateau->tab_chateau_eau[k].hauteur, 0);
+
 
     }
     for (int k = 0; k < plateau->nb_centrale_elec; k++) {
-        al_draw_filled_rectangle(plateau->tab_centrale_elec[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
-                                 plateau->tab_centrale_elec[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
-                                 plateau->tab_centrale_elec[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
-                                 plateau->tab_centrale_elec[k].largeur,
-                                 plateau->tab_centrale_elec[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
-                                 plateau->tab_centrale_elec[k].hauteur, al_map_rgb(255, 255, 0));
+        al_draw_bitmap(plateau->tab_centrale_elec[k].image_batiment,
+                       (plateau->tab_centrale_elec[k].caseX + 4) * plateau->largeur_case +
+                       (LARGEUR - plateau->largeur_case * plateau->nb_colonne) - plateau->tab_centrale_elec[k].largeur,
+                       (plateau->tab_centrale_elec[k].caseY + 3) * plateau->largeur_case +
+                       (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) - plateau->tab_centrale_elec[k].hauteur, 0);
+
 
     }
 }
@@ -2039,7 +2040,9 @@ void charger_la_sauvegarde(Plateau *plateau) {
             for (int j = 0; j < plateau->nb_colonne; j++) {
                 if (plateau->map[i][j].etat > 300 && plateau->map[i][j].etat < 400 &&
                     ((plateau->map[i][j].etat - 300) == k + 1)) {
-                    plateau->tab_chateau_eau[k].type = 1;
+                    plateau->tab_chateau_eau[k].image_batiment = plateau->tab_dessin_ressource[0].image_du_batiment;
+                    plateau->tab_chateau_eau[k].largeur = plateau->tab_dessin_ressource[0].largeur_du_batiment;
+                    plateau->tab_chateau_eau[k].hauteur = plateau->tab_dessin_ressource[0].hauteur_du_batiment;
                     plateau->tab_chateau_eau[k].caseX = j;
                     plateau->tab_chateau_eau[k].caseY = i;
                     plateau->tab_chateau_eau[k].caseX_haut_gauche = j - 1;
@@ -2060,7 +2063,9 @@ void charger_la_sauvegarde(Plateau *plateau) {
             for (int j = 0; j < plateau->nb_colonne; j++) {
                 if (plateau->map[i][j].etat > 400 && plateau->map[i][j].etat < 500 &&
                     ((plateau->map[i][j].etat - 400) == k + 1)) {
-                    plateau->tab_centrale_elec[k].type = 2;
+                    plateau->tab_centrale_elec[k].image_batiment = plateau->tab_dessin_ressource[1].image_du_batiment;
+                    plateau->tab_centrale_elec[k].largeur = plateau->tab_dessin_ressource[1].largeur_du_batiment;
+                    plateau->tab_centrale_elec[k].hauteur = plateau->tab_dessin_ressource[1].hauteur_du_batiment;
                     plateau->tab_centrale_elec[k].caseX = j;
                     plateau->tab_centrale_elec[k].caseY = i;
                     plateau->tab_centrale_elec[k].caseX_haut_gauche = j - 2;
