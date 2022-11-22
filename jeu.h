@@ -31,9 +31,14 @@ typedef struct {
     int y;
     int etat;
 } Case;
+typedef struct Stade{
+    int nb_habitant;
+    ALLEGRO_BITMAP* image_du_stade_correspondant;
+    int largeur_du_batiment,hauteur_du_batiment;
+}Stade;
 
 typedef struct Maison {
-    ALLEGRO_BITMAP *image_stade_batiment[6];
+    ALLEGRO_BITMAP *image_batiment;
     int largeur, hauteur;
     int date_creation;
     int caseX, caseY;
@@ -71,7 +76,7 @@ typedef struct Plateau {
     int *tab_des_prix;
     Case **map;
     int nb_stade_different;
-    int *tab_nb_habitant_pour_chaque_stade_de_maison;
+    Stade* tab_des_different_stade_possible;
     int nb_maison;
     Maison *tab_de_maison;
     int nb_chateau_eau;
@@ -91,7 +96,7 @@ Plateau *creer_plateau(int nb_ligne, int nb_colonne);
 
 Plateau *lire_plateau(int charger_sauvegarde);
 
-void lire_prix_et_nb_habitant(Plateau *plateau);
+void lire_prix_et_stade(Plateau *plateau);
 
 void initialiser_plateau(Plateau *plateau);
 

@@ -13,7 +13,7 @@ Plateau *creer_plateau(int nb_ligne, int nb_colonne) {
         Newplateau->map[i] = (Case *) malloc(nb_colonne * sizeof(Case));
     }
     Newplateau->tab_des_prix = (int *) malloc(4 * sizeof(int));
-    Newplateau->tab_nb_habitant_pour_chaque_stade_de_maison = (int *) malloc(6 * sizeof(int));
+    Newplateau->tab_des_different_stade_possible = (Stade *) malloc(6 * sizeof(Stade));
     Newplateau->tab_de_maison = (Maison *) malloc(100 * sizeof(Maison));
     Newplateau->tab_chateau_eau = (Ressource *) malloc(20 * sizeof(Ressource));
     Newplateau->tab_centrale_elec = (Ressource *) malloc(20 * sizeof(Ressource));
@@ -68,7 +68,7 @@ Plateau *lire_plateau(int charger_sauvegarde) {
     plateau->nb_centrale_elec = 0;
 
     fclose(ifs);
-    lire_prix_et_nb_habitant(plateau);
+    lire_prix_et_stade(plateau);
     if (charger_sauvegarde == 1) {
         charger_la_sauvegarde(plateau);
     }
@@ -76,7 +76,7 @@ Plateau *lire_plateau(int charger_sauvegarde) {
     return plateau;
 }
 
-void lire_prix_et_nb_habitant(Plateau *plateau) {
+void lire_prix_et_stade(Plateau *plateau) {
     FILE *ifs = fopen("../argent_et_nb_habitant", "r");
     int nb_stade, nb_habitant_necesaire;
     int prix;
@@ -85,8 +85,29 @@ void lire_prix_et_nb_habitant(Plateau *plateau) {
     plateau->nb_stade_different = nb_stade;
     for (int i = 0; i < plateau->nb_stade_different; i++) {
         fscanf(ifs, "%d", &nb_habitant_necesaire);
-        plateau->tab_nb_habitant_pour_chaque_stade_de_maison[i] = nb_habitant_necesaire;
+        plateau->tab_des_different_stade_possible[i].nb_habitant = nb_habitant_necesaire;
     }
+    plateau->tab_des_different_stade_possible[0].image_du_stade_correspondant = al_load_bitmap("../image/maison.png");
+    plateau->tab_des_different_stade_possible[1].image_du_stade_correspondant = al_load_bitmap("../image/cabane.png");
+    plateau->tab_des_different_stade_possible[2].image_du_stade_correspondant = al_load_bitmap("../image/maison.png");
+    plateau->tab_des_different_stade_possible[3].image_du_stade_correspondant = al_load_bitmap("../image/immeuble.png");
+    plateau->tab_des_different_stade_possible[4].image_du_stade_correspondant = al_load_bitmap(
+            "../image/gratte ciel.png");
+    plateau->tab_des_different_stade_possible[5].image_du_stade_correspondant = al_load_bitmap("../image/immeuble.png");
+
+    plateau->tab_des_different_stade_possible[0].largeur_du_batiment = plateau->largeur_case * 3;
+    plateau->tab_des_different_stade_possible[1].largeur_du_batiment = plateau->largeur_case * 3;
+    plateau->tab_des_different_stade_possible[2].largeur_du_batiment = plateau->largeur_case * 3;
+    plateau->tab_des_different_stade_possible[3].largeur_du_batiment = plateau->largeur_case * 3;
+    plateau->tab_des_different_stade_possible[4].largeur_du_batiment = plateau->largeur_case * 3;
+    plateau->tab_des_different_stade_possible[5].largeur_du_batiment = plateau->largeur_case * 3;
+
+    plateau->tab_des_different_stade_possible[0].hauteur_du_batiment = plateau->largeur_case * 3;
+    plateau->tab_des_different_stade_possible[1].hauteur_du_batiment = plateau->largeur_case * 3;
+    plateau->tab_des_different_stade_possible[2].hauteur_du_batiment = plateau->largeur_case * 3;
+    plateau->tab_des_different_stade_possible[3].hauteur_du_batiment = plateau->largeur_case * 6;
+    plateau->tab_des_different_stade_possible[4].hauteur_du_batiment = plateau->largeur_case * 6;
+    plateau->tab_des_different_stade_possible[5].hauteur_du_batiment = plateau->largeur_case * 3;
 
     for (int i = 0; i < 4; i++) {
         fscanf(ifs, "%d", &prix);
@@ -269,12 +290,12 @@ void construire_maison(Plateau *plateau, int caseX, int caseY) {
 }
 
 void crer_une_maison(Plateau *plateau, int caseX, int caseY) {
-    //plateau->tab_de_maison[plateau->nb_maison].date_creation = timer;
     plateau->tab_de_maison[plateau->nb_maison].caseY = caseY;
     plateau->tab_de_maison[plateau->nb_maison].caseX = caseX;
-    plateau->tab_de_maison[plateau->nb_maison].largeur = plateau->largeur_case * 3;
-    plateau->tab_de_maison[plateau->nb_maison].hauteur = plateau->largeur_case * 3;
     plateau->tab_de_maison[plateau->nb_maison].stade = 0;
+    plateau->tab_de_maison[plateau->nb_maison].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[plateau->nb_maison].stade].image_du_stade_correspondant;
+    plateau->tab_de_maison[plateau->nb_maison].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[plateau->nb_maison].stade].largeur_du_batiment;
+    plateau->tab_de_maison[plateau->nb_maison].hauteur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[plateau->nb_maison].stade].hauteur_du_batiment;
     plateau->tab_de_maison[plateau->nb_maison].nb_habitant = 0;
     plateau->tab_de_maison[plateau->nb_maison].eau_utilise = 0;
     plateau->tab_de_maison[plateau->nb_maison].elec_utilise = 0;
@@ -416,7 +437,10 @@ void detruire_une_route(Plateau *plateau, int caseX, int caseY) {
                                                                          plateau->tab_de_maison[i].caseY);
             if (plateau->tab_de_maison[i].viable == 0 && plateau->tab_de_maison[i].stade > 0) {
                 plateau->tab_de_maison[i].stade = 5;
-                plateau->tab_de_maison[i].nb_habitant = plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[i].stade];
+                plateau->tab_de_maison[i].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].nb_habitant;
+                plateau->tab_de_maison[i].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].image_du_stade_correspondant;
+                plateau->tab_de_maison[i].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].largeur_du_batiment;
+                plateau->tab_de_maison[i].hauteur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].hauteur_du_batiment;
                 plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat = (
                         (plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat / 10) *
                         10 + 5);
@@ -443,6 +467,24 @@ void detruire_une_maison(Plateau *plateau, int caseX, int caseY) {
         centre_de_la_maison_en_X = caseX;
         centre_de_la_maison_en_Y = caseY;
     }
+    for (int i = 0; i < plateau->nb_maison; i++) {
+        if ((plateau->map[centre_de_la_maison_en_Y][centre_de_la_maison_en_X].etat / 10 - 200) < (i + 1)) {
+            plateau->tab_de_maison[i - 1].caseX = plateau->tab_de_maison[i].caseX;
+            plateau->tab_de_maison[i - 1].caseY = plateau->tab_de_maison[i].caseY;
+            plateau->tab_de_maison[i - 1].nb_habitant = plateau->tab_de_maison[i].nb_habitant;
+            plateau->tab_de_maison[i - 1].image_batiment = plateau->tab_de_maison[i].image_batiment;
+            plateau->tab_de_maison[i - 1].largeur = plateau->tab_de_maison[i].largeur;
+            plateau->tab_de_maison[i - 1].hauteur = plateau->tab_de_maison[i].hauteur;
+            plateau->tab_de_maison[i - 1].eau_utilise = plateau->tab_de_maison[i].eau_utilise;
+            plateau->tab_de_maison[i - 1].elec_utilise = plateau->tab_de_maison[i].elec_utilise;
+            plateau->tab_de_maison[i - 1].viable = plateau->tab_de_maison[i].viable;
+            plateau->tab_de_maison[i - 1].stade = plateau->tab_de_maison[i].stade;
+            plateau->tab_de_maison[i - 1].date_creation = plateau->tab_de_maison[i].date_creation;
+        }
+    }
+    plateau->nb_maison--;
+
+
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             plateau->map[centre_de_la_maison_en_Y + i][centre_de_la_maison_en_X + j].etat = 0;
@@ -502,7 +544,10 @@ void detruire_un_chateau_d_eau(Plateau *plateau, int caseX, int caseY) {
                                                                          plateau->tab_de_maison[i].caseY);
             if (plateau->tab_de_maison[i].viable == 0 && plateau->tab_de_maison[i].stade > 0) {
                 plateau->tab_de_maison[i].stade = 5;
-                plateau->tab_de_maison[i].nb_habitant = plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[i].stade];
+                plateau->tab_de_maison[i].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].nb_habitant;
+                plateau->tab_de_maison[i].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].image_du_stade_correspondant;
+                plateau->tab_de_maison[i].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].largeur_du_batiment;
+                plateau->tab_de_maison[i].hauteur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].hauteur_du_batiment;
                 plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat = (
                         (plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat / 10) *
                         10 + 5);
@@ -563,7 +608,10 @@ void detruire_une_centrale_electrique(Plateau *plateau, int caseX, int caseY) {
                                                                          plateau->tab_de_maison[i].caseY);
             if (plateau->tab_de_maison[i].viable == 0 && plateau->tab_de_maison[i].stade > 0) {
                 plateau->tab_de_maison[i].stade = 5;
-                plateau->tab_de_maison[i].nb_habitant = plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[i].stade];
+                plateau->tab_de_maison[i].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].nb_habitant;
+                plateau->tab_de_maison[i].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].image_du_stade_correspondant;
+                plateau->tab_de_maison[i].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].largeur_du_batiment;
+                plateau->tab_de_maison[i].hauteur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].hauteur_du_batiment;
                 plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat = (
                         (plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat / 10) *
                         10 + 5);
@@ -583,17 +631,20 @@ void evolution_maison(Plateau *plateau) {
             if (plateau->tab_de_maison[i].stade < 4 &&
                 ((plateau->temps_en_seconde - plateau->tab_de_maison[i].date_creation) - 15) >= 0) {
                 verification_eau_dispo = verifier_si_assez_d_eau_disponible(plateau, i + 1,
-                                                                            plateau->tab_nb_habitant_pour_chaque_stade_de_maison[
+                                                                            plateau->tab_des_different_stade_possible[
                                                                                     plateau->tab_de_maison[i].stade +
-                                                                                    1] -
+                                                                                    1].nb_habitant -
                                                                             plateau->tab_de_maison[i].nb_habitant);
                 verification_elec_dispo = verifier_si_assez_d_elec_disponible_dans_une_centrale(plateau, i + 1,
-                                                                                                plateau->tab_nb_habitant_pour_chaque_stade_de_maison[
+                                                                                                plateau->tab_des_different_stade_possible[
                                                                                                         plateau->tab_de_maison[i].stade +
-                                                                                                        1]);
+                                                                                                        1].nb_habitant);
                 if (verification_eau_dispo == 1 && verification_elec_dispo == 1) {
                     plateau->tab_de_maison[i].stade++;
-                    plateau->tab_de_maison[i].nb_habitant = plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[i].stade];
+                    plateau->tab_de_maison[i].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].nb_habitant;
+                    plateau->tab_de_maison[i].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].image_du_stade_correspondant;
+                    plateau->tab_de_maison[i].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].largeur_du_batiment;
+                    plateau->tab_de_maison[i].hauteur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].hauteur_du_batiment;
                     plateau->tab_de_maison[i].date_creation = plateau->temps_en_seconde;
                     plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat++;
                     alimentation_en_eau(plateau);
@@ -1341,18 +1392,11 @@ void dessiner_etage_0(Plateau *plateau) {
         }
     }
     for (int k = 0; k < plateau->nb_maison; k++) {
-
-        al_draw_filled_rectangle((plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
-                                 (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
-                                 (plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
-                                 plateau->tab_de_maison[k].largeur,
-                                 (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
-                                 plateau->tab_de_maison[k].hauteur,
-                                 al_map_rgb(0, 10 + 40 * plateau->tab_de_maison[k].stade, 100));
+        al_draw_bitmap(plateau->tab_de_maison[k].image_batiment,
+                       (plateau->tab_de_maison[k].caseX + 2) * plateau->largeur_case +
+                       (LARGEUR - plateau->largeur_case * plateau->nb_colonne) - plateau->tab_de_maison[k].largeur,
+                       (plateau->tab_de_maison[k].caseY + 2) * plateau->largeur_case +
+                       (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) - plateau->tab_de_maison[k].hauteur, 0);
 
         if (plateau->tab_de_maison[k].viable == 0) {
             al_draw_filled_rectangle((plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
@@ -1424,17 +1468,12 @@ void dessiner_etage_1(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY
     for (int k = 0; k < plateau->nb_maison; k++) {
         if (plateau->tab_de_maison[k].viable == 1 && plateau->tab_de_maison[k].stade < 5 &&
             plateau->tab_de_maison[k].stade > 0) {
-            al_draw_filled_rectangle((plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
-                                     (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
-                                     (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
-                                     (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
-                                     (plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
-                                     (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
-                                     plateau->tab_de_maison[k].largeur,
-                                     (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
-                                     (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
-                                     plateau->tab_de_maison[k].hauteur,
-                                     al_map_rgb(0, 10 + 40 * plateau->tab_de_maison[k].stade, 100));
+            al_draw_bitmap(plateau->tab_de_maison[k].image_batiment,
+                           (plateau->tab_de_maison[k].caseX + 2) * plateau->largeur_case +
+                           (LARGEUR - plateau->largeur_case * plateau->nb_colonne) - plateau->tab_de_maison[k].largeur,
+                           (plateau->tab_de_maison[k].caseY + 2) * plateau->largeur_case +
+                           (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) - plateau->tab_de_maison[k].hauteur, 0);
+
         }
     }
 
@@ -1630,17 +1669,12 @@ void dessiner_etage_2(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY
     for (int k = 0; k < plateau->nb_maison; k++) {
         if (plateau->tab_de_maison[k].viable == 1 && plateau->tab_de_maison[k].stade < 5 &&
             plateau->tab_de_maison[k].stade > 0) {
-            al_draw_filled_rectangle((plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
-                                     (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
-                                     (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
-                                     (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
-                                     (plateau->tab_de_maison[k].caseX - 1) * plateau->largeur_case +
-                                     (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
-                                     plateau->tab_de_maison[k].largeur,
-                                     (plateau->tab_de_maison[k].caseY - 1) * plateau->largeur_case +
-                                     (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
-                                     plateau->tab_de_maison[k].hauteur,
-                                     al_map_rgb(0, 10 + 40 * plateau->tab_de_maison[k].stade, 100));
+            al_draw_bitmap(plateau->tab_de_maison[k].image_batiment,
+                           (plateau->tab_de_maison[k].caseX + 2) * plateau->largeur_case +
+                           (LARGEUR - plateau->largeur_case * plateau->nb_colonne) - plateau->tab_de_maison[k].largeur,
+                           (plateau->tab_de_maison[k].caseY + 2) * plateau->largeur_case +
+                           (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) - plateau->tab_de_maison[k].hauteur, 0);
+
         }
     }
     affiche_capacite_elec_de_chaque_batiment(plateau, caseDeLaSourieX, caseDeLaSourieY, roboto);
@@ -1899,7 +1933,7 @@ void dessinerCaseSouris(int sourisSurPlateau, int choixBatiment, int caseX, int 
                                      plateau->map[caseY + 1][caseX + 1].x + plateau->largeur_case,
                                      plateau->map[caseY + 1][caseX + 1].y + plateau->largeur_case,
                                      al_map_rgba(255, 0, 255, 100));
-        // chateau
+            // chateau
         } else if (choixBatiment == 3 && caseX >= 1 && caseY >= 2 && caseX <= 42 && caseY <= 31) {
             al_draw_filled_rectangle(plateau->map[caseY - 2][caseX - 1].x,
                                      plateau->map[caseY - 2][caseX - 1].y,
@@ -2048,8 +2082,11 @@ void charger_la_sauvegarde(Plateau *plateau) {
                 if (plateau->map[i][j].etat > 2000 && ((plateau->map[i][j].etat / 10 - 200) == k + 1)) {
                     plateau->tab_de_maison[k].caseX = j;
                     plateau->tab_de_maison[k].caseY = i;
-                    plateau->tab_de_maison[k].stade = plateau->map[i][j].etat % 6;
-                    plateau->tab_de_maison[k].nb_habitant = plateau->tab_nb_habitant_pour_chaque_stade_de_maison[plateau->tab_de_maison[k].stade];
+                    plateau->tab_de_maison[k].stade = (plateau->map[i][j].etat - ((plateau->map[i][j].etat / 10) * 10));
+                    plateau->tab_de_maison[k].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[k].stade].nb_habitant;
+                    plateau->tab_de_maison[k].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].image_du_stade_correspondant;
+                    plateau->tab_de_maison[k].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].largeur_du_batiment;
+                    plateau->tab_de_maison[k].hauteur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].hauteur_du_batiment;
                     plateau->tab_de_maison[k].viable = verifier_viabilite_maison(plateau,
                                                                                  plateau->tab_de_maison[k].caseX,
                                                                                  plateau->tab_de_maison[k].caseY);

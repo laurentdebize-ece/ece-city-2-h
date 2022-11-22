@@ -58,7 +58,7 @@ int main() {
     }
     /// images ////
     ALLEGRO_BITMAP *map = al_load_bitmap("../image/map.png");
-    ALLEGRO_BITMAP *caseHerbe = al_load_bitmap("../image/herbe.png");
+    ALLEGRO_BITMAP *caseHerbe = al_load_bitmap("../image/maison.png");
 
     /// Ecriture
     roboto = al_load_ttf_font("../fonts/roboto/RobotoCondensed-Regular.ttf", 20, 0);
@@ -102,6 +102,8 @@ int main() {
                     choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y, &choix_batiment_a_construire);
                     construire_batiment(plateau, choix_batiment_a_construire, sourisSurLePlateau, caseDeLaSourisX,
                                         caseDeLaSourisY);
+                }else{
+                    choix_batiment_a_construire=0;
                 }
                 break;
             }
@@ -136,7 +138,7 @@ int main() {
         free(plateau->tab_centrale_elec[i].tab_des_maisons_alimentee);
     }
     free(plateau->tab_centrale_elec);
-    free(plateau->tab_nb_habitant_pour_chaque_stade_de_maison);
+    free(plateau->tab_des_different_stade_possible);
     free(plateau->tab_des_prix);
     free(plateau);
 
