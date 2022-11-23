@@ -8,5 +8,6 @@
 
 
 void bitmapDebutDePartie(DebutDePartie* debutDePartie);
+void affichageBitmapEnFonctionDePositionSouris();
 
 #endif //ECE_CITY_2_H_DEBUTDEPARTIE_H
