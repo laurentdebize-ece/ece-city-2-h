@@ -1,4 +1,6 @@
 #include "jeu.h"
+#include "DebutDePartie/debutDePartie.h"
+
 
 
 int main() {
@@ -11,6 +13,8 @@ int main() {
     ALLEGRO_TIMER *timer = NULL;
     /// Police écriture
     ALLEGRO_FONT *roboto = NULL;
+    ALLEGRO_MOUSE_STATE mouse;
+    //DebutDePartie * debutDePartie;
 
 
     /// Déclaration des variables
@@ -21,6 +25,8 @@ int main() {
     int choix_batiment_a_construire = 0;
     int compteur_temps = 0;
 
+    /// Bitmap début de partie
+   // bitmapDebutDePartie(debutDePartie);
 
     Plateau *plateau;
     Bouton bouton_etage[3] = {0};
@@ -77,6 +83,9 @@ int main() {
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_mouse_event_source());
 
+
+   // al_draw_bitmap_region(debutDePartie->debut[0],1024,768,0,0,0,0,0);
+
     /// début du jeux
     plateau = lire_plateau(0);
     plateau->communiste=1;
@@ -85,6 +94,26 @@ int main() {
     initialisation_choix_etage(bouton_etage);
     initialisation_choix_batiment(bouton_choix_batiment);
     initialisation_bouton_pause(&bouton_pause);
+    /*
+    while (!end) {
+        al_wait_for_event(queue, &event);
+
+        switch (event.type) {
+
+            case ALLEGRO_EVENT_DISPLAY_CLOSE : {
+                end = true;
+                break;
+            }
+            case ALLEGRO_EVENT_MOUSE_AXES : {
+                break;
+            }
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:{
+                al_get_mouse_state(&mouse);
+                printf("x : %d\ny : %d\n", mouse.x, mouse.y);
+            }
+        }
+    }*/
+
 
     while (!end) {
         al_wait_for_event(queue, &event);
