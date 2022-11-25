@@ -60,8 +60,8 @@ int main() {
         exit(EXIT_FAILURE);
     }
     /// images ////
-    ALLEGRO_BITMAP *map = al_load_bitmap("../image/map.png");
-    ALLEGRO_BITMAP *caseHerbe = al_load_bitmap("../image/maison.png");
+    ALLEGRO_BITMAP *map = al_load_bitmap("../image/fond/map.png");
+
 
     /// Ecriture
     roboto = al_load_ttf_font("../fonts/roboto/RobotoCondensed-Regular.ttf", 20, 0);
@@ -129,7 +129,7 @@ int main() {
         plateau->temps_en_seconde = compteur_temps / 10;
         dessiner_tout(plateau, etage, pause, choix_batiment_a_construire, caseDeLaSourisX,
                       caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment,&bouton_pause, roboto,
-                      robotoLabelBouton, map, caseHerbe);
+                      robotoLabelBouton, map);
     }
     sauvegarde_jeu(plateau);
 

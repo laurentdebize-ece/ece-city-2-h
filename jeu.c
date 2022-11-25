@@ -88,13 +88,13 @@ void lire_prix_et_stade(Plateau *plateau) {
         fscanf(ifs, "%d", &nb_habitant_necesaire);
         plateau->tab_des_different_stade_possible[i].nb_habitant = nb_habitant_necesaire;
     }
-    plateau->tab_des_different_stade_possible[0].image_du_stade_correspondant = al_load_bitmap("../image/maison.png");
-    plateau->tab_des_different_stade_possible[1].image_du_stade_correspondant = al_load_bitmap("../image/cabane.png");
-    plateau->tab_des_different_stade_possible[2].image_du_stade_correspondant = al_load_bitmap("../image/maison.png");
-    plateau->tab_des_different_stade_possible[3].image_du_stade_correspondant = al_load_bitmap("../image/immeuble.png");
+    plateau->tab_des_different_stade_possible[0].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/maison.png");
+    plateau->tab_des_different_stade_possible[1].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/cabane.png");
+    plateau->tab_des_different_stade_possible[2].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/maison.png");
+    plateau->tab_des_different_stade_possible[3].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/immeuble.png");
     plateau->tab_des_different_stade_possible[4].image_du_stade_correspondant = al_load_bitmap(
-            "../image/gratte ciel.png");
-    plateau->tab_des_different_stade_possible[5].image_du_stade_correspondant = al_load_bitmap("../image/immeuble.png");
+            "../image/images_pour_les_batiments/images_stades_maisons/gratte ciel.png");
+    plateau->tab_des_different_stade_possible[5].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/immeuble.png");
 
     for(int i=0;i<6;i++) {
         plateau->tab_des_different_stade_possible[i].largeur_du_batiment = plateau->largeur_case * 3;
@@ -107,10 +107,10 @@ void lire_prix_et_stade(Plateau *plateau) {
         }
     }
 
-    plateau->tab_dessin_ressource[0].image_du_batiment=al_load_bitmap("../image/chateau d'eau.png");
+    plateau->tab_dessin_ressource[0].image_du_batiment=al_load_bitmap("../image/images_pour_les_batiments/images_centrales/chateau d'eau.png");
     plateau->tab_dessin_ressource[0].largeur_du_batiment=plateau->largeur_case * 4;
     plateau->tab_dessin_ressource[0].hauteur_du_batiment=plateau->largeur_case * 6;
-    plateau->tab_dessin_ressource[1].image_du_batiment=al_load_bitmap("../image/powerplant.png");
+    plateau->tab_dessin_ressource[1].image_du_batiment=al_load_bitmap("../image/images_pour_les_batiments/images_centrales/powerplant.png");
     plateau->tab_dessin_ressource[1].largeur_du_batiment=plateau->largeur_case * 6;
     plateau->tab_dessin_ressource[1].hauteur_du_batiment=plateau->largeur_case * 4;
 
@@ -142,7 +142,7 @@ void initialiser_plateau(Plateau *plateau) {
     }
 }
 
-void dessiner_plateau(Plateau *plateau, ALLEGRO_BITMAP *herbe) {
+void dessiner_plateau(Plateau *plateau) {
 
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
@@ -1890,7 +1890,7 @@ void afficher_timer(int timer, ALLEGRO_FONT *roboto) {
 
 /////////     afficher argent      ///////////
 void afficher_compte_en_banque(Plateau *plateau, ALLEGRO_FONT *roboto) {
-    al_draw_bitmap(al_load_bitmap("../image/billet-dargent.png"), LARGEUR - 130, 8, 0);
+    al_draw_bitmap(al_load_bitmap("../image/images_pour_affichage/billet-dargent.png"), LARGEUR - 130, 8, 0);
 
     al_draw_textf(roboto, al_map_rgb(0, 0, 0), LARGEUR - 100, 10-2, ALLEGRO_ALIGN_LEFT, "%d",
                   plateau->compte_en_banque);
@@ -1903,7 +1903,7 @@ void afficher_nb_habitant(Plateau *plateau, ALLEGRO_FONT *roboto) {
         nb_habitant += plateau->tab_de_maison[i].nb_habitant;
     }
 
-    al_draw_bitmap(al_load_bitmap("../image/equipe.png"), LARGEUR - 130, 38, 0);
+    al_draw_bitmap(al_load_bitmap("../image/images_pour_affichage/equipe.png"), LARGEUR - 130, 38, 0);
 
     al_draw_textf(roboto, al_map_rgb(0, 0, 0), LARGEUR - 100, 40-2, ALLEGRO_ALIGN_LEFT, "%d",
                   nb_habitant);
@@ -1918,7 +1918,7 @@ void afficher_rapport_sur_eau_total(Plateau *plateau, ALLEGRO_FONT *roboto) {
         capacite_utilise_en_eau += plateau->tab_chateau_eau[i].capacite_utilisee;
     }
 
-    al_draw_bitmap(al_load_bitmap("../image/eau.png"), 500, 8, 0);
+    al_draw_bitmap(al_load_bitmap("../image/images_pour_affichage/eau.png"), 500, 8, 0);
 
     if (capacite_totale_en_eau != 0) {
         al_draw_filled_rectangle(530, 10, 530 + 240 * (capacite_utilise_en_eau / capacite_totale_en_eau), 10+20,
@@ -1938,7 +1938,7 @@ void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *robo
         capacite_utilise_en_elec += plateau->tab_centrale_elec[i].capacite_utilisee;
     }
 
-    al_draw_bitmap(al_load_bitmap("../image/eclair.png"), 500, 38, 0);
+    al_draw_bitmap(al_load_bitmap("../image/images_pour_affichage/eclair.png"), 500, 38, 0);
 
     if (capacite_totale_en_elec != 0) {
         al_draw_filled_rectangle(530, 40, 530 + 240 * (capacite_utilise_en_elec / capacite_totale_en_elec), 20 + 40,
@@ -1980,25 +1980,21 @@ void dessinerCaseSouris(int sourisSurPlateau, int choixBatiment, int caseX, int 
     if (sourisSurPlateau) {
         // maison
         if (choixBatiment == 2 && caseX >= 1 && caseY >= 1 && caseX <= 43 && caseY <= 33) {
-            al_draw_filled_rectangle(plateau->map[caseY - 1][caseX - 1].x,
-                                     plateau->map[caseY - 1][caseX - 1].y,
-                                     plateau->map[caseY + 1][caseX + 1].x + plateau->largeur_case,
-                                     plateau->map[caseY + 1][caseX + 1].y + plateau->largeur_case,
-                                     al_map_rgba(255, 0, 255, 100));
+                        al_draw_bitmap(plateau->tab_des_different_stade_possible[0].image_du_stade_correspondant,
+                           plateau->map[caseY - 1][caseX - 1].x, plateau->map[caseY - 1][caseX - 1].y, 0);
+
             // chateau
         } else if (choixBatiment == 3 && caseX >= 1 && caseY >= 2 && caseX <= 42 && caseY <= 31) {
-            al_draw_filled_rectangle(plateau->map[caseY - 2][caseX - 1].x,
-                                     plateau->map[caseY - 2][caseX - 1].y,
-                                     plateau->map[caseY + 3][caseX + 2].x + plateau->largeur_case,
-                                     plateau->map[caseY + 3][caseX + 2].y + plateau->largeur_case,
-                                     al_map_rgba(255, 255, 0, 100));
+            al_draw_bitmap(plateau->tab_dessin_ressource[0].image_du_batiment,
+                           plateau->map[caseY - 2][caseX - 1].x,
+                           plateau->map[caseY - 2][caseX - 1].y, 0);
 
         } else if (choixBatiment == 4 && caseX >= 2 && caseY >= 1 && caseX <= 41 && caseY <= 31) {
-            al_draw_filled_rectangle(plateau->map[caseY - 1][caseX - 2].x,
-                                     plateau->map[caseY - 1][caseX - 2].y,
-                                     plateau->map[caseY + 2][caseX + 3].x + plateau->largeur_case,
-                                     plateau->map[caseY + 2][caseX + 3].y + plateau->largeur_case,
-                                     al_map_rgba(255, 255, 0, 100));
+            al_draw_bitmap(plateau->tab_dessin_ressource[1].image_du_batiment,
+                           plateau->map[caseY - 1][caseX - 2].x,
+                           plateau->map[caseY - 1][caseX - 2].y, 0);
+
+
 
         } else {
             al_draw_filled_rectangle(plateau->map[caseY][caseX].x,
@@ -2013,11 +2009,11 @@ void dessinerCaseSouris(int sourisSurPlateau, int choixBatiment, int caseX, int 
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, int caseDeLaSourieX,
                    int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[], Bouton bouton_batiment[],Bouton* bouton_pause,
-                   ALLEGRO_FONT *roboto, ALLEGRO_FONT *robotoLabelBoutton, ALLEGRO_BITMAP *map, ALLEGRO_BITMAP *herbe) {
+                   ALLEGRO_FONT *roboto, ALLEGRO_FONT *robotoLabelBoutton, ALLEGRO_BITMAP *map) {
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
     al_draw_bitmap(map, 0, 0, 0);
     dessiner_batiment(plateau, etage, caseDeLaSourieX, caseDeLaSourieY, roboto);
-    dessiner_plateau(plateau, herbe);
+    dessiner_plateau(plateau);
     ///dessine les boutons pour les etages
     for (int i = 0; i < bouton_etage->nb_bouton; i++) {
         dessinerBoutonEtage(bouton_etage[i], robotoLabelBoutton);
