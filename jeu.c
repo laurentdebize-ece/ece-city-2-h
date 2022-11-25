@@ -96,20 +96,16 @@ void lire_prix_et_stade(Plateau *plateau) {
             "../image/gratte ciel.png");
     plateau->tab_des_different_stade_possible[5].image_du_stade_correspondant = al_load_bitmap("../image/immeuble.png");
 
-    plateau->tab_des_different_stade_possible[0].largeur_du_batiment = plateau->largeur_case * 3;
-    plateau->tab_des_different_stade_possible[1].largeur_du_batiment = plateau->largeur_case * 3;
-    plateau->tab_des_different_stade_possible[2].largeur_du_batiment = plateau->largeur_case * 3;
-    plateau->tab_des_different_stade_possible[3].largeur_du_batiment = plateau->largeur_case * 3;
-    plateau->tab_des_different_stade_possible[4].largeur_du_batiment = plateau->largeur_case * 3;
-    plateau->tab_des_different_stade_possible[5].largeur_du_batiment = plateau->largeur_case * 3;
+    for(int i=0;i<6;i++) {
+        plateau->tab_des_different_stade_possible[i].largeur_du_batiment = plateau->largeur_case * 3;
+        if(i==4 || i==5){
+            plateau->tab_des_different_stade_possible[i].hauteur_du_batiment = plateau->largeur_case * 6;
 
-    plateau->tab_des_different_stade_possible[0].hauteur_du_batiment = plateau->largeur_case * 3;
-    plateau->tab_des_different_stade_possible[1].hauteur_du_batiment = plateau->largeur_case * 3;
-    plateau->tab_des_different_stade_possible[2].hauteur_du_batiment = plateau->largeur_case * 3;
-    plateau->tab_des_different_stade_possible[3].hauteur_du_batiment = plateau->largeur_case * 6;
-    plateau->tab_des_different_stade_possible[4].hauteur_du_batiment = plateau->largeur_case * 6;
-    plateau->tab_des_different_stade_possible[5].hauteur_du_batiment = plateau->largeur_case * 3;
+        }else{
+            plateau->tab_des_different_stade_possible[i].hauteur_du_batiment = plateau->largeur_case * 3;
 
+        }
+    }
 
     plateau->tab_dessin_ressource[0].image_du_batiment=al_load_bitmap("../image/chateau d'eau.png");
     plateau->tab_dessin_ressource[0].largeur_du_batiment=plateau->largeur_case * 4;
@@ -499,7 +495,6 @@ void detruire_une_maison(Plateau *plateau, int caseX, int caseY) {
             plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat=2000+(i)*10+plateau->tab_de_maison[i].stade;
         }
     }
-    al_destroy_bitmap(plateau->tab_de_maison[plateau->nb_maison].image_batiment);
     plateau->nb_maison--;
 
 
@@ -547,7 +542,6 @@ void detruire_un_chateau_d_eau(Plateau *plateau, int caseX, int caseY) {
         }
     }
     free(plateau->tab_chateau_eau[plateau->nb_chateau_eau].tab_des_maisons_alimentee);
-    al_destroy_bitmap(plateau->tab_chateau_eau[plateau->nb_chateau_eau].image_batiment);
     plateau->nb_chateau_eau--;
 
     for (int i = -2; i <= 3; i++) {
@@ -574,7 +568,26 @@ void detruire_un_chateau_d_eau(Plateau *plateau, int caseX, int caseY) {
         }
     }
     alimentation_en_eau(plateau);
+    for (int i = 0; i < plateau->nb_maison; i++) {
+        while (plateau->tab_de_maison[i].eau_utilise < plateau->tab_de_maison[i].nb_habitant ) {
+            if (plateau->tab_de_maison[i].stade>1) {
+                plateau->tab_de_maison[i].stade--;
+                plateau->tab_de_maison[i].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].nb_habitant;
+            }else if (plateau->tab_de_maison[i].stade==1){
+                plateau->tab_de_maison[i].stade=5;
+                plateau->tab_de_maison[i].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].nb_habitant;
+
+            }
+        }
+        plateau->tab_de_maison[i].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].image_du_stade_correspondant;
+        plateau->tab_de_maison[i].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].largeur_du_batiment;
+        plateau->tab_de_maison[i].hauteur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].hauteur_du_batiment;
+        plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat = (
+                (plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat / 10) *
+                10 + plateau->tab_de_maison[i].stade);
+    }
     alimentation_en_elec(plateau);
+
 }
 
 void detruire_une_centrale_electrique(Plateau *plateau, int caseX, int caseY) {
@@ -612,7 +625,6 @@ void detruire_une_centrale_electrique(Plateau *plateau, int caseX, int caseY) {
         }
     }
     free(plateau->tab_centrale_elec[plateau->nb_centrale_elec].tab_des_maisons_alimentee);
-    al_destroy_bitmap(plateau->tab_centrale_elec[plateau->nb_centrale_elec].image_batiment);
     plateau->nb_centrale_elec--;
 
     for (int i = -1; i <= 2; i++) {
@@ -650,26 +662,29 @@ void evolution_maison(Plateau *plateau) {
         if (plateau->tab_de_maison[i].viable) {
             if (plateau->tab_de_maison[i].stade < 4 &&
                 ((plateau->temps_en_seconde - plateau->tab_de_maison[i].date_creation) - 15) >= 0) {
-                verification_eau_dispo = verifier_si_assez_d_eau_disponible(plateau, i + 1,
-                                                                            plateau->tab_des_different_stade_possible[
-                                                                                    plateau->tab_de_maison[i].stade +
-                                                                                    1].nb_habitant -
-                                                                            plateau->tab_de_maison[i].nb_habitant);
-                verification_elec_dispo = verifier_si_assez_d_elec_disponible_dans_une_centrale(plateau, i + 1,
-                                                                                                plateau->tab_des_different_stade_possible[
-                                                                                                        plateau->tab_de_maison[i].stade +
-                                                                                                        1].nb_habitant);
-                if (verification_eau_dispo == 1 && verification_elec_dispo == 1) {
-                    plateau->tab_de_maison[i].stade++;
-                    plateau->tab_de_maison[i].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].nb_habitant;
-                    plateau->tab_de_maison[i].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].image_du_stade_correspondant;
-                    plateau->tab_de_maison[i].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].largeur_du_batiment;
-                    plateau->tab_de_maison[i].hauteur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].hauteur_du_batiment;
-                    plateau->tab_de_maison[i].date_creation = plateau->temps_en_seconde;
-                    plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat++;
-                    alimentation_en_eau(plateau);
-                    alimentation_en_elec(plateau);
+                if(plateau->communiste==1){
+                    verification_eau_dispo = verifier_si_assez_d_eau_disponible(plateau, i + 1,
+                                                                                plateau->tab_des_different_stade_possible[
+                                                                                        plateau->tab_de_maison[i].stade +
+                                                                                        1].nb_habitant -
+                                                                                plateau->tab_de_maison[i].nb_habitant);
+                    verification_elec_dispo = verifier_si_assez_d_elec_disponible_dans_une_centrale(plateau, i + 1,
+                                                                                                    plateau->tab_des_different_stade_possible[
+                                                                                                            plateau->tab_de_maison[i].stade +
+                                                                                                            1].nb_habitant);
+                    if (verification_eau_dispo == 1 && verification_elec_dispo == 1) {
+                        plateau->tab_de_maison[i].stade++;
+                        plateau->tab_de_maison[i].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].nb_habitant;
+                        plateau->tab_de_maison[i].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].image_du_stade_correspondant;
+                        plateau->tab_de_maison[i].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].largeur_du_batiment;
+                        plateau->tab_de_maison[i].hauteur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].hauteur_du_batiment;
+                        plateau->tab_de_maison[i].date_creation = plateau->temps_en_seconde;
+                        plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat++;
+                        alimentation_en_eau(plateau);
+                        alimentation_en_elec(plateau);
+                    }
                 }
+
             }
         }
     }
@@ -1387,6 +1402,26 @@ void chercherCaseSouris(int x, int y, int *caseX, int *caseY, Plateau *plateau, 
     }
 }
 
+/////////      menu pause         ///////////
+void initialisation_bouton_pause(Bouton *bouton){
+    bouton->x=10;
+    bouton->y=40;
+    bouton->hauteur=40;
+    bouton->largeur=80;
+    bouton->label = "Pause";
+
+}
+
+void choix_pause(Bouton bouton[], int x, int y, int *pause){
+    if (x >= bouton->x && x <= bouton->x + bouton->largeur && y >= bouton->y &&
+        y <= bouton->y + bouton->hauteur) {
+        if(*pause==0){
+            *pause = 1;
+        }else{
+            *pause=0;
+        }
+    }
+}
 
 /////////     dessiner batiment      ///////////
 void dessiner_batiment(Plateau *plateau, int etage, int caseDeLaSourieX, int caseDeLaSourieY, ALLEGRO_FONT *roboto) {
@@ -1465,16 +1500,12 @@ void dessiner_etage_1(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY
         }
     }
     for (int k = 0; k < plateau->nb_chateau_eau; k++) {
-        al_draw_filled_rectangle(plateau->tab_chateau_eau[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
-                                 plateau->tab_chateau_eau[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
-                                 plateau->tab_chateau_eau[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
-                                 plateau->tab_chateau_eau[k].largeur,
-                                 plateau->tab_chateau_eau[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
-                                 plateau->tab_chateau_eau[k].hauteur, al_map_rgb(255, 0, 0));
+        al_draw_bitmap(plateau->tab_chateau_eau[k].image_batiment,
+                       (plateau->tab_chateau_eau[k].caseX + 3) * plateau->largeur_case +
+                       (LARGEUR - plateau->largeur_case * plateau->nb_colonne) - plateau->tab_chateau_eau[k].largeur,
+                       (plateau->tab_chateau_eau[k].caseY + 4) * plateau->largeur_case +
+                       (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) - plateau->tab_chateau_eau[k].hauteur, 0);
+
 
     }
     for (int k = 0; k < plateau->nb_maison; k++) {
@@ -1666,16 +1697,12 @@ void dessiner_etage_2(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY
         }
     }
     for (int k = 0; k < plateau->nb_centrale_elec; k++) {
-        al_draw_filled_rectangle(plateau->tab_centrale_elec[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
-                                 plateau->tab_centrale_elec[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne),
-                                 plateau->tab_centrale_elec[k].caseX_haut_gauche * plateau->largeur_case +
-                                 (LARGEUR - plateau->largeur_case * plateau->nb_colonne) +
-                                 plateau->tab_centrale_elec[k].largeur,
-                                 plateau->tab_centrale_elec[k].caseY_haut_gauche * plateau->largeur_case +
-                                 (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) +
-                                 plateau->tab_centrale_elec[k].hauteur, al_map_rgb(255, 0, 255));
+        al_draw_bitmap(plateau->tab_centrale_elec[k].image_batiment,
+                       (plateau->tab_centrale_elec[k].caseX + 4) * plateau->largeur_case +
+                       (LARGEUR - plateau->largeur_case * plateau->nb_colonne) - plateau->tab_centrale_elec[k].largeur,
+                       (plateau->tab_centrale_elec[k].caseY + 3) * plateau->largeur_case +
+                       (HAUTEUR - plateau->largeur_case * plateau->nb_ligne) - plateau->tab_centrale_elec[k].hauteur, 0);
+
 
     }
     for (int k = 0; k < plateau->nb_maison; k++) {
@@ -1974,8 +2001,8 @@ void dessinerCaseSouris(int sourisSurPlateau, int choixBatiment, int caseX, int 
 }
 
 /////////     dessiner tout     ///////////
-void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLaSourieX,
-                   int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[], Bouton bouton_batiment[],
+void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, int caseDeLaSourieX,
+                   int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[], Bouton bouton_batiment[],Bouton* bouton_pause,
                    ALLEGRO_FONT *roboto, ALLEGRO_FONT *robotoLabelBoutton, ALLEGRO_BITMAP *map, ALLEGRO_BITMAP *herbe) {
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
     al_draw_bitmap(map, 0, 0, 0);
@@ -2001,6 +2028,20 @@ void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLa
             }
         }
     }
+    ///dessine le bouton pour mettre en pause
+    //dessinerBoutonEtage(*bouton_pause,roboto);
+
+    al_draw_filled_rectangle(bouton_pause->x, bouton_pause->y,
+                             bouton_pause->x + bouton_pause->largeur,
+                             bouton_pause->y + bouton_pause->hauteur, al_map_rgb(200, 200, 200));
+    if (pause == 1) {
+        al_draw_rectangle(bouton_pause->x, bouton_pause->y,
+                          bouton_pause->x + bouton_pause->largeur,
+                          bouton_pause->y + bouton_pause->hauteur, al_map_rgb(200, 0, 200), 4);
+    }
+    al_draw_textf(roboto, al_map_rgb(0,0,0),
+                  bouton_pause->x + bouton_pause->largeur / 2, bouton_pause->y + 6,
+                  ALLEGRO_ALIGN_CENTER, "%s", bouton_pause->label);
 
     afficher_interface(plateau, roboto);
     al_flip_display();

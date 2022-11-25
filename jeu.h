@@ -75,6 +75,7 @@ typedef struct Plateau {
     int largeur_case;
     int nb_ligne;
     int nb_colonne;
+    int communiste;
     int temps_en_seconde;
     int compte_en_banque;
     int *tab_des_prix;
@@ -186,6 +187,11 @@ void chercherCaseSouris(int x, int y, int *caseX, int *caseY, Plateau *plateau, 
 
 void afficherCaseSouris(int mouseX, int mouseY, Plateau *plateau);
 
+/////////      menu pause         ///////////
+void initialisation_bouton_pause(Bouton *bouton);
+
+void choix_pause(Bouton bouton[], int x, int y, int *pause);
+
 /////////     dessiner batiment      ///////////
 void dessiner_batiment(Plateau *plateau, int etage, int caseDeLaSourieX, int caseDeLaSourieY, ALLEGRO_FONT *roboto);
 
@@ -220,8 +226,8 @@ void afficher_rapport_sur_eau_total(Plateau *plateau, ALLEGRO_FONT *roboto);
 void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *roboto);
 
 /////////     dessiner tout     ///////////
-void dessiner_tout(Plateau *plateau, int etage, int choix_batiment, int caseDeLaSourieX, int caseDeLaSourieY,
-                   int souris_sur_le_plateaux, Bouton bouton[], Bouton bouton_batiment[], ALLEGRO_FONT *roboto,
+void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, int caseDeLaSourieX, int caseDeLaSourieY,
+                   int souris_sur_le_plateaux, Bouton bouton[], Bouton bouton_batiment[],Bouton* bouton_pause, ALLEGRO_FONT *roboto,
                    ALLEGRO_FONT *robotoLabelBouton, ALLEGRO_BITMAP *map, ALLEGRO_BITMAP *herbe);
 
 /////////     sauvegarde jeu     ///////////
