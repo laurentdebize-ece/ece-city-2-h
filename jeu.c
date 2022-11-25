@@ -1884,11 +1884,14 @@ void afficher_interface(Plateau *plateau, ALLEGRO_FONT *roboto) {
 /////////     afficher timer      ///////////
 void afficher_timer(int timer, ALLEGRO_FONT *roboto) {
 
-    al_draw_textf(roboto, al_map_rgb(255, 255, 255), 50, 10, ALLEGRO_ALIGN_RIGHT, "%ds", timer);
+    //al_draw_filled_rectangle();
+    al_draw_textf(roboto, al_map_rgb(0, 0, 0), 50, 10, ALLEGRO_ALIGN_RIGHT, "%ds", timer);
 }
 
 /////////     afficher argent      ///////////
 void afficher_compte_en_banque(Plateau *plateau, ALLEGRO_FONT *roboto) {
+    al_draw_bitmap(al_load_bitmap("../image/billet-dargent.png"), LARGEUR - 130, 8, 0);
+
     al_draw_textf(roboto, al_map_rgb(0, 0, 0), LARGEUR - 100, 10-2, ALLEGRO_ALIGN_LEFT, "%d",
                   plateau->compte_en_banque);
 }
@@ -1899,6 +1902,9 @@ void afficher_nb_habitant(Plateau *plateau, ALLEGRO_FONT *roboto) {
     for (int i = 0; i < plateau->nb_maison; i++) {
         nb_habitant += plateau->tab_de_maison[i].nb_habitant;
     }
+
+    al_draw_bitmap(al_load_bitmap("../image/equipe.png"), LARGEUR - 130, 38, 0);
+
     al_draw_textf(roboto, al_map_rgb(0, 0, 0), LARGEUR - 100, 40-2, ALLEGRO_ALIGN_LEFT, "%d",
                   nb_habitant);
 }
@@ -1911,6 +1917,8 @@ void afficher_rapport_sur_eau_total(Plateau *plateau, ALLEGRO_FONT *roboto) {
         capacite_totale_en_eau += plateau->tab_chateau_eau[i].capacite_max;
         capacite_utilise_en_eau += plateau->tab_chateau_eau[i].capacite_utilisee;
     }
+
+    al_draw_bitmap(al_load_bitmap("../image/eau.png"), 500, 8, 0);
 
     if (capacite_totale_en_eau != 0) {
         al_draw_filled_rectangle(530, 10, 530 + 240 * (capacite_utilise_en_eau / capacite_totale_en_eau), 10+20,
@@ -1929,6 +1937,8 @@ void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *robo
         capacite_totale_en_elec += plateau->tab_centrale_elec[i].capacite_max;
         capacite_utilise_en_elec += plateau->tab_centrale_elec[i].capacite_utilisee;
     }
+
+    al_draw_bitmap(al_load_bitmap("../image/eclair.png"), 500, 38, 0);
 
     if (capacite_totale_en_elec != 0) {
         al_draw_filled_rectangle(530, 40, 530 + 240 * (capacite_utilise_en_elec / capacite_totale_en_elec), 20 + 40,
