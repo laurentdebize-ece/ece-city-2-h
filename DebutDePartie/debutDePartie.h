@@ -4,7 +4,7 @@
 
 #ifndef ECE_CITY_2_H_DEBUTDEPARTIE_H
 #define ECE_CITY_2_H_DEBUTDEPARTIE_H
-#include "jeu.h"
+#include "../jeu.h"
 
 
 void bitmapDebutDePartie(DebutDePartie* debutDePartie);

@@ -1,4 +1,6 @@
 #include "jeu.h"
+#include "DebutDePartie/debutDePartie.h"
+
 
 
 int main() {
@@ -11,6 +13,8 @@ int main() {
     ALLEGRO_TIMER *timer = NULL;
     /// Police écriture
     ALLEGRO_FONT *roboto = NULL;
+    ALLEGRO_MOUSE_STATE mouse;
+    //DebutDePartie * debutDePartie;
 
 
     /// Déclaration des variables
@@ -21,6 +25,8 @@ int main() {
     int choix_batiment_a_construire = 0;
     int compteur_temps = 0;
 
+    /// Bitmap début de partie
+   // bitmapDebutDePartie(debutDePartie);
 
     Plateau *plateau;
     Bouton bouton_etage[3] = {0};
@@ -60,8 +66,8 @@ int main() {
         exit(EXIT_FAILURE);
     }
     /// images ////
-    ALLEGRO_BITMAP *map = al_load_bitmap("../image/map.png");
-    ALLEGRO_BITMAP *caseHerbe = al_load_bitmap("../image/maison.png");
+    ALLEGRO_BITMAP *map = al_load_bitmap("../image/fond/map.png");
+
 
     /// Ecriture
     roboto = al_load_ttf_font("../fonts/roboto/RobotoCondensed-Regular.ttf", 20, 0);
@@ -77,6 +83,9 @@ int main() {
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_mouse_event_source());
 
+
+   // al_draw_bitmap_region(debutDePartie->debut[0],1024,768,0,0,0,0,0);
+
     /// début du jeux
     plateau = lire_plateau(0);
     plateau->communiste=1;
@@ -85,6 +94,26 @@ int main() {
     initialisation_choix_etage(bouton_etage);
     initialisation_choix_batiment(bouton_choix_batiment);
     initialisation_bouton_pause(&bouton_pause);
+    /*
+    while (!end) {
+        al_wait_for_event(queue, &event);
+
+        switch (event.type) {
+
+            case ALLEGRO_EVENT_DISPLAY_CLOSE : {
+                end = true;
+                break;
+            }
+            case ALLEGRO_EVENT_MOUSE_AXES : {
+                break;
+            }
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:{
+                al_get_mouse_state(&mouse);
+                printf("x : %d\ny : %d\n", mouse.x, mouse.y);
+            }
+        }
+    }*/
+
 
     while (!end) {
         al_wait_for_event(queue, &event);
@@ -129,7 +158,7 @@ int main() {
         plateau->temps_en_seconde = compteur_temps / 10;
         dessiner_tout(plateau, etage, pause, choix_batiment_a_construire, caseDeLaSourisX,
                       caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment,&bouton_pause, roboto,
-                      robotoLabelBouton, map, caseHerbe);
+                      robotoLabelBouton, map);
     }
     sauvegarde_jeu(plateau);
 
@@ -157,6 +186,9 @@ int main() {
     free(plateau->tab_des_different_stade_possible);
     free(plateau->tab_dessin_ressource);
     free(plateau->tab_des_prix);
+    for (int i = 0; i < 5; i++) {
+        al_destroy_bitmap(plateau->image_affichage[i]);
+    }
     free(plateau);
 
     al_destroy_bitmap(map);

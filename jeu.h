@@ -72,6 +72,7 @@ typedef struct Ressource {
 } Ressource;
 
 typedef struct Plateau {
+    ALLEGRO_BITMAP *image_affichage[5];
     int largeur_case;
     int nb_ligne;
     int nb_colonne;
@@ -96,7 +97,6 @@ typedef struct DebutDePartie{
     int spriteX, spriteY, spriteHauteur, spriteLargeur;
 }DebutDePartie;
 
-
 /////////      plateau        ///////////
 Plateau *creer_plateau(int nb_ligne, int nb_colonne);
 
@@ -106,7 +106,7 @@ void lire_prix_et_stade(Plateau *plateau);
 
 void initialiser_plateau(Plateau *plateau);
 
-void dessiner_plateau(Plateau *plateau, ALLEGRO_BITMAP *herbe);
+void dessiner_plateau(Plateau *plateau);
 
 
 /////////      choix etage        ///////////
@@ -228,7 +228,7 @@ void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *robo
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, int caseDeLaSourieX, int caseDeLaSourieY,
                    int souris_sur_le_plateaux, Bouton bouton[], Bouton bouton_batiment[],Bouton* bouton_pause, ALLEGRO_FONT *roboto,
-                   ALLEGRO_FONT *robotoLabelBouton, ALLEGRO_BITMAP *map, ALLEGRO_BITMAP *herbe);
+                   ALLEGRO_FONT *robotoLabelBouton, ALLEGRO_BITMAP *map);
 
 /////////     sauvegarde jeu     ///////////
 void sauvegarde_jeu(Plateau *plateau);
@@ -236,6 +236,7 @@ void sauvegarde_jeu(Plateau *plateau);
 void charger_la_sauvegarde(Plateau *plateau);
 
 void dessinerBoutonEtage(Bouton bouton, ALLEGRO_FONT *font);
+void dessinerBoutonBatiment(Bouton bouton_batiment, int choix_batiment, int i);
 
 
 #endif //ECE_CITY_2_H_JEU_H
