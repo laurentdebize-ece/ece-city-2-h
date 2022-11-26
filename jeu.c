@@ -215,9 +215,9 @@ void initialisation_choix_batiment(Bouton *bouton) {
     bouton->nb_bouton = 5;
 
     for (int i = 0; i < bouton->nb_bouton; i++) {
-        bouton[i].x = 30;
+        bouton[i].x = 26;
         bouton[i].y = 300 + i * (bouton->hauteur + 15);
-        bouton[i].largeur = bouton[i].hauteur = 64;
+        bouton[i].largeur = bouton[i].hauteur = 70;
     }
 }
 
@@ -1989,9 +1989,9 @@ void dessinerBoutonBatiment(Bouton bouton_batiment, int choix_batiment, int i, P
     al_draw_filled_rounded_rectangle(bouton_batiment.x, bouton_batiment.y,
                                      bouton_batiment.x + bouton_batiment.largeur,
                                      bouton_batiment.y + bouton_batiment.hauteur,
-                                     5, 5, buttonBackgroundColor);
+                                     10, 10, buttonBackgroundColor);
 
-    al_draw_bitmap(plateau->image_affichage[i + 4], bouton_batiment.x, bouton_batiment.y, 0);
+    al_draw_bitmap(plateau->image_affichage[i + 4], bouton_batiment.x + 4, bouton_batiment.y + 4, 0);
 
 
     // si le bouton est cliqué
@@ -1999,7 +1999,7 @@ void dessinerBoutonBatiment(Bouton bouton_batiment, int choix_batiment, int i, P
         al_draw_rounded_rectangle(bouton_batiment.x, bouton_batiment.y,
                                   bouton_batiment.x + bouton_batiment.largeur,
                                   bouton_batiment.y + bouton_batiment.hauteur,
-                                  5, 5, buttonClickedColor, 4);
+                                  10, 10, buttonClickedColor, 4);
     }
 }
 
