@@ -1984,7 +1984,13 @@ void dessinerBoutonEtage(Bouton bouton, ALLEGRO_FONT *font) {
 void dessinerBoutonBatiment(Bouton bouton_batiment, int choix_batiment, int i, Plateau *plateau) {
 
     ALLEGRO_COLOR buttonBackgroundColor = al_map_rgb(180, 180, 180);
+    ALLEGRO_COLOR buttonBackgroundColorDark = al_map_rgb(100, 100, 100);
     ALLEGRO_COLOR buttonClickedColor = al_map_rgb(200, 0, 200);
+
+    al_draw_filled_rounded_rectangle(bouton_batiment.x + 5, bouton_batiment.y + 5,
+                                     bouton_batiment.x + bouton_batiment.largeur + 5,
+                                     bouton_batiment.y + bouton_batiment.hauteur + 5,
+                                     10, 10, buttonBackgroundColorDark);
 
     al_draw_filled_rounded_rectangle(bouton_batiment.x, bouton_batiment.y,
                                      bouton_batiment.x + bouton_batiment.largeur,
