@@ -114,7 +114,7 @@ void lire_prix_et_stade(Plateau *plateau) {
     }
 
     plateau->tab_dessin_ressource[0].image_du_batiment = al_load_bitmap(
-            "../image/images_pour_les_batiments/images_centrales/chateau d'eau.png");
+            "../image/images_pour_les_batiments/images_centrales/chateau-eau.png");
     plateau->tab_dessin_ressource[0].largeur_du_batiment = plateau->largeur_case * 4;
     plateau->tab_dessin_ressource[0].hauteur_du_batiment = plateau->largeur_case * 6;
     plateau->tab_dessin_ressource[1].image_du_batiment = al_load_bitmap(
@@ -1985,28 +1985,26 @@ void dessinerBoutonBatiment(Bouton bouton_batiment, int choix_batiment, int i, P
 
     ALLEGRO_COLOR buttonBackgroundColor = al_map_rgb(180, 180, 180);
     ALLEGRO_COLOR buttonBackgroundColorDark = al_map_rgb(100, 100, 100);
-    ALLEGRO_COLOR buttonClickedColor = al_map_rgb(200, 0, 200);
+    ALLEGRO_COLOR buttonClickedColor = al_map_rgb(179, 0, 134);
+    ALLEGRO_COLOR color;
 
-    al_draw_filled_rounded_rectangle(bouton_batiment.x + 5, bouton_batiment.y + 5,
-                                     bouton_batiment.x + bouton_batiment.largeur + 5,
+    al_draw_filled_rounded_rectangle(bouton_batiment.x - 5, bouton_batiment.y + 5,
+                                     bouton_batiment.x + bouton_batiment.largeur - 5,
                                      bouton_batiment.y + bouton_batiment.hauteur + 5,
                                      10, 10, buttonBackgroundColorDark);
-
-    al_draw_filled_rounded_rectangle(bouton_batiment.x, bouton_batiment.y,
-                                     bouton_batiment.x + bouton_batiment.largeur,
-                                     bouton_batiment.y + bouton_batiment.hauteur,
-                                     10, 10, buttonBackgroundColor);
-
-    al_draw_bitmap(plateau->image_affichage[i + 4], bouton_batiment.x + 4, bouton_batiment.y + 4, 0);
-
-
     // si le bouton est cliqué
     if (i == choix_batiment - 1) {
-        al_draw_rounded_rectangle(bouton_batiment.x, bouton_batiment.y,
-                                  bouton_batiment.x + bouton_batiment.largeur,
-                                  bouton_batiment.y + bouton_batiment.hauteur,
-                                  10, 10, buttonClickedColor, 4);
+        color = buttonClickedColor;
+    } else {
+        color = buttonBackgroundColor;
     }
+
+    al_draw_filled_rounded_rectangle(bouton_batiment.x, bouton_batiment.y,
+                                      bouton_batiment.x + bouton_batiment.largeur,
+                                      bouton_batiment.y + bouton_batiment.hauteur,
+                                      10, 10, color);
+
+    al_draw_bitmap(plateau->image_affichage[i + 4], bouton_batiment.x + 4, bouton_batiment.y + 4, 0);
 }
 
 void dessinerCaseSouris(int sourisSurPlateau, int choixBatiment, int caseX, int caseY, Plateau *plateau) {
