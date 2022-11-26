@@ -160,17 +160,13 @@ int main() {
                       caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment,&bouton_pause, roboto,
                       robotoLabelBouton, map);
     }
-    sauvegarde_jeu(plateau);
+    //sauvegarde_jeu(plateau);
 
 
     for (int i = 0; i < plateau->nb_ligne; i++) {
         free(plateau->map[i]);
     }
     free(plateau->map);
-    /*
-    for (int i = 0; i < plateau->nb_maison; i++) {
-        al_destroy_bitmap(plateau->tab_de_maison[i].image_batiment);
-    }*/
     free(plateau->tab_de_maison);
     for (int i = 0; i < plateau->nb_chateau_eau; i++) {
         free(plateau->tab_chateau_eau[i].tab_des_maisons_alimentee);

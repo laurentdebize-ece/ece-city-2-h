@@ -88,13 +88,13 @@ void lire_prix_et_stade(Plateau *plateau) {
         fscanf(ifs, "%d", &nb_habitant_necesaire);
         plateau->tab_des_different_stade_possible[i].nb_habitant = nb_habitant_necesaire;
     }
-    plateau->tab_des_different_stade_possible[0].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/maison.png");
+    plateau->tab_des_different_stade_possible[0].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/terrainvague.png");
     plateau->tab_des_different_stade_possible[1].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/cabane.png");
     plateau->tab_des_different_stade_possible[2].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/maison.png");
     plateau->tab_des_different_stade_possible[3].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/immeuble.png");
     plateau->tab_des_different_stade_possible[4].image_du_stade_correspondant = al_load_bitmap(
             "../image/images_pour_les_batiments/images_stades_maisons/gratte ciel.png");
-    plateau->tab_des_different_stade_possible[5].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/immeuble.png");
+    plateau->tab_des_different_stade_possible[5].image_du_stade_correspondant = al_load_bitmap("../image/images_pour_les_batiments/images_stades_maisons/ruine.png");
 
     for(int i=0;i<6;i++) {
         plateau->tab_des_different_stade_possible[i].largeur_du_batiment = plateau->largeur_case * 3;
@@ -149,7 +149,7 @@ void initialiser_plateau(Plateau *plateau) {
 }
 
 void dessiner_plateau(Plateau *plateau) {
-/*
+
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
             if(plateau->map[i][j].etat==0){
@@ -158,7 +158,7 @@ void dessiner_plateau(Plateau *plateau) {
 
             }
         }
-    }*/
+    }
 }
 
 /////////      choix etage        ///////////
