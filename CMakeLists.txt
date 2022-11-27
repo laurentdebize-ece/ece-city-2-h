@@ -4,7 +4,7 @@ project(ece-city-2-h C)
 set(CMAKE_C_STANDARD 99)
 
 
-add_executable(ece-city-2-h main.c jeu.c jeu.h DebutDePartie/debutDePartie.c DebutDePartie/debutDePartie.h)
+add_executable(ece-city-2-h main.c jeu.c jeu.h DebutDePartie/debutDePartie.c DebutDePartie/debutDePartie.h affichage.c)
 target_link_libraries(ece-city-2-h -lmingw32 -lallegro-5.0.10-monolith-md-debug)
 IF(WIN32)
     target_link_libraries(ece-city-2-h -lmingw32 -lallegro-5.0.10-monolith-md-debug)
