@@ -127,7 +127,7 @@ void affiche_capacite_eau_de_chaque_batiment(Plateau *plateau, int caseDeLaSouri
                     caseDeLaSourieX <= plateau->tab_chateau_eau[k].caseX_droite_bas &&
                     caseDeLaSourieY >= plateau->tab_chateau_eau[k].caseY_haut_gauche &&
                     caseDeLaSourieY <= plateau->tab_chateau_eau[k].caseY_droite_bas) {
-                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX + 1) * plateau->largeur_case +
+                    al_draw_textf(roboto, al_map_rgb(0, 0, 255), (caseDeLaSourieX + 1) * plateau->largeur_case +
                                                                  (LARGEUR -
                                                                   plateau->largeur_case * plateau->nb_colonne),
                                   (caseDeLaSourieY + 1) * plateau->largeur_case +
@@ -145,7 +145,7 @@ void affiche_capacite_eau_de_chaque_batiment(Plateau *plateau, int caseDeLaSouri
                     for (int i = 0; i < plateau->nb_chateau_eau; i++) {
                         for (int j = 0; j < plateau->tab_chateau_eau[i].nb_maison_alimentee; j++) {
                             if (plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
-                                al_draw_textf(roboto, al_map_rgb(0, 255, 0),
+                                al_draw_textf(roboto, al_map_rgb(0, 0, 255),
                                               (caseDeLaSourieX + 1) * plateau->largeur_case +
                                               (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
                                               (caseDeLaSourieY + 1) * plateau->largeur_case +
@@ -165,7 +165,7 @@ void affiche_capacite_eau_de_chaque_batiment(Plateau *plateau, int caseDeLaSouri
                     caseDeLaSourieX <= plateau->tab_chateau_eau[k].caseX_droite_bas &&
                     caseDeLaSourieY >= plateau->tab_chateau_eau[k].caseY_haut_gauche &&
                     caseDeLaSourieY <= plateau->tab_chateau_eau[k].caseY_droite_bas) {
-                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX + 1) * plateau->largeur_case +
+                    al_draw_textf(roboto, al_map_rgb(0, 0, 255), (caseDeLaSourieX + 1) * plateau->largeur_case +
                                                                  (LARGEUR -
                                                                   plateau->largeur_case * plateau->nb_colonne),
                                   (caseDeLaSourieY - 1) * plateau->largeur_case +
@@ -183,7 +183,7 @@ void affiche_capacite_eau_de_chaque_batiment(Plateau *plateau, int caseDeLaSouri
                     for (int i = 0; i < plateau->nb_chateau_eau; i++) {
                         for (int j = plateau->tab_chateau_eau[i].nb_maison_alimentee; j >= 0; j--) {
                             if (plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
-                                al_draw_textf(roboto, al_map_rgb(0, 255, 0),
+                                al_draw_textf(roboto, al_map_rgb(0, 0, 255),
                                               (caseDeLaSourieX + 1) * plateau->largeur_case +
                                               (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
                                               (caseDeLaSourieY - 1) * plateau->largeur_case +
@@ -205,7 +205,7 @@ void affiche_capacite_eau_de_chaque_batiment(Plateau *plateau, int caseDeLaSouri
                     caseDeLaSourieX <= plateau->tab_chateau_eau[k].caseX_droite_bas &&
                     caseDeLaSourieY >= plateau->tab_chateau_eau[k].caseY_haut_gauche &&
                     caseDeLaSourieY <= plateau->tab_chateau_eau[k].caseY_droite_bas) {
-                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
+                    al_draw_textf(roboto, al_map_rgb(0, 0, 255), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
                                                                                                               plateau->largeur_case *
                                                                                                               plateau->nb_colonne),
                                   (caseDeLaSourieY + 1) * plateau->largeur_case +
@@ -223,7 +223,7 @@ void affiche_capacite_eau_de_chaque_batiment(Plateau *plateau, int caseDeLaSouri
                     for (int i = 0; i < plateau->nb_chateau_eau; i++) {
                         for (int j = 0; j < plateau->tab_chateau_eau[i].nb_maison_alimentee; j++) {
                             if (plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
-                                al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case +
+                                al_draw_textf(roboto, al_map_rgb(0, 0, 255), (caseDeLaSourieX) * plateau->largeur_case +
                                                                              (LARGEUR - plateau->largeur_case *
                                                                                         plateau->nb_colonne),
                                               (caseDeLaSourieY + 1) * plateau->largeur_case +
@@ -243,7 +243,7 @@ void affiche_capacite_eau_de_chaque_batiment(Plateau *plateau, int caseDeLaSouri
                     caseDeLaSourieX <= plateau->tab_chateau_eau[k].caseX_droite_bas &&
                     caseDeLaSourieY >= plateau->tab_chateau_eau[k].caseY_haut_gauche &&
                     caseDeLaSourieY <= plateau->tab_chateau_eau[k].caseY_droite_bas) {
-                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
+                    al_draw_textf(roboto, al_map_rgb(0, 0, 255), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
                                                                                                               plateau->largeur_case *
                                                                                                               plateau->nb_colonne),
                                   (caseDeLaSourieY - 1) * plateau->largeur_case +
@@ -261,7 +261,7 @@ void affiche_capacite_eau_de_chaque_batiment(Plateau *plateau, int caseDeLaSouri
                     for (int i = 0; i < plateau->nb_chateau_eau; i++) {
                         for (int j = plateau->tab_chateau_eau[i].nb_maison_alimentee; j >= 0; j--) {
                             if (plateau->tab_chateau_eau[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
-                                al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case +
+                                al_draw_textf(roboto, al_map_rgb(0, 0, 255), (caseDeLaSourieX) * plateau->largeur_case +
                                                                              (LARGEUR - plateau->largeur_case *
                                                                                         plateau->nb_colonne),
                                               (caseDeLaSourieY - 1) * plateau->largeur_case +
@@ -324,7 +324,7 @@ void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSour
                     caseDeLaSourieX <= plateau->tab_centrale_elec[k].caseX_droite_bas &&
                     caseDeLaSourieY >= plateau->tab_centrale_elec[k].caseY_haut_gauche &&
                     caseDeLaSourieY <= plateau->tab_centrale_elec[k].caseY_droite_bas) {
-                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX + 1) * plateau->largeur_case +
+                    al_draw_textf(roboto, al_map_rgb(255, 213, 79), (caseDeLaSourieX + 1) * plateau->largeur_case +
                                                                  (LARGEUR -
                                                                   plateau->largeur_case * plateau->nb_colonne),
                                   (caseDeLaSourieY + 1) * plateau->largeur_case +
@@ -341,7 +341,7 @@ void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSour
                     for (int i = 0; i < plateau->nb_centrale_elec; i++) {
                         for (int j = 0; j < plateau->tab_centrale_elec[i].nb_maison_alimentee; j++) {
                             if (plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
-                                al_draw_textf(roboto, al_map_rgb(0, 255, 0),
+                                al_draw_textf(roboto, al_map_rgb(255, 213, 79),
                                               (caseDeLaSourieX + 1) * plateau->largeur_case +
                                               (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
                                               (caseDeLaSourieY + 1) * plateau->largeur_case +
@@ -360,7 +360,7 @@ void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSour
                     caseDeLaSourieX <= plateau->tab_centrale_elec[k].caseX_droite_bas &&
                     caseDeLaSourieY >= plateau->tab_centrale_elec[k].caseY_haut_gauche &&
                     caseDeLaSourieY <= plateau->tab_centrale_elec[k].caseY_droite_bas) {
-                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX + 1) * plateau->largeur_case +
+                    al_draw_textf(roboto, al_map_rgb(255, 213, 79), (caseDeLaSourieX + 1) * plateau->largeur_case +
                                                                  (LARGEUR -
                                                                   plateau->largeur_case * plateau->nb_colonne),
                                   (caseDeLaSourieY - 1) * plateau->largeur_case +
@@ -377,7 +377,7 @@ void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSour
                     for (int i = 0; i < plateau->nb_centrale_elec; i++) {
                         for (int j = plateau->tab_centrale_elec[i].nb_maison_alimentee; j >= 0; j--) {
                             if (plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
-                                al_draw_textf(roboto, al_map_rgb(0, 255, 0),
+                                al_draw_textf(roboto, al_map_rgb(255, 213, 79),
                                               (caseDeLaSourieX + 1) * plateau->largeur_case +
                                               (LARGEUR - plateau->largeur_case * plateau->nb_colonne),
                                               (caseDeLaSourieY - 1) * plateau->largeur_case +
@@ -398,7 +398,7 @@ void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSour
                     caseDeLaSourieX <= plateau->tab_centrale_elec[k].caseX_droite_bas &&
                     caseDeLaSourieY >= plateau->tab_centrale_elec[k].caseY_haut_gauche &&
                     caseDeLaSourieY <= plateau->tab_centrale_elec[k].caseY_droite_bas) {
-                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
+                    al_draw_textf(roboto, al_map_rgb(255, 213, 79), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
                                                                                                               plateau->largeur_case *
                                                                                                               plateau->nb_colonne),
                                   (caseDeLaSourieY + 1) * plateau->largeur_case +
@@ -415,7 +415,7 @@ void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSour
                     for (int i = 0; i < plateau->nb_centrale_elec; i++) {
                         for (int j = 0; j < plateau->tab_centrale_elec[i].nb_maison_alimentee; j++) {
                             if (plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
-                                al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case +
+                                al_draw_textf(roboto, al_map_rgb(255, 213, 79), (caseDeLaSourieX) * plateau->largeur_case +
                                                                              (LARGEUR - plateau->largeur_case *
                                                                                         plateau->nb_colonne),
                                               (caseDeLaSourieY + 1) * plateau->largeur_case +
@@ -434,7 +434,7 @@ void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSour
                     caseDeLaSourieX <= plateau->tab_centrale_elec[k].caseX_droite_bas &&
                     caseDeLaSourieY >= plateau->tab_centrale_elec[k].caseY_haut_gauche &&
                     caseDeLaSourieY <= plateau->tab_centrale_elec[k].caseY_droite_bas) {
-                    al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
+                    al_draw_textf(roboto, al_map_rgb(255, 213, 79), (caseDeLaSourieX) * plateau->largeur_case + (LARGEUR -
                                                                                                               plateau->largeur_case *
                                                                                                               plateau->nb_colonne),
                                   (caseDeLaSourieY - 1) * plateau->largeur_case +
@@ -451,7 +451,7 @@ void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSour
                     for (int i = 0; i < plateau->nb_centrale_elec; i++) {
                         for (int j = plateau->tab_centrale_elec[i].nb_maison_alimentee; j >= 0; j--) {
                             if (plateau->tab_centrale_elec[i].tab_des_maisons_alimentee[j].numero_maison == k + 1) {
-                                al_draw_textf(roboto, al_map_rgb(0, 255, 0), (caseDeLaSourieX) * plateau->largeur_case +
+                                al_draw_textf(roboto, al_map_rgb(255, 213, 79), (caseDeLaSourieX) * plateau->largeur_case +
                                                                              (LARGEUR - plateau->largeur_case *
                                                                                         plateau->nb_colonne),
                                               (caseDeLaSourieY - 1) * plateau->largeur_case +
@@ -676,8 +676,8 @@ void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, i
                    ALLEGRO_FONT *roboto, ALLEGRO_FONT *robotoLabelBoutton, ALLEGRO_BITMAP *map) {
     al_clear_to_color(al_map_rgb_f(0, 0, 0));
     al_draw_bitmap(map, 0, 0, 0);
-    dessiner_batiment(plateau, etage, caseDeLaSourieX, caseDeLaSourieY, roboto);
     dessiner_plateau(plateau);
+    dessiner_batiment(plateau, etage, caseDeLaSourieX, caseDeLaSourieY, roboto);
     ///dessine les boutons pour les etages
     for (int i = 0; i < bouton_etage->nb_bouton; i++) {
         dessinerBoutonEtage(bouton_etage[i], etage, i, plateau, robotoLabelBoutton);
