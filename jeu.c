@@ -138,6 +138,11 @@ void lire_prix_et_stade(Plateau *plateau) {
     plateau->image_affichage[7] = al_load_bitmap("../image/images_pour_affichage/centrale.png");
     plateau->image_affichage[8] = al_load_bitmap("../image/images_pour_affichage/detonator.png");
 
+    // icones niveaux
+    plateau->image_affichage[9] = al_load_bitmap("../image/images_pour_affichage/infrastructure.png");
+    plateau->image_affichage[10] = al_load_bitmap("../image/images_pour_affichage/pipe.png");
+    plateau->image_affichage[11] = al_load_bitmap("../image/images_pour_affichage/electric-tower.png");
+
     fclose(ifs);
 
 }
@@ -179,18 +184,18 @@ void dessiner_plateau(Plateau *plateau) {
 
 void initialisation_choix_etage(Bouton *bouton) {
     for (int i = 0; i < 3; i++) {
-        bouton[i].largeur = 90;
+        bouton[i].largeur = 80;
         bouton[i].hauteur = 40;
 
     }
 
     bouton->nb_bouton = 3;
-    bouton[0].x = 10;
-    bouton[0].y = 95;
+    bouton[0].x = 22;
+    bouton[0].y = 110;
 
-    bouton[0].label = "Etage 0";
-    bouton[1].label = "Etage -1";
-    bouton[2].label = "Etage -2";
+    bouton[0].label = "0";
+    bouton[1].label = "-1";
+    bouton[2].label = "-2";
 
     for (int i = 1; i < 3; i++) {
         bouton[i].x = bouton[i - 1].x;
@@ -1956,29 +1961,35 @@ void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *robo
 }
 
 /////////     afficher bouton  ///////////
-void dessinerBoutonEtage(Bouton bouton, ALLEGRO_FONT *font) {
+void dessinerBoutonEtage(Bouton bouton, int etage, int i, Plateau *plateau, ALLEGRO_FONT *font) {
 
-    ALLEGRO_COLOR lightgrey = al_map_rgb(211, 211, 211);
-    ALLEGRO_COLOR darkgrey = al_map_rgb(169, 169, 169);
-    ALLEGRO_COLOR black = al_map_rgb(0, 0, 0);
+    ALLEGRO_COLOR buttonBackgroundColor = al_map_rgb(180, 180, 180);
+    ALLEGRO_COLOR buttonBackgroundColorDark = al_map_rgb(100, 100, 100);
+    ALLEGRO_COLOR buttonClickedColor = al_map_rgb(140, 120, 20);
+    ALLEGRO_COLOR  black = al_map_rgb(0, 0, 0);
+    ALLEGRO_COLOR color;
 
+    al_draw_filled_rounded_rectangle(bouton.x - 5, bouton.y + 5,
+                                     bouton.x + bouton.largeur - 5,
+                                     bouton.y + bouton.hauteur + 5,
+                                     10, 10, buttonBackgroundColorDark);
 
-    int offset = 3;
-    al_draw_rectangle((float) (bouton.x - offset), (float) (bouton.y - offset),
-                      (float) (bouton.x + bouton.largeur - offset), (float) (bouton.y + bouton.hauteur - offset),
-                      black, 2);
+    // si le bouton est cliqué
+    if (i == etage) {
+        color = buttonClickedColor;
+    } else {
+        color = buttonBackgroundColor;
+    }
 
-    al_draw_filled_rectangle(bouton.x, bouton.y,
-                             bouton.x + bouton.largeur, bouton.y + bouton.hauteur,
-                             lightgrey);
+    al_draw_filled_rounded_rectangle(bouton.x, bouton.y,
+                                     bouton.x + bouton.largeur,
+                                     bouton.y + bouton.hauteur,
+                                     10, 10, color);
 
-    al_draw_rectangle(bouton.x, bouton.y,
-                      bouton.x + bouton.largeur, bouton.y + bouton.hauteur,
-                      black, 2);
+    al_draw_bitmap(plateau->image_affichage[i + 9], bouton.x + 4, bouton.y + 4, 0);
 
-    al_draw_textf(font, black,
-                  bouton.x + bouton.largeur / 2, bouton.y + 6,
-                  ALLEGRO_ALIGN_CENTER, "%s", bouton.label);
+    al_draw_textf(font, black, bouton.x + 60, bouton.y + 8, ALLEGRO_ALIGN_CENTER, "%s", bouton.label);
+
 }
 
 void dessinerBoutonBatiment(Bouton bouton_batiment, int choix_batiment, int i, Plateau *plateau) {
@@ -2048,7 +2059,7 @@ void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, i
     dessiner_plateau(plateau);
     ///dessine les boutons pour les etages
     for (int i = 0; i < bouton_etage->nb_bouton; i++) {
-        dessinerBoutonEtage(bouton_etage[i], robotoLabelBoutton);
+        dessinerBoutonEtage(bouton_etage[i], etage, i, plateau, robotoLabelBoutton);
     }
     ///dessine les boutons pour choisir les batiments
     if (etage == 0) {

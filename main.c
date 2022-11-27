@@ -182,7 +182,7 @@ int main() {
     free(plateau->tab_des_different_stade_possible);
     free(plateau->tab_dessin_ressource);
     free(plateau->tab_des_prix);
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 12; i++) {
         al_destroy_bitmap(plateau->image_affichage[i]);
     }
     free(plateau);

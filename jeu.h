@@ -72,7 +72,7 @@ typedef struct Ressource {
 } Ressource;
 
 typedef struct Plateau {
-    ALLEGRO_BITMAP *image_affichage[9];
+    ALLEGRO_BITMAP *image_affichage[12];
     int largeur_case;
     int nb_ligne;
     int nb_colonne;
@@ -235,7 +235,7 @@ void sauvegarde_jeu(Plateau *plateau);
 
 void charger_la_sauvegarde(Plateau *plateau);
 
-void dessinerBoutonEtage(Bouton bouton, ALLEGRO_FONT *font);
+void dessinerBoutonEtage(Bouton bouton, int etage, int i, Plateau *plateau, ALLEGRO_FONT *font);
 void dessinerBoutonBatiment(Bouton bouton_batiment, int choix_batiment, int i, Plateau *plateau);
 
 
