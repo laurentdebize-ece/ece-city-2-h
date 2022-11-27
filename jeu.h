@@ -107,8 +107,6 @@ void lire_prix_et_stade(Plateau *plateau);
 void initialiser_plateau(Plateau *plateau);
 
 
-
-
 /////////      choix etage        ///////////
 void initialisation_choix_etage(Bouton *bouton);
 
@@ -190,21 +188,6 @@ void chercherCaseSouris(int x, int y, int *caseX, int *caseY, Plateau *plateau, 
 void initialisation_bouton_pause(Bouton *bouton);
 
 void choix_pause(Bouton bouton[], int x, int y, int *pause);
-
-/////////     dessiner batiment      ///////////
-void dessiner_batiment(Plateau *plateau, int etage, int caseDeLaSourieX, int caseDeLaSourieY, ALLEGRO_FONT *roboto);
-
-void dessiner_etage_0(Plateau *plateau);
-
-void dessiner_etage_1(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY, ALLEGRO_FONT *roboto);
-
-void affiche_capacite_eau_de_chaque_batiment(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY,
-                                             ALLEGRO_FONT *roboto);
-
-void dessiner_etage_2(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY, ALLEGRO_FONT *roboto);
-
-void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY,
-                                              ALLEGRO_FONT *roboto);
 
 
 /////////     sauvegarde jeu     ///////////

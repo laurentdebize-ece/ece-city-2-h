@@ -3,7 +3,6 @@
 #include "DebutDePartie/debutDePartie.h"
 
 
-
 int main() {
     /// Partie Allegro
     srand(time(NULL));
@@ -22,18 +21,17 @@ int main() {
     int caseDeLaSourisX = 0, caseDeLaSourisY = 0;
     int sourisSurLePlateau = 0;
     int etage = 0;
-    int pause=0;
+    int pause = 0;
     int choix_batiment_a_construire = 0;
     int compteur_temps = 0;
 
     /// Bitmap début de partie
-   // bitmapDebutDePartie(debutDePartie);
+    // bitmapDebutDePartie(debutDePartie);
 
     Plateau *plateau;
     Bouton bouton_etage[3] = {0};
     Bouton bouton_choix_batiment[5] = {0};
     Bouton bouton_pause;
-
 
 
     assert(al_init());
@@ -85,11 +83,11 @@ int main() {
     al_register_event_source(queue, al_get_mouse_event_source());
 
 
-   // al_draw_bitmap_region(debutDePartie->debut[0],1024,768,0,0,0,0,0);
+    // al_draw_bitmap_region(debutDePartie->debut[0],1024,768,0,0,0,0,0);
 
     /// début du jeux
     plateau = lire_plateau(0);
-    plateau->communiste=1;
+    plateau->communiste = 1;
     compteur_temps = plateau->temps_en_seconde * 10;
     initialiser_plateau(plateau);
     initialisation_choix_etage(bouton_etage);
@@ -127,24 +125,25 @@ int main() {
             }
             case ALLEGRO_EVENT_MOUSE_AXES : {
 
-                chercherCaseSouris(event.mouse.x, event.mouse.y, &caseDeLaSourisX, &caseDeLaSourisY, plateau, &sourisSurLePlateau);
+                chercherCaseSouris(event.mouse.x, event.mouse.y, &caseDeLaSourisX, &caseDeLaSourisY, plateau,
+                                   &sourisSurLePlateau);
 
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN : {
                 choix_etage(bouton_etage, event.mouse.x, event.mouse.y, &etage);
-                choix_pause(&bouton_pause,event.mouse.x, event.mouse.y,&pause);
+                choix_pause(&bouton_pause, event.mouse.x, event.mouse.y, &pause);
                 if (etage == 0) {
                     choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y, &choix_batiment_a_construire);
                     construire_batiment(plateau, choix_batiment_a_construire, sourisSurLePlateau, caseDeLaSourisX,
                                         caseDeLaSourisY);
-                }else{
-                    choix_batiment_a_construire=0;
+                } else {
+                    choix_batiment_a_construire = 0;
                 }
                 break;
             }
             case ALLEGRO_EVENT_TIMER : {
-                if (pause!=1){
+                if (pause != 1) {
                     if (plateau->temps_en_seconde * 10 == compteur_temps) {
                         evolution_maison(plateau);
                     }
@@ -158,7 +157,7 @@ int main() {
         }
         plateau->temps_en_seconde = compteur_temps / 10;
         dessiner_tout(plateau, etage, pause, choix_batiment_a_construire, caseDeLaSourisX,
-                      caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment,&bouton_pause, roboto,
+                      caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment, &bouton_pause, roboto,
                       robotoLabelBouton, map);
     }
     //sauvegarde_jeu(plateau);
