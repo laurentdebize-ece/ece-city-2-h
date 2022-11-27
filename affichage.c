@@ -638,6 +638,37 @@ void dessinerCaseSouris(int sourisSurPlateau, int choixBatiment, int caseX, int 
     }
 }
 
+void dessinerBoutonPause(Bouton *boutonPause, int pause, ALLEGRO_FONT *roboto) {
+
+    ALLEGRO_COLOR buttonBackgroundColor = al_map_rgb(180, 180, 180);
+    ALLEGRO_COLOR buttonBackgroundColorDark = al_map_rgb(100, 100, 100);
+    ALLEGRO_COLOR buttonClickedColor = al_map_rgb(179, 0, 134);
+    ALLEGRO_COLOR color;
+    ALLEGRO_COLOR fontColor;
+
+    al_draw_filled_rounded_rectangle(boutonPause->x - 5, boutonPause->y + 5,
+                                     boutonPause->x + boutonPause->largeur - 5,
+                                     boutonPause->y + boutonPause->hauteur + 5,
+                                     10, 10, buttonBackgroundColorDark);
+
+    // si le bouton est cliqué
+    if (pause == 1) {
+        color = buttonClickedColor;
+        fontColor = al_map_rgb(255, 255, 255);
+    } else {
+        color = buttonBackgroundColor;
+        fontColor = al_map_rgb(0, 0, 0);
+    }
+
+    al_draw_filled_rounded_rectangle(boutonPause->x, boutonPause->y,
+                                     boutonPause->x + boutonPause->largeur,
+                                     boutonPause->y + boutonPause->hauteur,
+                                     10, 10, color);
+
+    al_draw_textf(roboto, fontColor, boutonPause->x + 15, boutonPause->y + 6, ALLEGRO_ALIGN_LEFT, "%s",
+                  boutonPause->label);
+}
+
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, int caseDeLaSourieX,
                    int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[], Bouton bouton_batiment[],
@@ -662,19 +693,8 @@ void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, i
         }
     }
     ///dessine le bouton pour mettre en pause
-    //dessinerBoutonEtage(*bouton_pause,roboto);
+    dessinerBoutonPause(bouton_pause, pause, roboto);
 
-    al_draw_filled_rectangle(bouton_pause->x, bouton_pause->y,
-                             bouton_pause->x + bouton_pause->largeur,
-                             bouton_pause->y + bouton_pause->hauteur, al_map_rgb(200, 200, 200));
-    if (pause == 1) {
-        al_draw_rectangle(bouton_pause->x, bouton_pause->y,
-                          bouton_pause->x + bouton_pause->largeur,
-                          bouton_pause->y + bouton_pause->hauteur, al_map_rgb(200, 0, 200), 4);
-    }
-    al_draw_textf(roboto, al_map_rgb(0, 0, 0),
-                  bouton_pause->x + bouton_pause->largeur / 2, bouton_pause->y + 6,
-                  ALLEGRO_ALIGN_CENTER, "%s", bouton_pause->label);
 
     afficher_interface(plateau, roboto);
     al_flip_display();

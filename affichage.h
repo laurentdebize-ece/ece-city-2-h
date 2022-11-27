@@ -26,6 +26,8 @@ void dessinerBoutonEtage(Bouton bouton, int etage, int i, Plateau *plateau, ALLE
 
 void dessinerBoutonBatiment(Bouton bouton_batiment, int choix_batiment, int i, Plateau *plateau);
 
+void dessinerBoutonPause(Bouton *boutonPause, int pause, ALLEGRO_FONT *roboto);
+
 
 /////////     afficher eau totale    ///////////
 void afficher_rapport_sur_eau_total(Plateau *plateau, ALLEGRO_FONT *roboto);
