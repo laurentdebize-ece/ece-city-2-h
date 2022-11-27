@@ -133,22 +133,38 @@ void lire_prix_et_stade(Plateau *plateau) {
 
     // chargement images routes
 
-    plateau->image_routes[0] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_03.png");
-    plateau->image_routes[1] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_04.png");
-    plateau->image_routes[2] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_05.png");
-    plateau->image_routes[3] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_06.png");
-    plateau->image_routes[4] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_07.png");
-    plateau->image_routes[5] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_08.png");
-    plateau->image_routes[6] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_09.png");
-    plateau->image_routes[7] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_10.png");
-    plateau->image_routes[8] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_11.png");
-    plateau->image_routes[9] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_12.png");
-    plateau->image_routes[10] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_13.png");
-    plateau->image_routes[11] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_14.png");
-    plateau->image_routes[12] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_15.png");
-    plateau->image_routes[13] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_16.png");
-    plateau->image_routes[14] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_17.png");
-    plateau->image_routes[15] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_18.png");
+    plateau->image_routes[0] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_03.png");
+    plateau->image_routes[1] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_04.png");
+    plateau->image_routes[2] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_05.png");
+    plateau->image_routes[3] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_06.png");
+    plateau->image_routes[4] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_07.png");
+    plateau->image_routes[5] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_08.png");
+    plateau->image_routes[6] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_09.png");
+    plateau->image_routes[7] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_10.png");
+    plateau->image_routes[8] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_11.png");
+    plateau->image_routes[9] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_12.png");
+    plateau->image_routes[10] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_13.png");
+    plateau->image_routes[11] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_14.png");
+    plateau->image_routes[12] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_15.png");
+    plateau->image_routes[13] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_16.png");
+    plateau->image_routes[14] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_17.png");
+    plateau->image_routes[15] = al_load_bitmap(
+            "../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_18.png");
 
 
     // chargement images affichage
@@ -690,25 +706,26 @@ void evolution_maison(Plateau *plateau) {
         int verification_elec_dispo = 0;
         if (plateau->tab_de_maison[i].viable) {
             switch (plateau->communiste) {
-                case 0:{
+                case 0: {
                     if (((plateau->temps_en_seconde - plateau->tab_de_maison[i].date_creation) - 15) >= 0) {
                         int stade_precedent;
-                        stade_precedent=plateau->tab_de_maison[i].stade;
-                        if (plateau->tab_de_maison[i].nb_habitant == plateau->tab_de_maison[i].eau_utilise && plateau->tab_de_maison[i].nb_habitant == plateau->tab_de_maison[i].elec_utilise){
-                            if(plateau->tab_de_maison[i].stade < 4){
+                        stade_precedent = plateau->tab_de_maison[i].stade;
+                        if (plateau->tab_de_maison[i].nb_habitant == plateau->tab_de_maison[i].eau_utilise &&
+                            plateau->tab_de_maison[i].nb_habitant == plateau->tab_de_maison[i].elec_utilise) {
+                            if (plateau->tab_de_maison[i].stade < 4) {
                                 plateau->tab_de_maison[i].stade++;
 
                             }
-                        }else {
-                            if(plateau->tab_de_maison[i].stade < 5 && plateau->tab_de_maison[i].stade > 0){
+                        } else {
+                            if (plateau->tab_de_maison[i].stade < 5 && plateau->tab_de_maison[i].stade > 0) {
                                 plateau->tab_de_maison[i].stade--;
                             }
-                            if(plateau->tab_de_maison[i].stade ==0){
+                            if (plateau->tab_de_maison[i].stade == 0) {
                                 plateau->tab_de_maison[i].stade = 5;
                             }
                         }
 
-                        if (plateau->tab_de_maison[i].stade!=stade_precedent) {
+                        if (plateau->tab_de_maison[i].stade != stade_precedent) {
                             plateau->tab_de_maison[i].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].nb_habitant;
                             plateau->tab_de_maison[i].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].image_du_stade_correspondant;
                             plateau->tab_de_maison[i].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].largeur_du_batiment;
@@ -723,30 +740,30 @@ void evolution_maison(Plateau *plateau) {
                     }
                     break;
                 }
-                case 1:{
+                case 1: {
                     if (plateau->tab_de_maison[i].stade < 4 &&
                         ((plateau->temps_en_seconde - plateau->tab_de_maison[i].date_creation) - 15) >= 0) {
 
-                            verification_eau_dispo = verifier_si_assez_d_eau_disponible(plateau, i + 1,
-                                                                                        plateau->tab_des_different_stade_possible[
-                                                                                                plateau->tab_de_maison[i].stade +
-                                                                                                1].nb_habitant -
-                                                                                        plateau->tab_de_maison[i].nb_habitant);
-                            verification_elec_dispo = verifier_si_assez_d_elec_disponible_dans_une_centrale(plateau, i + 1,
-                                                                                                            plateau->tab_des_different_stade_possible[
-                                                                                                                    plateau->tab_de_maison[i].stade +
-                                                                                                                    1].nb_habitant);
-                            if (verification_eau_dispo == 1 && verification_elec_dispo == 1) {
-                                plateau->tab_de_maison[i].stade++;
-                                plateau->tab_de_maison[i].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].nb_habitant;
-                                plateau->tab_de_maison[i].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].image_du_stade_correspondant;
-                                plateau->tab_de_maison[i].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].largeur_du_batiment;
-                                plateau->tab_de_maison[i].hauteur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].hauteur_du_batiment;
-                                plateau->tab_de_maison[i].date_creation = plateau->temps_en_seconde;
-                                plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat++;
-                                alimentation_en_eau(plateau);
-                                alimentation_en_elec(plateau);
-                            }
+                        verification_eau_dispo = verifier_si_assez_d_eau_disponible(plateau, i + 1,
+                                                                                    plateau->tab_des_different_stade_possible[
+                                                                                            plateau->tab_de_maison[i].stade +
+                                                                                            1].nb_habitant -
+                                                                                    plateau->tab_de_maison[i].nb_habitant);
+                        verification_elec_dispo = verifier_si_assez_d_elec_disponible_dans_une_centrale(plateau, i + 1,
+                                                                                                        plateau->tab_des_different_stade_possible[
+                                                                                                                plateau->tab_de_maison[i].stade +
+                                                                                                                1].nb_habitant);
+                        if (verification_eau_dispo == 1 && verification_elec_dispo == 1) {
+                            plateau->tab_de_maison[i].stade++;
+                            plateau->tab_de_maison[i].nb_habitant = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].nb_habitant;
+                            plateau->tab_de_maison[i].image_batiment = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].image_du_stade_correspondant;
+                            plateau->tab_de_maison[i].largeur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].largeur_du_batiment;
+                            plateau->tab_de_maison[i].hauteur = plateau->tab_des_different_stade_possible[plateau->tab_de_maison[i].stade].hauteur_du_batiment;
+                            plateau->tab_de_maison[i].date_creation = plateau->temps_en_seconde;
+                            plateau->map[plateau->tab_de_maison[i].caseY][plateau->tab_de_maison[i].caseX].etat++;
+                            alimentation_en_eau(plateau);
+                            alimentation_en_elec(plateau);
+                        }
 
 
                     }

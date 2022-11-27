@@ -3,7 +3,6 @@
 #include "DebutDePartie/debutDePartie.h"
 
 
-
 int main() {
     /// Partie Allegro
     srand(time(NULL));
@@ -15,19 +14,19 @@ int main() {
     /// Police écriture
     ALLEGRO_FONT *roboto = NULL;
     ALLEGRO_FONT *roboto_extra = NULL;
-    ALLEGRO_FONT *robotoLabelBouton=NULL;
+    ALLEGRO_FONT *robotoLabelBouton = NULL;
 
     //DebutDePartie * debutDePartie;
 
 
     /// Déclaration des variables
     int caseDeLaSourisX = 0, caseDeLaSourisY = 0;
-    int pos_sourisX,pos_sourisY;
+    int pos_sourisX, pos_sourisY;
     int sourisSurLePlateau = 0;
     int etage = 0;
     int pause = 0;
-    int sauvegarde=2;
-    int choix_communiste=2;
+    int sauvegarde = 2;
+    int choix_communiste = 2;
     int choix_batiment_a_construire = 0;
     int compteur_temps = 0;
 
@@ -38,7 +37,6 @@ int main() {
     Bouton bouton_etage[3] = {0};
     Bouton bouton_choix_batiment[5] = {0};
     Bouton bouton_pause;
-
 
 
     assert(al_init());
@@ -97,7 +95,7 @@ int main() {
 
     /// début du jeux
 
-    while (!end && sauvegarde==2) {
+    while (!end && sauvegarde == 2) {
         al_wait_for_event(queue, &event);
 
         switch (event.type) {
@@ -106,26 +104,26 @@ int main() {
                 end = true;
                 break;
             }
-            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:{
-                if(event.mouse.x >10 && event.mouse.x <380){
-                    if (event.mouse.y > 400 && event.mouse.y< 470){
-                        sauvegarde=0;
-                    }else if (event.mouse.y > 510 && event.mouse.y< 580){
-                        sauvegarde=1;
-                    }else if (event.mouse.y > 620 && event.mouse.y< 690){
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
+                if (event.mouse.x > 10 && event.mouse.x < 380) {
+                    if (event.mouse.y > 400 && event.mouse.y < 470) {
+                        sauvegarde = 0;
+                    } else if (event.mouse.y > 510 && event.mouse.y < 580) {
+                        sauvegarde = 1;
+                    } else if (event.mouse.y > 620 && event.mouse.y < 690) {
                         end = true;
                     }
                 }
             }
         }
         al_clear_to_color(al_map_rgb_f(0, 0, 0));
-        al_draw_scaled_bitmap(menu, 0, 0, 400,300,0,0,1024,768,0);
-        al_draw_rectangle(10,400,380,470,al_map_rgb(255,0,0),3);
-        al_draw_rectangle(10,510,380,580,al_map_rgb(255,0,0),3);
-        al_draw_rectangle(10,620,380,690,al_map_rgb(255,0,0),3);
+        al_draw_scaled_bitmap(menu, 0, 0, 400, 300, 0, 0, 1024, 768, 0);
+        al_draw_rectangle(10, 400, 380, 470, al_map_rgb(255, 0, 0), 3);
+        al_draw_rectangle(10, 510, 380, 580, al_map_rgb(255, 0, 0), 3);
+        al_draw_rectangle(10, 620, 380, 690, al_map_rgb(255, 0, 0), 3);
         al_flip_display();
     }
-    if(sauvegarde==0) {
+    if (sauvegarde == 0) {
         while (!end && choix_communiste == 2) {
             al_wait_for_event(queue, &event);
 
@@ -161,10 +159,10 @@ int main() {
         }
     }
 
-    if(sauvegarde!=2){
+    if (sauvegarde != 2) {
         plateau = lire_plateau(sauvegarde);
-        if(choix_communiste!=2){
-            plateau->communiste=choix_communiste;
+        if (choix_communiste != 2) {
+            plateau->communiste = choix_communiste;
         }
         compteur_temps = plateau->temps_en_seconde * 10;
         initialiser_plateau(plateau);
@@ -192,7 +190,8 @@ int main() {
                     choix_etage(bouton_etage, event.mouse.x, event.mouse.y, &etage);
                     choix_pause(&bouton_pause, event.mouse.x, event.mouse.y, &pause);
                     if (etage == 0) {
-                        choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y, &choix_batiment_a_construire);
+                        choix_batiment(bouton_choix_batiment, event.mouse.x, event.mouse.y,
+                                       &choix_batiment_a_construire);
                         construire_batiment(plateau, choix_batiment_a_construire, sourisSurLePlateau, caseDeLaSourisX,
                                             caseDeLaSourisY);
                     } else {
@@ -215,7 +214,8 @@ int main() {
             }
             plateau->temps_en_seconde = compteur_temps / 10;
             dessiner_tout(plateau, etage, pause, choix_batiment_a_construire, caseDeLaSourisX,
-                          caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment, &bouton_pause, roboto,
+                          caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment, &bouton_pause,
+                          roboto,
                           robotoLabelBouton, map);
         }
         sauvegarde_jeu(plateau);
@@ -254,7 +254,6 @@ int main() {
         }
         free(plateau);
     }
-
 
 
     al_destroy_bitmap(map);
