@@ -162,7 +162,7 @@ int main() {
                       caseDeLaSourisY, sourisSurLePlateau, bouton_etage, bouton_choix_batiment, &bouton_pause, roboto,
                       robotoLabelBouton, map);
     }
-    //sauvegarde_jeu(plateau);
+    sauvegarde_jeu(plateau);
 
 
     for (int i = 0; i < plateau->nb_ligne; i++) {

@@ -9,6 +9,14 @@ void dessiner_plateau(Plateau *plateau);
 /////////     dessiner batiment      ///////////
 void dessiner_batiment(Plateau *plateau, int etage, int caseDeLaSourieX, int caseDeLaSourieY, ALLEGRO_FONT *roboto);
 
+void dessiner_route(Plateau * plateau, int caseX,int caseY);
+
+void dessiner_maison(Plateau *plateau,int num_maison,int etage);
+
+void dessiner_chateau_eau(Plateau *plateau,int num_chateau);
+
+void dessiner_centrale_elec(Plateau *plateau,int num_centrale);
+
 void dessiner_etage_0(Plateau *plateau);
 
 void dessiner_etage_1(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY, ALLEGRO_FONT *roboto);
