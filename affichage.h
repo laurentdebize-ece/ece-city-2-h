@@ -23,4 +23,8 @@ void afficher_compte_en_banque(Plateau *plateau, ALLEGRO_FONT *roboto);
 /////////     afficher nb habitant      ///////////
 void afficher_nb_habitant(Plateau *plateau, ALLEGRO_FONT *roboto);
 
+/////////     afficher interface      ///////////
+void afficher_interface(Plateau *plateau, ALLEGRO_FONT *roboto);
+
+
 #endif //ECE_CITY_2_H_AFFICHAGE_H

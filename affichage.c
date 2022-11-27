@@ -1,5 +1,14 @@
 #include "affichage.h"
 
+/////////     afficher interface      ///////////
+void afficher_interface(Plateau *plateau, ALLEGRO_FONT *roboto) {
+    afficher_timer(plateau->temps_en_seconde, roboto);
+    afficher_compte_en_banque(plateau, roboto);
+    afficher_nb_habitant(plateau, roboto);
+    afficher_rapport_sur_eau_total(plateau, roboto);
+    afficher_rapport_sur_electricite_total(plateau, roboto);
+}
+
 // affichage boutons étages
 void dessinerBoutonEtage(Bouton bouton, int etage, int i, Plateau *plateau, ALLEGRO_FONT *font) {
 

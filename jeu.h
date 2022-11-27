@@ -31,11 +31,11 @@ typedef struct {
     int y;
     int etat;
 } Case;
-typedef struct Stade{
+typedef struct Stade {
     int nb_habitant;
-    ALLEGRO_BITMAP* image_du_stade_correspondant;
+    ALLEGRO_BITMAP *image_du_stade_correspondant;
     int largeur_du_batiment, hauteur_du_batiment;
-}Stade;
+} Stade;
 
 typedef struct Maison {
     ALLEGRO_BITMAP *image_batiment;
@@ -54,10 +54,10 @@ typedef struct Maison_alimentee {
     int quantite;
 } Maison_alimentee;
 
-typedef struct Batiment_pour_ressource_dessin{
-    ALLEGRO_BITMAP* image_du_batiment;
+typedef struct Batiment_pour_ressource_dessin {
+    ALLEGRO_BITMAP *image_du_batiment;
     int largeur_du_batiment, hauteur_du_batiment;
-}Batiment_pour_ressource_dessin;
+} Batiment_pour_ressource_dessin;
 
 typedef struct Ressource {
     ALLEGRO_BITMAP *image_batiment;
@@ -82,20 +82,20 @@ typedef struct Plateau {
     int *tab_des_prix;
     Case **map;
     int nb_stade_different;
-    Stade* tab_des_different_stade_possible;
+    Stade *tab_des_different_stade_possible;
     int nb_maison;
     Maison *tab_de_maison;
-    Batiment_pour_ressource_dessin * tab_dessin_ressource;
+    Batiment_pour_ressource_dessin *tab_dessin_ressource;
     int nb_chateau_eau;
     Ressource *tab_chateau_eau;
     int nb_centrale_elec;
     Ressource *tab_centrale_elec;
 } Plateau;
 
-typedef struct DebutDePartie{
-    ALLEGRO_BITMAP* debut[5];
+typedef struct DebutDePartie {
+    ALLEGRO_BITMAP *debut[5];
     int spriteX, spriteY, spriteHauteur, spriteLargeur;
-}DebutDePartie;
+} DebutDePartie;
 
 /////////      plateau        ///////////
 Plateau *creer_plateau(int nb_ligne, int nb_colonne);
@@ -183,6 +183,7 @@ void gain_d_argent(Plateau *plateau);
 
 /////////      emplacement souris       ///////////
 void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_sur_le_plateaux, Plateau *plateau);
+
 void chercherCaseSouris(int x, int y, int *caseX, int *caseY, Plateau *plateau, int *sourisSurLePlateau);
 
 void afficherCaseSouris(int mouseX, int mouseY, Plateau *plateau);
@@ -207,15 +208,11 @@ void dessiner_etage_2(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY
 void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY,
                                               ALLEGRO_FONT *roboto);
 
-/////////     afficher interface      ///////////
-void afficher_interface(Plateau *plateau, ALLEGRO_FONT *roboto);
-
-
-
 
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, int caseDeLaSourieX, int caseDeLaSourieY,
-                   int souris_sur_le_plateaux, Bouton bouton[], Bouton bouton_batiment[],Bouton* bouton_pause, ALLEGRO_FONT *roboto,
+                   int souris_sur_le_plateaux, Bouton bouton[], Bouton bouton_batiment[], Bouton *bouton_pause,
+                   ALLEGRO_FONT *roboto,
                    ALLEGRO_FONT *robotoLabelBouton, ALLEGRO_BITMAP *map);
 
 /////////     sauvegarde jeu     ///////////

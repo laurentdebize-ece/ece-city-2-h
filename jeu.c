@@ -1883,15 +1883,6 @@ void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSour
     }
 }
 
-/////////     afficher interface      ///////////
-void afficher_interface(Plateau *plateau, ALLEGRO_FONT *roboto) {
-    afficher_timer(plateau->temps_en_seconde, roboto);
-    afficher_compte_en_banque(plateau, roboto);
-    afficher_nb_habitant(plateau, roboto);
-    afficher_rapport_sur_eau_total(plateau, roboto);
-    afficher_rapport_sur_electricite_total(plateau, roboto);
-}
-
 
 void dessinerCaseSouris(int sourisSurPlateau, int choixBatiment, int caseX, int caseY, Plateau *plateau) {
 
