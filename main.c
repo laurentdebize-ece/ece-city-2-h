@@ -1,4 +1,5 @@
 #include "jeu.h"
+#include "affichage.h"
 #include "DebutDePartie/debutDePartie.h"
 
 

@@ -1,5 +1,20 @@
 #include "affichage.h"
 
+
+void dessiner_plateau(Plateau *plateau) {
+
+    for (int i = 0; i < plateau->nb_ligne; i++) {
+        for (int j = 0; j < plateau->nb_colonne; j++) {
+            if (plateau->map[i][j].etat == 0) {
+                al_draw_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
+                                  plateau->map[i][j].x + plateau->largeur_case,
+                                  plateau->map[i][j].y + plateau->largeur_case, al_map_rgba(255, 255, 255, 1), 1);
+
+            }
+        }
+    }
+}
+
 /////////     afficher interface      ///////////
 void afficher_interface(Plateau *plateau, ALLEGRO_FONT *roboto) {
     afficher_timer(plateau->temps_en_seconde, roboto);
@@ -136,4 +151,77 @@ void afficher_nb_habitant(Plateau *plateau, ALLEGRO_FONT *roboto) {
 
     al_draw_textf(roboto, al_map_rgb(0, 0, 0), LARGEUR - 100, 40 - 2, ALLEGRO_ALIGN_LEFT, "%d",
                   nb_habitant);
+}
+
+
+void dessinerCaseSouris(int sourisSurPlateau, int choixBatiment, int caseX, int caseY, Plateau *plateau) {
+
+    if (sourisSurPlateau) {
+        // maison
+        if (choixBatiment == 2 && caseX >= 1 && caseY >= 1 && caseX <= 43 && caseY <= 33) {
+            al_draw_bitmap(plateau->tab_des_different_stade_possible[0].image_du_stade_correspondant,
+                           plateau->map[caseY - 1][caseX - 1].x, plateau->map[caseY - 1][caseX - 1].y, 0);
+
+            // chateau
+        } else if (choixBatiment == 3 && caseX >= 1 && caseY >= 2 && caseX <= 42 && caseY <= 31) {
+            al_draw_bitmap(plateau->tab_dessin_ressource[0].image_du_batiment,
+                           plateau->map[caseY - 2][caseX - 1].x,
+                           plateau->map[caseY - 2][caseX - 1].y, 0);
+
+        } else if (choixBatiment == 4 && caseX >= 2 && caseY >= 1 && caseX <= 41 && caseY <= 31) {
+            al_draw_bitmap(plateau->tab_dessin_ressource[1].image_du_batiment,
+                           plateau->map[caseY - 1][caseX - 2].x,
+                           plateau->map[caseY - 1][caseX - 2].y, 0);
+
+
+        } else {
+            al_draw_filled_rectangle(plateau->map[caseY][caseX].x,
+                                     plateau->map[caseY][caseX].y,
+                                     plateau->map[caseY][caseX].x + plateau->largeur_case,
+                                     plateau->map[caseY][caseX].y + plateau->largeur_case,
+                                     al_map_rgb(0, 255, 0));
+        }
+    }
+}
+
+/////////     dessiner tout     ///////////
+void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, int caseDeLaSourieX,
+                   int caseDeLaSourieY, int souris_sur_le_plateaux, Bouton bouton_etage[], Bouton bouton_batiment[],
+                   Bouton *bouton_pause,
+                   ALLEGRO_FONT *roboto, ALLEGRO_FONT *robotoLabelBoutton, ALLEGRO_BITMAP *map) {
+    al_clear_to_color(al_map_rgb_f(0, 0, 0));
+    al_draw_bitmap(map, 0, 0, 0);
+    dessiner_batiment(plateau, etage, caseDeLaSourieX, caseDeLaSourieY, roboto);
+    dessiner_plateau(plateau);
+    ///dessine les boutons pour les etages
+    for (int i = 0; i < bouton_etage->nb_bouton; i++) {
+        dessinerBoutonEtage(bouton_etage[i], etage, i, plateau, robotoLabelBoutton);
+    }
+    ///dessine les boutons pour choisir les batiments
+    if (etage == 0) {
+        ///dessine la case ou est la souris
+        dessinerCaseSouris(souris_sur_le_plateaux, choix_batiment, caseDeLaSourieX, caseDeLaSourieY, plateau);
+
+
+        for (int i = 0; i < bouton_batiment->nb_bouton; i++) {
+            dessinerBoutonBatiment(bouton_batiment[i], choix_batiment, i, plateau);
+        }
+    }
+    ///dessine le bouton pour mettre en pause
+    //dessinerBoutonEtage(*bouton_pause,roboto);
+
+    al_draw_filled_rectangle(bouton_pause->x, bouton_pause->y,
+                             bouton_pause->x + bouton_pause->largeur,
+                             bouton_pause->y + bouton_pause->hauteur, al_map_rgb(200, 200, 200));
+    if (pause == 1) {
+        al_draw_rectangle(bouton_pause->x, bouton_pause->y,
+                          bouton_pause->x + bouton_pause->largeur,
+                          bouton_pause->y + bouton_pause->hauteur, al_map_rgb(200, 0, 200), 4);
+    }
+    al_draw_textf(roboto, al_map_rgb(0, 0, 0),
+                  bouton_pause->x + bouton_pause->largeur / 2, bouton_pause->y + 6,
+                  ALLEGRO_ALIGN_CENTER, "%s", bouton_pause->label);
+
+    afficher_interface(plateau, roboto);
+    al_flip_display();
 }

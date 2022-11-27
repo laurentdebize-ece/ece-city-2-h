@@ -3,6 +3,8 @@
 
 #include "jeu.h"
 
+void dessiner_plateau(Plateau *plateau);
+
 void dessinerBoutonEtage(Bouton bouton, int etage, int i, Plateau *plateau, ALLEGRO_FONT *font);
 
 void dessinerBoutonBatiment(Bouton bouton_batiment, int choix_batiment, int i, Plateau *plateau);
@@ -26,5 +28,11 @@ void afficher_nb_habitant(Plateau *plateau, ALLEGRO_FONT *roboto);
 /////////     afficher interface      ///////////
 void afficher_interface(Plateau *plateau, ALLEGRO_FONT *roboto);
 
+void dessinerCaseSouris(int sourisSurPlateau, int choixBatiment, int caseX, int caseY, Plateau *plateau);
+/////////     dessiner tout     ///////////
+void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, int caseDeLaSourieX, int caseDeLaSourieY,
+                   int souris_sur_le_plateaux, Bouton bouton[], Bouton bouton_batiment[], Bouton *bouton_pause,
+                   ALLEGRO_FONT *roboto,
+                   ALLEGRO_FONT *robotoLabelBouton, ALLEGRO_BITMAP *map);
 
 #endif //ECE_CITY_2_H_AFFICHAGE_H

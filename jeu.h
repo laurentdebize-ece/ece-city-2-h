@@ -106,7 +106,7 @@ void lire_prix_et_stade(Plateau *plateau);
 
 void initialiser_plateau(Plateau *plateau);
 
-void dessiner_plateau(Plateau *plateau);
+
 
 
 /////////      choix etage        ///////////
@@ -186,8 +186,6 @@ void chercherCaseDeLaSourie(int x, int y, int *caseX, int *caseY, int *souris_su
 
 void chercherCaseSouris(int x, int y, int *caseX, int *caseY, Plateau *plateau, int *sourisSurLePlateau);
 
-void afficherCaseSouris(int mouseX, int mouseY, Plateau *plateau);
-
 /////////      menu pause         ///////////
 void initialisation_bouton_pause(Bouton *bouton);
 
@@ -208,12 +206,6 @@ void dessiner_etage_2(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY
 void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY,
                                               ALLEGRO_FONT *roboto);
 
-
-/////////     dessiner tout     ///////////
-void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, int caseDeLaSourieX, int caseDeLaSourieY,
-                   int souris_sur_le_plateaux, Bouton bouton[], Bouton bouton_batiment[], Bouton *bouton_pause,
-                   ALLEGRO_FONT *roboto,
-                   ALLEGRO_FONT *robotoLabelBouton, ALLEGRO_BITMAP *map);
 
 /////////     sauvegarde jeu     ///////////
 void sauvegarde_jeu(Plateau *plateau);
