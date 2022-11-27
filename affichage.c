@@ -26,15 +26,65 @@ void dessiner_batiment(Plateau *plateau, int etage, int caseDeLaSourieX, int cas
     }
 }
 
+void dessiner_route(Plateau * plateau, int caseX,int caseY){
+    if(plateau->map[caseY-1][caseX].etat == 1){
+        if(plateau->map[caseY+1][caseX].etat == 1){
+            if(plateau->map[caseY][caseX-1].etat == 1){
+                if(plateau->map[caseY][caseX+1].etat == 1){
+                    al_draw_bitmap(plateau->image_routes[14],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+                }else{
+                    al_draw_bitmap(plateau->image_routes[12],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+                }
+            }else if(plateau->map[caseY][caseX+1].etat == 1){
+                al_draw_bitmap(plateau->image_routes[13],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+            }else{
+                al_draw_bitmap(plateau->image_routes[1],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+            }
+        }else if(plateau->map[caseY][caseX-1].etat == 1){
+            if(plateau->map[caseY][caseX+1].etat == 1){
+                al_draw_bitmap(plateau->image_routes[10],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+            }else{
+                al_draw_bitmap(plateau->image_routes[8],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+            }
+        }else if(plateau->map[caseY][caseX+1].etat == 1){
+            al_draw_bitmap(plateau->image_routes[9],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+        }else{
+            al_draw_bitmap(plateau->image_routes[2],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+        }
+    }else if(plateau->map[caseY+1][caseX].etat == 1){
+        if(plateau->map[caseY][caseX-1].etat == 1){
+            if(plateau->map[caseY][caseX+1].etat == 1){
+                al_draw_bitmap(plateau->image_routes[11],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+            }else{
+                al_draw_bitmap(plateau->image_routes[7],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+            }
+        }else if(plateau->map[caseY][caseX+1].etat == 1){
+            al_draw_bitmap(plateau->image_routes[6],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+        }else{
+            al_draw_bitmap(plateau->image_routes[3],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+        }
+    }else if(plateau->map[caseY][caseX-1].etat == 1){
+        if(plateau->map[caseY][caseX+1].etat == 1){
+            al_draw_bitmap(plateau->image_routes[0],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+        }else{
+            al_draw_bitmap(plateau->image_routes[4],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+        }
+    }else if(plateau->map[caseY][caseX+1].etat == 1){
+        al_draw_bitmap(plateau->image_routes[5],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+    }else{
+        al_draw_bitmap(plateau->image_routes[15],caseX  * plateau->largeur_case +(LARGEUR - plateau->largeur_case * plateau->nb_colonne),caseY * plateau->largeur_case +(HAUTEUR - plateau->largeur_case * plateau->nb_ligne), 0);
+    }
+
+
+}
+
 void dessiner_etage_0(Plateau *plateau) {
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
             if (plateau->map[i][j].etat == 1) {
-                al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
-                                         plateau->map[i][j].x + plateau->largeur_case,
-                                         plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(0, 0, 255));
-
+                dessiner_route(plateau,j,i);
             }
+
         }
     }
     for (int k = 0; k < plateau->nb_maison; k++) {
@@ -84,10 +134,7 @@ void dessiner_etage_1(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
             if (plateau->map[i][j].etat == 1) {
-                al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
-                                         plateau->map[i][j].x + plateau->largeur_case,
-                                         plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 0, 0));
-
+                dessiner_route(plateau,j,i);
             }
         }
     }
@@ -283,10 +330,7 @@ void dessiner_etage_2(Plateau *plateau, int caseDeLaSourieX, int caseDeLaSourieY
     for (int i = 0; i < plateau->nb_ligne; i++) {
         for (int j = 0; j < plateau->nb_colonne; j++) {
             if (plateau->map[i][j].etat == 1) {
-                al_draw_filled_rectangle(plateau->map[i][j].x, plateau->map[i][j].y,
-                                         plateau->map[i][j].x + plateau->largeur_case,
-                                         plateau->map[i][j].y + plateau->largeur_case, al_map_rgb(255, 0, 255));
-
+                dessiner_route(plateau,j,i);
             }
         }
     }

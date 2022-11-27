@@ -130,22 +130,22 @@ void lire_prix_et_stade(Plateau *plateau) {
 
     // chargement images routes
 
-    plateau->image_routes[0] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/I0_sprite_03.png");
-    plateau->image_routes[1] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/I0_sprite_04.png");
-    plateau->image_routes[2] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_05.png");
-    plateau->image_routes[3] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_06.png");
-    plateau->image_routes[4] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_07.png");
-    plateau->image_routes[5] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_08.png");
-    plateau->image_routes[6] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_09.png");
-    plateau->image_routes[7] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_10.png");
-    plateau->image_routes[8] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_11.png");
-    plateau->image_routes[9] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_12.png");
-    plateau->image_routes[10] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_13.png");
-    plateau->image_routes[11] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_14.png");
-    plateau->image_routes[12] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_15.png");
-    plateau->image_routes[13] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_16.png");
-    plateau->image_routes[14] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_17.png");
-    plateau->image_routes[15] = al_load_bitmap("../image/images_pour_les_batiments/image_route/Layer 1_road_18.png");
+    plateau->image_routes[0] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_03.png");
+    plateau->image_routes[1] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_04.png");
+    plateau->image_routes[2] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_05.png");
+    plateau->image_routes[3] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_06.png");
+    plateau->image_routes[4] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_07.png");
+    plateau->image_routes[5] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_08.png");
+    plateau->image_routes[6] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_09.png");
+    plateau->image_routes[7] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_10.png");
+    plateau->image_routes[8] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_11.png");
+    plateau->image_routes[9] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_12.png");
+    plateau->image_routes[10] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_13.png");
+    plateau->image_routes[11] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_14.png");
+    plateau->image_routes[12] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_15.png");
+    plateau->image_routes[13] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_16.png");
+    plateau->image_routes[14] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_17.png");
+    plateau->image_routes[15] = al_load_bitmap("../image/images_pour_les_batiments/image_route/roads2W/l0_sprite_18.png");
 
 
     // chargement images affichage
