@@ -210,20 +210,8 @@ void affiche_capacite_elec_de_chaque_batiment(Plateau *plateau, int caseDeLaSour
 /////////     afficher interface      ///////////
 void afficher_interface(Plateau *plateau, ALLEGRO_FONT *roboto);
 
-/////////     afficher timer      ///////////
-void afficher_timer(int timer, ALLEGRO_FONT *roboto);
 
-/////////     afficher argent      ///////////
-void afficher_compte_en_banque(Plateau *plateau, ALLEGRO_FONT *roboto);
 
-/////////     afficher nb habitant      ///////////
-void afficher_nb_habitant(Plateau *plateau, ALLEGRO_FONT *roboto);
-
-/////////     afficher eau totale    ///////////
-void afficher_rapport_sur_eau_total(Plateau *plateau, ALLEGRO_FONT *roboto);
-
-/////////     afficher electricite totale    ///////////
-void afficher_rapport_sur_electricite_total(Plateau *plateau, ALLEGRO_FONT *roboto);
 
 /////////     dessiner tout     ///////////
 void dessiner_tout(Plateau *plateau, int etage, int pause, int choix_batiment, int caseDeLaSourieX, int caseDeLaSourieY,
