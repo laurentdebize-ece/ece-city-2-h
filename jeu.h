@@ -73,6 +73,7 @@ typedef struct Ressource {
 
 typedef struct Plateau {
     ALLEGRO_BITMAP *image_affichage[12];
+    ALLEGRO_BITMAP *image_routes[16];
     int largeur_case;
     int nb_ligne;
     int nb_colonne;

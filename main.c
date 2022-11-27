@@ -3,6 +3,7 @@
 #include "DebutDePartie/debutDePartie.h"
 
 
+
 int main() {
     /// Partie Allegro
     srand(time(NULL));
@@ -32,6 +33,7 @@ int main() {
     Bouton bouton_etage[3] = {0};
     Bouton bouton_choix_batiment[5] = {0};
     Bouton bouton_pause;
+
 
 
     assert(al_init());
@@ -87,7 +89,7 @@ int main() {
 
     /// début du jeux
     plateau = lire_plateau(0);
-    plateau->communiste = 1;
+    plateau->communiste=0;
     compteur_temps = plateau->temps_en_seconde * 10;
     initialiser_plateau(plateau);
     initialisation_choix_etage(bouton_etage);
@@ -167,21 +169,31 @@ int main() {
         free(plateau->map[i]);
     }
     free(plateau->map);
+
     free(plateau->tab_de_maison);
+
     for (int i = 0; i < plateau->nb_chateau_eau; i++) {
         free(plateau->tab_chateau_eau[i].tab_des_maisons_alimentee);
-        al_destroy_bitmap(plateau->tab_chateau_eau[i].image_batiment);
     }
     free(plateau->tab_chateau_eau);
+
     for (int i = 0; i < plateau->nb_centrale_elec; i++) {
         free(plateau->tab_centrale_elec[i].tab_des_maisons_alimentee);
-        al_destroy_bitmap(plateau->tab_centrale_elec[i].image_batiment);
     }
-
     free(plateau->tab_centrale_elec);
+
+    for (int i = 0; i < plateau->nb_stade_different; i++) {
+        al_destroy_bitmap(plateau->tab_des_different_stade_possible[i].image_du_stade_correspondant);
+    }
     free(plateau->tab_des_different_stade_possible);
+
+    for (int i = 0; i < 2; i++) {
+        al_destroy_bitmap(plateau->tab_dessin_ressource[i].image_du_batiment);
+    }
     free(plateau->tab_dessin_ressource);
+
     free(plateau->tab_des_prix);
+
     for (int i = 0; i < 12; i++) {
         al_destroy_bitmap(plateau->image_affichage[i]);
     }
